@@ -1,0 +1,13 @@
+{
+  "development": {
+    "plugins": [
+      [
+        "emotion",
+        {
+          "sourceMap": true
+        }
+      ]
+    ]
+  },
+  "plugins": ["emotion"]
+}

@@ -1,0 +1,12 @@
+{
+  "productAddToCartButton": "Add to cart",
+  "productAddToCartSoldoutButton": "Soldout",
+  "productPriceLabel": "Price:",
+  "productQuantityLabel": "Quantity:",
+  "productCompareAtPriceLabel": "Compare at:",
+  "paymentsLabel": "Guaranteed safe checkout",
+  "shareButtonsLabel": "Share:",
+  "vendorLabel": "Vendor:",
+  "productTypeLabel": "Type:",
+  "skuLabel": "SKU:"
+}

@@ -1,0 +1,80 @@
+{
+  "name": "@gatsbystorefront/gatsby-theme-storefront-shopify",
+  "version": "1.0.1",
+  "keywords": [
+    "gatsbystorefront",
+    "shopify",
+    "gatsby",
+    "gatsby-theme",
+    "gatsby-plugin",
+    "gatsby-source-shopify"
+  ],
+  "author": {
+    "name": "Pavel Ivanov",
+    "email": "paveliv@gmail.com",
+    "url": "https://gatsbystorefront.com/"
+  },
+  "main": "index.js",
+  "repository": "https://github.com/gatsbystorefront/gatsby-theme-storefront-shopify",
+  "license": "MPL-2.0",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "clean": "gatsby clean"
+  },
+  "dependencies": {
+    "@emotion/core": "^10.0.21",
+    "@emotion/styled": "^10.0.17",
+    "@gatsby-contrib/gatsby-plugin-elasticlunr-search": "^2.3.0",
+    "@mdx-js/react": "^1.5.1",
+    "@n8tb1t/use-scroll-position": "^1.0.43",
+    "@reach/visually-hidden": "^0.6.1",
+    "@rebass/forms": "^4.0.6",
+    "@rebass/preset": "^4.0.5",
+    "@theme-ui/presets": "^0.2.42",
+    "elasticlunr": "^0.9.5",
+    "gatsby-image": "^2.2.7",
+    "gatsby-plugin-lint-queries": "^0.0.3",
+    "gatsby-plugin-manifest": "^2.2.29",
+    "gatsby-plugin-nprogress": "^2.1.14",
+    "gatsby-plugin-offline": "^3.0.22",
+    "gatsby-plugin-react-helmet": "^3.1.2",
+    "gatsby-plugin-robots-txt": "^1.5.0",
+    "gatsby-plugin-sharp": "2.3.1",
+    "gatsby-plugin-sitemap": "^2.2.21",
+    "gatsby-plugin-theme-ui": "^0.2.43",
+    "gatsby-plugin-web-font-loader": "^1.0.4",
+    "gatsby-source-filesystem": "^2.1.6",
+    "gatsby-source-shopify": "^3.0.21",
+    "gatsby-transformer-sharp": "^2.2.4",
+    "pure-react-carousel": "^1.23.3",
+    "ramda": "^0.26.1",
+    "react-ga": "^2.7.0",
+    "react-helmet": "^5.2.1",
+    "react-markdown": "^4.1.0",
+    "react-payment-icons-inline": "^1.0.22",
+    "react-share": "^3.0.1",
+    "react-social-icons": "^4.1.0",
+    "react-use": "^13.8.0",
+    "rebass": "^4.0.6",
+    "shopify-buy": "^2.6.1",
+    "theme-ui": "^0.2.43",
+    "util": "^0.12.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "babel-eslint": "^10.0.3",
+    "babel-plugin-emotion": "^10.0.21",
+    "eslint-config-react-app": "^5.0.2",
+    "eslint-plugin-graphql": "^3.1.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "gatsby": "^2.13.38",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "peerDependencies": {
+    "gatsby": "^2.13.38",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}

@@ -1,0 +1,16 @@
+.carousel__dot {
+  margin: 10px;
+  padding: 2px;
+  border: 0;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  background: #777;
+}
+.carousel__dot--selected {
+  width: 18px;
+  height: 18px;
+  padding-bottom: 5px;
+  border: 1px solid #777;
+  background: transparent;
+}
