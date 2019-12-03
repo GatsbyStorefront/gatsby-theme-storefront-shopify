@@ -6,7 +6,9 @@
   <img width="644" height="266" src="https://gatsbystorefront-static.now.sh/gatsbystorefront_readme_logo.png">
 </p>
 
-[![Gitter](https://badges.gitter.im/GatsbyStorefront/community.svg)](https://gitter.im/GatsbyStorefront/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Join the community on Spectrum](https://img.shields.io/badge/join%20the%20community-on%20spectrum-blue.svg?style=flat-square&colorB=3818E5)](https://spectrum.chat/GatsbyStorefront)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/gatsbystorefront/gatsby-theme-storefront-shopify)
+![GitHub](https://img.shields.io/github/license/gatsbystorefront/gatsby-theme-storefront-shopify?color=green)
+[![Gitter](https://badges.gitter.im/GatsbyStorefront/community.svg)](https://gitter.im/GatsbyStorefront/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)[![Join the community on Spectrum](https://img.shields.io/badge/join%20the%20community-on%20spectrum-blue.svg?style=flat-square&colorB=3818E5)](https://spectrum.chat/GatsbyStorefront)
 
 ## About
 
