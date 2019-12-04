@@ -1,4 +1,6 @@
-![Logo](https://gatsbystorefront-static.now.sh/gatsbystorefront_readme_logo.png)
+<p align="center">
+<img alt="Logo" src="https://gatsbystorefront-static.now.sh/gatsbystorefront_readme_logo.png"/>
+</p>
 
 # Gatby Storefront – lightning fast PWA storefront for Shopify
 
@@ -38,7 +40,8 @@ Gatby Storefront is a headless eCommerce PWA storefront for Shopify. Powered by 
 </p>
 
 <p align="center">
-  Exceptional Lighthouse audit results: :
+  Exceptional Lighthouse audit results:
+  <br/>
 
   <img width="584" src="https://gatsbystorefront-static.now.sh/gatsbystorefront-lighthouse-test-low.gif">
 </p>
