@@ -1,14 +1,12 @@
-<p align="center">
-  <h1>Gatby Storefront – lightning fast PWA storefront for Shopify</h1>
-</p>
+![Logo](https://gatsbystorefront-static.now.sh/gatsbystorefront_readme_logo.png)
 
-<p align="center">
-  <img width="644" height="266" src="https://gatsbystorefront-static.now.sh/gatsbystorefront_readme_logo.png">
-</p>
+# Gatby Storefront – lightning fast PWA storefront for Shopify
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/gatsbystorefront/gatsby-theme-storefront-shopify)
 ![GitHub](https://img.shields.io/github/license/gatsbystorefront/gatsby-theme-storefront-shopify?color=green)
-[![Gitter](https://badges.gitter.im/GatsbyStorefront/community.svg)](https://gitter.im/GatsbyStorefront/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)[![Join the community on Spectrum](https://img.shields.io/badge/join%20the%20community-on%20spectrum-blue.svg?style=flat-square&colorB=3818E5)](https://spectrum.chat/GatsbyStorefront)
+[![Join the community on Spectrum](https://img.shields.io/badge/join%20the%20community-on%20spectrum-blue.svg?style=flat-square&colorB=3818E5)](https://spectrum.chat/GatsbyStorefront)
+
+Please <a href="https://demo.gatsbystorefront.com" >see our demo here</a>. And if you like it please give us a star on GitHub ⭐ 👍 😀
 
 ## About
 
@@ -36,14 +34,16 @@ Gatby Storefront is a headless eCommerce PWA storefront for Shopify. Powered by 
 ## Demo
 
 <p align="center">
-  <img width="640" height="396" src="https://gatsbystorefront-static.now.sh/gatsbystorefront-demogif-low.webp">
+  <img width="640" src="https://gatsbystorefront-static.now.sh/gatsbystorefront-demogif-low.webp">
 </p>
 
 <p align="center">
-  <img width="584" height="144" src="https://gatsbystorefront-static.now.sh/gatsbystorefront-lighthouse-test-low.gif">
+  Exceptional Lighthouse audit results: :
+
+  <img width="584" src="https://gatsbystorefront-static.now.sh/gatsbystorefront-lighthouse-test-low.gif">
 </p>
 
-Please, see the demo [here](https://demo.gatsbystorefront.com/).
+Please, see the demo here: [https://demo.gatsbystorefront.com](https://demo.gatsbystorefront.com/).
 
 ## Setup guide
 
