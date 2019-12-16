@@ -9,7 +9,7 @@ module.exports = {
       'error',
       {
         env: 'relay',
-        schemaJsonFilepath: path.resolve(__dirname, '../site/schema.json'),
+        schemaJsonFilepath: path.resolve(__dirname, '../../site/schema.json'),
         tagName: 'graphql',
       },
     ],
