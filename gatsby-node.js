@@ -4,6 +4,7 @@ const catalogTemplate = require.resolve('./src/templates/catalog/index.jsx');
 const mainPageTemplate = require.resolve('./src/templates/main/index.jsx');
 const policyTemplate = require.resolve('./src/templates/policy/index.jsx');
 const blogTemplate = require.resolve('./src/templates/blog/index.jsx');
+const pageTemplate = require.resolve('./src/templates/page/index.jsx');
 const articleTemplate = require.resolve(
   './src/templates/blog/article/index.jsx'
 );
@@ -82,6 +83,21 @@ exports.onCreateNode = async ({ node, actions, cache }, options) => {
       node,
       name: 'shopifyThemePath',
       value: `${basePath && `/${basePath}`}/${policyPageBasePath}/${node.type}`,
+    });
+  }
+
+  if (node.internal.type === `ShopifyPage`) {
+    let { basePath = '', pageBasePath = 'pages' } = options;
+    const { createNodeField } = actions;
+    basePath = removeTrailingLeadingSlashes(basePath);
+    pageBasePath = removeTrailingLeadingSlashes(pageBasePath);
+
+    // Todo: Improve the way this is done. Maybe using the config.json file.
+    createNodeField({
+      node,
+      name: 'shopifyThemePath',
+      value: `${basePath && `/${basePath}`}${pageBasePath &&
+        `/${pageBasePath}`}/${node.handle}`,
     });
   }
 
@@ -267,6 +283,31 @@ exports.createPages = async ({ graphql, actions }, options) => {
       component: policyTemplate,
       context: {
         type,
+        // Todo: Find a better way to do this.
+        cartUrl: finalCartPagePath,
+      },
+    });
+  });
+
+  const queryPages = await graphql(`
+    {
+      pages: allShopifyPage {
+        nodes {
+          handle
+          fields {
+            shopifyThemePath
+          }
+        }
+      }
+    }
+  `);
+  queryPages.data.pages.nodes.forEach(({ handle, fields }) => {
+    const { shopifyThemePath } = fields;
+    createPage({
+      path: shopifyThemePath,
+      component: pageTemplate,
+      context: {
+        handle,
         // Todo: Find a better way to do this.
         cartUrl: finalCartPagePath,
       },

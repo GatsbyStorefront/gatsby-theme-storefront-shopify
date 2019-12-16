@@ -293,7 +293,7 @@ module.exports = {
   footerLinks: [
     {
       name: 'About us',
-      link: '/about',
+      link: '/pages/about',
     },
     {
       name: 'Terms of Service',
