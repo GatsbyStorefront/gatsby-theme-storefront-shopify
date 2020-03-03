@@ -4,15 +4,13 @@
 
 # Gatby Storefront – lightning fast PWA storefront for Shopify
 
+Gatby Storefront is a headless eCommerce PWA storefront for Shopify. Powered by GatsbyJS it brings eCommerce to the edge for lightning fast webstore performance.
+
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/gatsbystorefront/gatsby-theme-storefront-shopify)
 ![GitHub](https://img.shields.io/github/license/gatsbystorefront/gatsby-theme-storefront-shopify?color=green)
 [![Join the community on Spectrum](https://img.shields.io/badge/join%20the%20community-on%20spectrum-blue.svg?style=flat-square&colorB=3818E5)](https://spectrum.chat/GatsbyStorefront)
 
 Please <a href="https://demo.gatsbystorefront.com" >see our demo here</a>. And if you like it please give us a star on GitHub ⭐ 👍 😀
-
-## About
-
-Gatby Storefront is a headless eCommerce PWA storefront for Shopify. Powered by GatsbyJS it brings eCommerce to the edge for lightning fast webstore preformance.
 
 <!-- toc -->
 
@@ -161,14 +159,8 @@ Starts a local HTML server for testing your built site. Remember to build your s
 
 After making a build, upload `public/` directory to your web host. See additional instructions [here](https://www.gatsbyjs.org/docs/deploying-and-hosting/).
 
-## Santa Claus is coming to town
+## Thank you!
 
-```
-You better watch out
-You better not cry
-You better not pout
-I'm telling you why
-Cause Santa Claus is coming to town
-```
+Thank you! And we would love to hear your [feedback [😍😜😮😐😤]](https://pavel905961.typeform.com/to/Iv44IK).
 
-![Merry Christmas!](https://octodex.github.com/images/saint_nictocat.jpg)
+![Expolore Gatsby Storefront](https://octodex.github.com/images/scubatocat.png)
