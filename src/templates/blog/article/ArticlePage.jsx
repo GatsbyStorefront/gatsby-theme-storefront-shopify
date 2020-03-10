@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Box, Heading, Text } from 'rebass';
 import { Helmet } from 'react-helmet';
 
-import { storeName } from '../../../../gatsbystorefront-config';
+import { storeName } from '../../../gatsbystorefront-config';
 import GatsbyLink from 'gatsby-link';
 
 const ArticlePage = props => {

@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 
 import Layout from '../../components/Layout';
 import BlogPage from './BlogPage';
-import { storeName } from '../../../gatsbystorefront-config';
+import { storeName, shopifyLite } from '../../gatsbystorefront-config';
 
 export default props => {
   const { title: blogTitle } = props.data.blog.nodes[0];

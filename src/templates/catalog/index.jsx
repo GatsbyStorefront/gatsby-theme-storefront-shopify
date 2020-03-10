@@ -3,7 +3,7 @@ import { graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
 import Layout from '../../components/Layout';
 import CatalogPage from './CatalogPage';
-import { storeName } from '../../../gatsbystorefront-config';
+import { storeName } from '../../gatsbystorefront-config';
 
 export default props => {
   const { title, description } = props.data.collection.nodes[0];

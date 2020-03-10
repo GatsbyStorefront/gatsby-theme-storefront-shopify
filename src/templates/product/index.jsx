@@ -4,7 +4,7 @@ import { graphql } from 'gatsby';
 
 import ProductPage from './ProductPage';
 import Layout from '../../components/Layout';
-import { storeName } from '../../../gatsbystorefront-config';
+import { storeName } from '../../gatsbystorefront-config';
 
 export default props => {
   const { title } = props.data.product;

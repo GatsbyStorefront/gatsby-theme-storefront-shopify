@@ -1,4 +1,4 @@
-import config from '../../gatsbystorefront-config';
+import config from '../gatsbystorefront-config';
 const { locales, currency } = config;
 
 export default function formatPrice(price) {

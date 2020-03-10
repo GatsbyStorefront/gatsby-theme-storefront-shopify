@@ -1,4 +1,4 @@
-const config = require('./gatsbystorefront-config');
+const config = require('./src/gatsbystorefront-config');
 
 module.exports = ({ shopName, accessToken }) => ({
   siteMetadata: {

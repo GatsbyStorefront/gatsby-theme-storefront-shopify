@@ -5,7 +5,7 @@ import { Flex, Box, Text, Link } from 'rebass';
 import GatsbyLink from 'gatsby-link';
 import { SocialIcon } from 'react-social-icons';
 
-import config from '../../gatsbystorefront-config';
+import config from '../gatsbystorefront-config';
 
 const validURL = str => {
   let pattern = new RegExp(

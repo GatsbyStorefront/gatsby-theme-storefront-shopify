@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Box, Heading } from 'rebass';
 import { Helmet } from 'react-helmet';
 
-import { storeName } from '../../../gatsbystorefront-config';
+import { storeName } from '../../gatsbystorefront-config';
 
 const PolicyPage = props => {
   const { title, body } = props.data.policies.nodes[0];

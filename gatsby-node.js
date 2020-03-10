@@ -9,11 +9,11 @@ const articleTemplate = require.resolve(
   './src/templates/blog/article/index.jsx'
 );
 
-const gatsbyStorefrontConfig = require('./gatsbystorefront-config');
-
+const gatsbyStorefrontConfig = require('./src/gatsbystorefront-config');
 const {
   productsPerCollectionPage = 9,
   articlesPerBlogPage = 6,
+  shopifyLite = false,
 } = gatsbyStorefrontConfig;
 
 // Used as workaround (together with cache) to store and access Blogs ids and handles while creating fields for Articles
@@ -289,101 +289,151 @@ exports.createPages = async ({ graphql, actions }, options) => {
     });
   });
 
-  const queryPages = await graphql(`
-    {
-      pages: allShopifyPage {
-        nodes {
-          handle
-          fields {
-            shopifyThemePath
+  // In case Shopify Lite plan we don't have data to create Pages, Blogs and Articles
+  if (!shopifyLite) {
+    const queryPages = await graphql(`
+      {
+        pages: allShopifyPage {
+          nodes {
+            handle
+            fields {
+              shopifyThemePath
+            }
           }
         }
       }
-    }
-  `);
-  queryPages.data.pages.nodes.forEach(({ handle, fields }) => {
-    const { shopifyThemePath } = fields;
-    createPage({
-      path: shopifyThemePath,
-      component: pageTemplate,
-      context: {
-        handle,
-        // Todo: Find a better way to do this.
-        cartUrl: finalCartPagePath,
-      },
-    });
-  });
-
-  const queryArticles = await graphql(`
-    {
-      articles: allShopifyArticle {
-        nodes {
-          shopifyId
-          fields {
-            shopifyThemePath
-          }
-          blog {
-            shopifyId
-          }
-        }
-      }
-    }
-  `);
-
-  queryArticles.data.articles.nodes.forEach(({ shopifyId, fields }) => {
-    const { shopifyThemePath } = fields;
-    createPage({
-      path: shopifyThemePath,
-      component: articleTemplate,
-      context: {
-        shopifyId,
-        // Todo: Find a better way to do this.
-        cartUrl: finalCartPagePath,
-      },
-    });
-  });
-
-  const queryBlogs = await graphql(`
-    {
-      blogs: allShopifyBlog {
-        nodes {
-          shopifyId
-          fields {
-            shopifyThemePath
-          }
-        }
-      }
-    }
-  `);
-
-  queryBlogs.data.blogs.nodes.forEach(({ shopifyId, fields }) => {
-    let { shopifyThemePath } = fields;
-    let articlesArray = queryArticles.data.articles.nodes.filter(node => {
-      return shopifyId === node.blog.shopifyId;
-    });
-
-    let articlesCount = articlesArray.length;
-    let articlesPerPage = parseInt(articlesPerBlogPage);
-    let numPages = Math.ceil(articlesCount / articlesPerPage);
-
-    Array.from({
-      length: numPages,
-    }).forEach((_, i) => {
+    `);
+    queryPages.data.pages.nodes.forEach(({ handle, fields }) => {
+      const { shopifyThemePath } = fields;
       createPage({
-        path: i === 0 ? `${shopifyThemePath}` : `${shopifyThemePath}/${i + 1}`,
-        component: blogTemplate,
+        path: shopifyThemePath,
+        component: pageTemplate,
         context: {
-          shopifyId,
-          shopifyThemePath,
-          limit: articlesPerPage,
-          skip: i * articlesPerPage,
-          numPages,
-          currentPage: i + 1,
-
+          handle,
           // Todo: Find a better way to do this.
           cartUrl: finalCartPagePath,
         },
       });
     });
-  });
+
+    const queryArticles = await graphql(`
+      {
+        articles: allShopifyArticle {
+          nodes {
+            shopifyId
+            fields {
+              shopifyThemePath
+            }
+            blog {
+              shopifyId
+            }
+          }
+        }
+      }
+    `);
+
+    queryArticles.data.articles.nodes.forEach(({ shopifyId, fields }) => {
+      const { shopifyThemePath } = fields;
+      createPage({
+        path: shopifyThemePath,
+        component: articleTemplate,
+        context: {
+          shopifyId,
+          // Todo: Find a better way to do this.
+          cartUrl: finalCartPagePath,
+        },
+      });
+    });
+
+    const queryBlogs = await graphql(`
+      {
+        blogs: allShopifyBlog {
+          nodes {
+            shopifyId
+            fields {
+              shopifyThemePath
+            }
+          }
+        }
+      }
+    `);
+
+    queryBlogs.data.blogs.nodes.forEach(({ shopifyId, fields }) => {
+      let { shopifyThemePath } = fields;
+      let articlesArray = queryArticles.data.articles.nodes.filter(node => {
+        return shopifyId === node.blog.shopifyId;
+      });
+
+      let articlesCount = articlesArray.length;
+      let articlesPerPage = parseInt(articlesPerBlogPage);
+      let numPages = Math.ceil(articlesCount / articlesPerPage);
+
+      Array.from({
+        length: numPages,
+      }).forEach((_, i) => {
+        createPage({
+          path:
+            i === 0 ? `${shopifyThemePath}` : `${shopifyThemePath}/${i + 1}`,
+          component: blogTemplate,
+          context: {
+            shopifyId,
+            shopifyThemePath,
+            limit: articlesPerPage,
+            skip: i * articlesPerPage,
+            numPages,
+            currentPage: i + 1,
+
+            // Todo: Find a better way to do this.
+            cartUrl: finalCartPagePath,
+          },
+        });
+      });
+    });
+  }
+};
+
+exports.sourceNodes = ({ actions }) => {
+  const { createTypes } = actions;
+  // In case Shopify Lite GraphQL nodes for Articles and Pages are not created.
+  // While build process GatsbyJS extracts queries and checks them against schema (see https://www.gatsbyjs.org/docs/query-extraction/).
+  // Here we are creating mock data, so the queries could pass validation.
+  if (shopifyLite) {
+    const typeDefs = `
+        type ShopifyArticleFields {
+          shopifyThemePath: String
+        }
+        type ShopifyBlog implements Node {
+          Name: String
+          title: String
+          url: String
+          shopifyId: String
+          fields: ShopifyArticleFields
+        }
+        type ShopifyArticle implements Node {
+          Name: String
+          content: String
+          contentHtml: String
+          excerpt: String
+          excerptHtml: String
+          blog: ShopifyBlog
+          publishedAt(formatString: String): Date
+          title: String
+          url: String
+          shopifyId: String
+          fields: ShopifyArticleFields
+        }
+        type ShopifyPage implements Node {
+          Name: String
+          handle: String
+          title: String
+          body: String
+          bodySummary: String
+          updatedAt(formatString: String): Date
+          url: String
+          shopifyId: String
+          fields: ShopifyArticleFields
+        }
+  `;
+    createTypes(typeDefs);
+  }
 };

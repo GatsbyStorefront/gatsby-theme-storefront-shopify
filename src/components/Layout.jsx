@@ -16,7 +16,7 @@ import {
 import Navbar from './Navbar';
 import Footer from './Footer';
 import theme from '../gatsby-plugin-theme-ui/index';
-import { googleAnalyticsId } from '../../gatsbystorefront-config';
+import { googleAnalyticsId } from '../gatsbystorefront-config';
 
 import './reset.css';
 
@@ -55,6 +55,8 @@ const LayoutComponents = ({ children }) => {
     >
       <Helmet>
         <html lang="en" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
       </Helmet>
 
       <Flex flexDirection="column" style={{ minHeight: '100vh' }}>

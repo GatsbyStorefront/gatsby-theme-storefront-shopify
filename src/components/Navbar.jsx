@@ -8,7 +8,7 @@ import Menu from '../components/Menu';
 import Search from '../components/Search';
 import ShoppingBag from '../components/Icons/ShoppingBag';
 import ShoppingCart from '../components/Icons/ShoppingCart';
-import config from '../../gatsbystorefront-config';
+import config from '../gatsbystorefront-config';
 import strings from './strings.json';
 
 const { ariaShoppingCartLabel, ariaHomaPageLinkLabel } = strings;

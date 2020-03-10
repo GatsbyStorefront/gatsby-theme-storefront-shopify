@@ -5,7 +5,7 @@ import { graphql } from 'gatsby';
 import MainPage from './MainPage';
 import Layout from '../../components/Layout';
 import strings from './strings.json';
-import config from '../../../gatsbystorefront-config';
+import config from '../../gatsbystorefront-config';
 
 const { pageTitleTemplate } = strings;
 const { storeName, storeDescription } = config;

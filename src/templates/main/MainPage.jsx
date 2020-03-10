@@ -5,7 +5,7 @@ import MainPageCarousel from './MainPageCarousel';
 import MainPageCollectionBlock from './MainPageCollectionBlock';
 import MainPageProductBlock from './MainPageProductBlock';
 
-import config from '../../../gatsbystorefront-config';
+import config from '../../gatsbystorefront-config';
 
 const MainPage = props => {
   const { mainPage } = config;

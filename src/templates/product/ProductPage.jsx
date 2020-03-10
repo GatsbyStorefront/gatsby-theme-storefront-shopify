@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Flex, Box, Text } from 'rebass';
 import { Helmet } from 'react-helmet';
 
-import config from '../../../gatsbystorefront-config';
+import config from '../../gatsbystorefront-config';
 import strings from './strings';
 import substrDescription from '../../utils/substrDescription.js';
 import shortcodeParser from '../../utils/shortcode-parser';

@@ -27,6 +27,7 @@ module.exports = {
     'Viber',
   ],
   googleAnalyticsId: 'UA-141525658-3',
+  shopifyLite: true,
   //
   // carousel, collection, product
   //
