@@ -105,7 +105,11 @@ module.exports = {
 
 ### Shopify content requirement
 
-Please make sure that your Shopify web store has at least one Collection, one Product (associated with Collection), Blog post and store Policies before runing your Gatsby Storefront, as it is neccesary for correct API exposure.
+Please make sure that your Shopify web store has at least one [Collection](https://help.shopify.com/en/manual/products/collections), one [Product](https://help.shopify.com/en/manual/products/add-update-products) (associated with Collection), [Blog post](https://help.shopify.com/en/manual/sell-online/online-store/blogs/writing-blogs), [Page](https://help.shopify.com/en/manual/sell-online/online-store/pages) and [store Policies](https://help.shopify.com/en/manual/checkout-settings/refund-privacy-tos) added before runing your Gatsby Storefront, as it is neccesary for correct API exposure.
+
+### A setup for Shopify Lite plan
+
+If you are using Shopify Lite plan. Please set `shopifyLite` property to `ture` in `gatsbystorefront-config.js`. This will disable generation of pages for Blog and Pages as they are not avalible in "Lite" plan.
 
 ### Starter
 
@@ -121,10 +125,27 @@ This downloads the files and initializes the site by running npm install.
 
 ### Configuration file
 
-Main configuration is `gatsbystorefront-config.js`. Use it to:
+Main configuration file is `src/gatsbystorefront-config.js`. Use it to:
 
 - Configure main store parameters.
 - Set up main menu and footer links.
+
+To change default configuration use [shadowing](https://www.gatsbyjs.org/docs/themes/shadowing/) of main configuration file:
+
+Create a shadowing directory:
+
+```
+mkdir -p src/@gatsbystorefront/gatsby-theme-storefront-shopify
+```
+
+Copy `gatsbystorefront-config.js` to newly created shadowing directory:
+
+```
+cp node_modules/@gatsbystorefront/gatsby-theme-storefront-shopify/src/gatsbystorefront-config.js src/@gatsbystorefront/gatsby-theme-storefront-shopify/
+
+```
+
+Then make necessary changes to `gatsbystorefront-config.js`.
 
 ### Theme shadowing
 
