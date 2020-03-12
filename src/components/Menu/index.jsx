@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Flex, Box } from 'rebass';
 import GatsbyLink from 'gatsby-link';
-import * as R from 'ramda';
 import styled from '@emotion/styled';
 
 import { useMenuContext } from './context';
@@ -43,34 +42,7 @@ const MenuItem = styled(Box)`
   }
 `;
 
-const prepareMenu = menu => {
-  let flattenMenu = [];
-  let id = 0;
-
-  const children = R.prop('children');
-  const dissoc = R.dissoc('children');
-  const assocId = R.assoc('id');
-  const assocParentId = R.assoc('parentId');
-
-  const iterate = (childrenArray, parentId = 0) => {
-    childrenArray.forEach((obj, index) => {
-      id++;
-      flattenMenu = R.concat(flattenMenu, [
-        dissoc(assocId(id, assocParentId(parentId, obj))),
-      ]);
-
-      if (children(obj)) {
-        iterate(children(obj), id);
-      }
-    });
-  };
-
-  iterate(menu.children);
-  return flattenMenu;
-};
-
-const Menu = ({ menu }) => {
-  const [componentMenu, setComponentMenu] = useState(prepareMenu({ ...menu }));
+const Menu = ({ menu: componentMenu }) => {
   const [parentId, setParentId] = useState(0);
   const [showSidebar, setShowsidebar] = useState(false);
   const { menuShowed, setMenuShowed } = useMenuContext();
@@ -111,6 +83,8 @@ const Menu = ({ menu }) => {
                             key={element.id}
                           />
                         );
+                      } else {
+                        return '';
                       }
                     })
                   : ''}
@@ -188,6 +162,8 @@ const Menu = ({ menu }) => {
                           )}
                         </React.Fragment>
                       );
+                    } else {
+                      return '';
                     }
                   })
                 : ''}

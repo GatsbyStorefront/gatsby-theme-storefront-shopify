@@ -1,4 +1,5 @@
 /** @jsx jsx */
+/*eslint no-unused-vars: 0*/
 import React from 'react';
 import { jsx } from 'theme-ui';
 import { Box } from 'rebass';
@@ -47,6 +48,8 @@ const MainPageCarousel = props => {
                           textBgColor={slide.textBgColor}
                         />
                       );
+                    } else {
+                      return '';
                     }
                   })}
                 </Slide>
@@ -64,10 +67,14 @@ const MainPageCarousel = props => {
                           textBgColor={slide.textBgColor}
                         />
                       );
+                    } else {
+                      return '';
                     }
                   })}
                 </Slide>
               );
+            } else {
+              return '';
             }
           })}
         </Slider>

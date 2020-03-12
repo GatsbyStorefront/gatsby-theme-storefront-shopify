@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Card, Heading, Text } from 'rebass';
+import { useStaticQuery, graphql } from 'gatsby';
 import GatsbyImage from 'gatsby-image';
 import GatsbyLink from 'gatsby-link';
 import styled from '@emotion/styled/macro';
@@ -11,6 +12,20 @@ import formatPrice from '../../utils/formatPrice';
 import strings from './strings.json';
 
 const IndividualProduct = ({ product }) => {
+  const data = useStaticQuery(graphql`
+    {
+      site {
+        siteMetadata {
+          gatsbyStorefrontConfig {
+            locales
+            currency
+          }
+        }
+      }
+    }
+  `);
+  const { locales, currency } = data.site.siteMetadata.gatsbyStorefrontConfig;
+
   const {
     priceRange: {
       minVariantPrice: { amount: minPrice },
@@ -28,11 +43,15 @@ const IndividualProduct = ({ product }) => {
   const hasPriceRange = minPrice !== maxPrice;
   const hasOneVariant = variants.length === 1;
 
-  const minDisplayPrice = formatPrice(minPrice);
-  const maxDisplayPrice = formatPrice(maxPrice);
+  const minDisplayPrice = formatPrice(minPrice, locales, currency);
+  const maxDisplayPrice = formatPrice(maxPrice, locales, currency);
 
   const compareAtPrice = variants[0].compareAtPrice;
-  const compareAtPriceFmormatted = formatPrice(variants[0].compareAtPrice);
+  const compareAtPriceFmormatted = formatPrice(
+    variants[0].compareAtPrice,
+    locales,
+    currency
+  );
 
   let hasSaleBadge = false;
 

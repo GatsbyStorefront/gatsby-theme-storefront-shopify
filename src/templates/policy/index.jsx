@@ -19,5 +19,12 @@ export const policyQuery = graphql`
         body
       }
     }
+    store: site {
+      siteMetadata {
+        gatsbyStorefrontConfig {
+          storeName
+        }
+      }
+    }
   }
 `;

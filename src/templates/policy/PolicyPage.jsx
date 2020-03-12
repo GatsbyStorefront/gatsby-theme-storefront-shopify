@@ -2,10 +2,9 @@ import React from 'react';
 import { Flex, Box, Heading } from 'rebass';
 import { Helmet } from 'react-helmet';
 
-import { storeName } from '../../gatsbystorefront-config';
-
 const PolicyPage = props => {
   const { title, body } = props.data.policies.nodes[0];
+  const { storeName } = props.data.store.siteMetadata.gatsbyStorefrontConfig;
   return (
     <Flex flexWrap="wrap" px={2} pt={3} mx="auto" style={{ maxWidth: 1300 }}>
       <Helmet title={title} titleTemplate={`%s — ${storeName}`} defer={false}>

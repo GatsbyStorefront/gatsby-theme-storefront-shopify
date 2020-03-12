@@ -3,6 +3,7 @@ import { ThemeProvider, Styled } from 'theme-ui';
 import Helmet from 'react-helmet';
 import { Flex, Box } from 'rebass';
 import ReactGA from 'react-ga';
+import { useStaticQuery, graphql } from 'gatsby';
 
 import {
   MenuContextProvider,
@@ -16,11 +17,10 @@ import {
 import Navbar from './Navbar';
 import Footer from './Footer';
 import theme from '../gatsby-plugin-theme-ui/index';
-import { googleAnalyticsId } from '../gatsbystorefront-config';
 
 import './reset.css';
 
-const initializeReactGA = () => {
+const initializeReactGA = googleAnalyticsId => {
   ReactGA.initialize(googleAnalyticsId);
   if (typeof window !== `undefined`) {
     ReactGA.pageview(window.location.pathname + window.location.search);
@@ -28,7 +28,24 @@ const initializeReactGA = () => {
 };
 
 const Layout = ({ children }) => {
-  initializeReactGA();
+  const data = useStaticQuery(
+    graphql`
+      query LayoutStaticQuery {
+        site {
+          siteMetadata {
+            gatsbyStorefrontConfig {
+              googleAnalyticsId
+            }
+          }
+        }
+      }
+    `
+  );
+
+  const { googleAnalyticsId } = data.site.siteMetadata.gatsbyStorefrontConfig;
+
+  initializeReactGA(googleAnalyticsId);
+
   return (
     <ThemeProvider theme={theme}>
       <Styled.root>

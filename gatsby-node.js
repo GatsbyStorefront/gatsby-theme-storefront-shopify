@@ -9,12 +9,7 @@ const articleTemplate = require.resolve(
   './src/templates/blog/article/index.jsx'
 );
 
-const gatsbyStorefrontConfig = require('./src/gatsbystorefront-config');
-const {
-  productsPerCollectionPage = 9,
-  articlesPerBlogPage = 6,
-  shopifyLite = false,
-} = gatsbyStorefrontConfig;
+let isShopifyLite = false;
 
 // Used as workaround (together with cache) to store and access Blogs ids and handles while creating fields for Articles
 let availableBlogs = [];
@@ -171,26 +166,68 @@ exports.onCreateNode = async ({ node, actions, cache }, options) => {
 };
 
 exports.createPages = async ({ graphql, actions }, options) => {
+  const gatsbyStorefrontConfig = await graphql(`
+    {
+      site {
+        siteMetadata {
+          gatsbyStorefrontConfig {
+            shopifyLite
+            productsPerCollectionPage
+            articlesPerBlogPage
+          }
+        }
+      }
+    }
+  `);
+  const {
+    productsPerCollectionPage = 9,
+    articlesPerBlogPage = 6,
+    shopifyLite = false,
+  } = gatsbyStorefrontConfig.data.site.siteMetadata.gatsbyStorefrontConfig;
+  isShopifyLite = shopifyLite;
+
   const { createPage } = actions;
-
   let { cartPagePath = 'cart', basePath = '' } = options;
-
   basePath = removeTrailingLeadingSlashes(basePath);
   cartPagePath = removeTrailingLeadingSlashes(cartPagePath);
-  const finalCartPagePath = `${basePath && `/${basePath}`}/${cartPagePath}`;
 
+  const finalCartPagePath = `${basePath && `/${basePath}`}/${cartPagePath}`;
   createPage({
     path: finalCartPagePath,
     component: cartTemplate,
   });
 
   const mainPagePath = `${basePath && `/${basePath}`}/`;
-
+  const mainPageHandles = await graphql(`
+    {
+      site {
+        siteMetadata {
+          gatsbyStorefrontConfig {
+            mainPage {
+              handle
+              type
+              children {
+                handle
+                type
+              }
+            }
+          }
+        }
+      }
+    }
+  `);
+  const mainPageHandlesArray = getMainPageHandles(
+    JSON.parse(
+      JSON.stringify(
+        mainPageHandles.data.site.siteMetadata.gatsbyStorefrontConfig.mainPage
+      )
+    )
+  );
   createPage({
     path: mainPagePath,
     component: mainPageTemplate,
     context: {
-      handles: getMainPageHandles(gatsbyStorefrontConfig.mainPage),
+      handles: mainPageHandlesArray,
     },
   });
 
@@ -209,7 +246,6 @@ exports.createPages = async ({ graphql, actions }, options) => {
       }
     }
   `);
-
   queryCollections.data.collections.nodes.forEach(
     ({ handle, products, fields }) => {
       let { shopifyThemePath } = fields;
@@ -217,7 +253,9 @@ exports.createPages = async ({ graphql, actions }, options) => {
       let productsPerPage = parseInt(productsPerCollectionPage);
       let numPages = Math.ceil(collectionProductsCount / productsPerPage);
 
-      Array.from({ length: numPages }).forEach((_, i) => {
+      Array.from({
+        length: numPages,
+      }).forEach((_, i) => {
         createPage({
           path:
             i === 0 ? `${shopifyThemePath}` : `${shopifyThemePath}/${i + 1}`,
@@ -290,7 +328,7 @@ exports.createPages = async ({ graphql, actions }, options) => {
   });
 
   // In case Shopify Lite plan we don't have data to create Pages, Blogs and Articles
-  if (!shopifyLite) {
+  if (!isShopifyLite) {
     const queryPages = await graphql(`
       {
         pages: allShopifyPage {
@@ -394,10 +432,10 @@ exports.createPages = async ({ graphql, actions }, options) => {
 
 exports.sourceNodes = ({ actions }) => {
   const { createTypes } = actions;
-  // In case Shopify Lite GraphQL nodes for Articles and Pages are not created.
+  // In case using Shopify Lite plan GraphQL nodes for Articles and Pages are not created.
   // While build process GatsbyJS extracts queries and checks them against schema (see https://www.gatsbyjs.org/docs/query-extraction/).
   // Here we are creating mock data, so the queries could pass validation.
-  if (shopifyLite) {
+  if (isShopifyLite) {
     const typeDefs = `
         type ShopifyArticleFields {
           shopifyThemePath: String

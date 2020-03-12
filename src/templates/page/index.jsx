@@ -20,5 +20,12 @@ export const pageQuery = graphql`
         title
       }
     }
+    store: site {
+      siteMetadata {
+        gatsbyStorefrontConfig {
+          storeName
+        }
+      }
+    }
   }
 `;

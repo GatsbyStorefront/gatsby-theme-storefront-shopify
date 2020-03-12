@@ -26,5 +26,12 @@ export const articlesQuery = graphql`
         }
       }
     }
+    store: site {
+      siteMetadata {
+        gatsbyStorefrontConfig {
+          storeName
+        }
+      }
+    }
   }
 `;

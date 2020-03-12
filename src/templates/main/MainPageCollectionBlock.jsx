@@ -1,4 +1,5 @@
 /** @jsx jsx */
+/*eslint no-unused-vars: 0*/
 import React from 'react';
 import GatsbyImage from 'gatsby-image';
 import { Link as GatsbyLink } from 'gatsby';
