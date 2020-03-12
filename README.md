@@ -100,6 +100,14 @@ module.exports = {
       },
     },
   ],
+  siteMetadata: {
+    siteUrl: 'https://demo.gatsbystorefront.com',
+    gatsbyStorefrontConfig: {
+      // Your Gatsby Storefront configuration
+      // Copy exmaple from the starter:
+      // https://github.com/GatsbyStorefront/gatsby-starter-storefront-shopify/blob/master/gatsby-config.js
+
+    }
 };
 ```
 
@@ -109,7 +117,7 @@ Please make sure that your Shopify web store has at least one [Collection](https
 
 ### A setup for Shopify Lite plan
 
-If you are using Shopify Lite plan. Please set `shopifyLite` property to `ture` in `gatsbystorefront-config.js`. This will disable generation of pages for Blog and Pages as they are not avalible in "Lite" plan.
+If you are using Shopify Lite plan. Please set `shopifyLite` property to `ture` in `gatsby-config.js`. This will disable generation of pages for Blog and Pages as they are not avalible in "Lite" plan.
 
 ### Starter
 
@@ -125,27 +133,10 @@ This downloads the files and initializes the site by running npm install.
 
 ### Configuration file
 
-Main configuration file is `src/gatsbystorefront-config.js`. Use it to:
+Main theme configuration options are located in `gatsbyStorefrontConfig` object in `gatsby-config.js` file. Use it to:
 
 - Configure main store parameters.
 - Set up main menu and footer links.
-
-To change default configuration use [shadowing](https://www.gatsbyjs.org/docs/themes/shadowing/) of main configuration file:
-
-Create a shadowing directory:
-
-```
-mkdir -p src/@gatsbystorefront/gatsby-theme-storefront-shopify
-```
-
-Copy `gatsbystorefront-config.js` to newly created shadowing directory:
-
-```
-cp node_modules/@gatsbystorefront/gatsby-theme-storefront-shopify/src/gatsbystorefront-config.js src/@gatsbystorefront/gatsby-theme-storefront-shopify/
-
-```
-
-Then make necessary changes to `gatsbystorefront-config.js`.
 
 ### Theme shadowing
 
