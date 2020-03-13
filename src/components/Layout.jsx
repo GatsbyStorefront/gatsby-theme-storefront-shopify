@@ -64,6 +64,7 @@ const LayoutComponents = ({ children }) => {
   const { searchShowed } = useSearchContext();
   return (
     <Box
+      bg="background"
       sx={{
         position: menuShowed || searchShowed ? 'fixed' : 'relative',
         overflow: menuShowed || searchShowed ? 'hidden' : 'visible',
