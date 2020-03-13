@@ -143,6 +143,8 @@ Main theme configuration options are located in `gatsbyStorefrontConfig` object 
 - Use [shadowing](https://www.gatsbyjs.org/docs/themes/shadowing/) for making necessary changes in `@gatsbystorefront/gatsby-theme-storefront-shopify` theme.
 - Use shadowing of `@gatsbystorefront/gatsby-theme-storefront-shopify/src/gatsby-plugin-theme-ui/index.js` to change theme colors in accordance with [theme-ui specification](https://theme-ui.com/theme-spec).
 
+For code example please see our [shadowing exmaple repo](https://github.com/GatsbyStorefront/theme-shadowing-example).
+
 Note: In order to work in shadowed components GrapshQL queries have to be renamed.
 
 ### Development
