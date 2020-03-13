@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Flex, Box, Text } from 'rebass';
 import { Helmet } from 'react-helmet';
 
-import config from '../../../gatsbystorefront-config';
 import strings from './strings';
 import substrDescription from '../../utils/substrDescription.js';
 import shortcodeParser from '../../utils/shortcode-parser';
@@ -57,7 +56,10 @@ function ProductPage({ data, pageContext, location }) {
   };
 
   const { cartUrl } = pageContext;
-  const { payments, shareButtons } = config;
+  const {
+    payments,
+    shareButtons,
+  } = data.store.siteMetadata.gatsbyStorefrontConfig;
 
   function increaseAmount() {
     setCurrentAmount(a => a + 1);

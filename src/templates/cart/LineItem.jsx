@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Flex, Box, Image, Text } from 'rebass';
+import { useStaticQuery, graphql } from 'gatsby';
 
 import ProductCounter from '../../components/ProductCounter';
 import NoImage from '../../components/Icons/NoImage';
@@ -10,6 +11,20 @@ import strings from './strings.json';
 const { cartItemPriceLabel, cartItemAriaRemoveFromCart } = strings;
 
 const LineItem = props => {
+  const data = useStaticQuery(graphql`
+    {
+      site {
+        siteMetadata {
+          gatsbyStorefrontConfig {
+            locales
+            currency
+          }
+        }
+      }
+    }
+  `);
+  const { locales, currency } = data.site.siteMetadata.gatsbyStorefrontConfig;
+
   const {
     lineItem,
     decreaseProductAmount,
@@ -42,7 +57,7 @@ const LineItem = props => {
     );
   }, [selectedOptions]);
 
-  const displayPrice = formatPrice(Number(variant.price));
+  const displayPrice = formatPrice(Number(variant.price), locales, currency);
 
   return (
     <React.Fragment>
@@ -61,6 +76,7 @@ const LineItem = props => {
             onClick={() => removeItem(id)}
             ml={['29px', 4]}
             aria-hidden
+            aria-label={cartItemAriaRemoveFromCart}
             size={[16, 18, 20]}
             sx={{ cursor: 'pointer', height: 'auto' }}
           />
@@ -121,7 +137,9 @@ const LineItem = props => {
           p={[1, 3]}
           justifyContent={['center', 'flex-start']}
         >
-          <Text fontSize={[3, 4]}>{displayPrice}</Text>
+          <Text fontSize={[3, 4]} aria-label={cartItemPriceLabel}>
+            {displayPrice}
+          </Text>
         </Flex>
         <Flex
           width={[1, 2 / 10]}

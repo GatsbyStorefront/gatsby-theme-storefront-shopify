@@ -86,9 +86,9 @@ GATSBY_SHOPIFY_ACCESS_TOKEN=your_shopify_access_token
 Enable `gatsbystorefront/gatsby-theme-storefront-shopify` plugin in your `gatsby-config.js`:
 
 ```js
-require('dotenv').config({
-  path: `.env`,
-});
+require("dotenv").config({ path: `.env` })
+const flattenMenu = require("@gatsbystorefront/gatsby-theme-storefront-shopify/src/utils/flattenMenu")
+
 module.exports = {
   plugins: [
     {
@@ -100,12 +100,24 @@ module.exports = {
       },
     },
   ],
+  siteMetadata: {
+    siteUrl: 'https://demo.gatsbystorefront.com',
+    gatsbyStorefrontConfig: {
+      // Your Gatsby Storefront configuration
+      // Copy exmaple from the starter:
+      // https://github.com/GatsbyStorefront/gatsby-starter-storefront-shopify/blob/master/gatsby-config.js
+
+    }
 };
 ```
 
 ### Shopify content requirement
 
-Please make sure that your Shopify web store has at least one Collection, one Product (associated with Collection), Blog post and store Policies before runing your Gatsby Storefront, as it is neccesary for correct API exposure.
+Please make sure that your Shopify web store has at least one [Collection](https://help.shopify.com/en/manual/products/collections), one [Product](https://help.shopify.com/en/manual/products/add-update-products) (associated with Collection), [Blog post](https://help.shopify.com/en/manual/sell-online/online-store/blogs/writing-blogs), [Page](https://help.shopify.com/en/manual/sell-online/online-store/pages) and [store Policies](https://help.shopify.com/en/manual/checkout-settings/refund-privacy-tos) added before runing your Gatsby Storefront, as it is neccesary for correct API exposure.
+
+### A setup for Shopify Lite plan
+
+If you are using Shopify Lite plan. Please set `shopifyLite` property to `ture` in `gatsby-config.js`. This will disable generation of pages for Blog and Pages as they are not avalible in "Lite" plan.
 
 ### Starter
 
@@ -121,15 +133,17 @@ This downloads the files and initializes the site by running npm install.
 
 ### Configuration file
 
-Main configuration is `gatsbystorefront-config.js`. Use it to:
+Main theme configuration options are located in `gatsbyStorefrontConfig` object in `gatsby-config.js` file. Use it to:
 
 - Configure main store parameters.
 - Set up main menu and footer links.
 
 ### Theme shadowing
 
-- Use [shadowing](https://www.gatsbyjs.org/docs/themes/shadowing/) for making necessary changes in `gatsby-theme-storefront-shopify` theme.
-- Use shadowing of `gatsby-theme-storefront-shopify/src/gatsby-plugin-theme-ui/index.js` to change theme colors in accordance with [theme-ui specification](https://theme-ui.com/theme-spec).
+- Use [shadowing](https://www.gatsbyjs.org/docs/themes/shadowing/) for making necessary changes in `@gatsbystorefront/gatsby-theme-storefront-shopify` theme.
+- Use shadowing of `@gatsbystorefront/gatsby-theme-storefront-shopify/src/gatsby-plugin-theme-ui/index.js` to change theme colors in accordance with [theme-ui specification](https://theme-ui.com/theme-spec).
+
+Note: In order to work in shadowed components GrapshQL queries have to be renamed.
 
 ### Development
 

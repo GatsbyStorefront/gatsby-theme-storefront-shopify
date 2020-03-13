@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Flex, Text, Box } from 'rebass';
+import { useStaticQuery, graphql } from 'gatsby';
 import GatsbyLink from 'gatsby-link';
 import styled from '@emotion/styled';
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
@@ -8,7 +9,6 @@ import Menu from '../components/Menu';
 import Search from '../components/Search';
 import ShoppingBag from '../components/Icons/ShoppingBag';
 import ShoppingCart from '../components/Icons/ShoppingCart';
-import config from '../../gatsbystorefront-config';
 import strings from './strings.json';
 
 const { ariaShoppingCartLabel, ariaHomaPageLinkLabel } = strings;
@@ -44,6 +44,28 @@ const Navbar = props => {
     100
   );
 
+  const data = useStaticQuery(graphql`
+    {
+      site {
+        siteMetadata {
+          gatsbyStorefrontConfig {
+            storeName
+            menu {
+              handle
+              id
+              link
+              name
+              parentId
+              type
+            }
+          }
+        }
+      }
+    }
+  `);
+
+  const { storeName, menu } = data.site.siteMetadata.gatsbyStorefrontConfig;
+
   return (
     <Nav show={hideNavbarOnScroll}>
       <Box py={3} width={1} as="nav" bg="white">
@@ -55,7 +77,7 @@ const Navbar = props => {
           px={[3, null, 4]}
         >
           <Box width={100}>
-            <Menu menu={config.menu} />
+            <Menu menu={menu} />
           </Box>
 
           <Text
@@ -76,7 +98,7 @@ const Navbar = props => {
               fontSize={[2, 3]}
               sx={{ display: ['none', 'block'] }}
             >
-              {config.storeName}
+              {storeName}
             </Text>
           </Text>
 

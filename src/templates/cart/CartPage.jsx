@@ -1,6 +1,7 @@
 import React from 'react';
 import { Flex, Box, Button, Heading, Text } from 'rebass';
 import styled from '@emotion/styled';
+import { useStaticQuery, graphql } from 'gatsby';
 
 import strings from './strings.json';
 import Divider from '../../components/Divider';
@@ -15,10 +16,28 @@ const CheckoutButton = styled(Button)(({ theme }) => ({
 }));
 
 function CartPage() {
+  const data = useStaticQuery(graphql`
+    {
+      site {
+        siteMetadata {
+          gatsbyStorefrontConfig {
+            locales
+            currency
+          }
+        }
+      }
+    }
+  `);
+  const { locales, currency } = data.site.siteMetadata.gatsbyStorefrontConfig;
+
   const { checkout, updateItem, removeItem } = useShopifyFunctions();
   const { subtotalPrice, webUrl } = checkout;
 
-  const displaySubtotalPrice = formatPrice(Number(subtotalPrice));
+  const displaySubtotalPrice = formatPrice(
+    Number(subtotalPrice),
+    locales,
+    currency
+  );
 
   async function decreaseProductAmount({ id, quantity }) {
     if (quantity === 1) return;

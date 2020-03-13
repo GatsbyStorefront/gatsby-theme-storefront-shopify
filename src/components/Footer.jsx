@@ -1,11 +1,11 @@
 /** @jsx jsx */
+/*eslint no-unused-vars: 0*/
 import React from 'react';
 import { jsx, useThemeUI } from 'theme-ui';
 import { Flex, Box, Text, Link } from 'rebass';
+import { useStaticQuery, graphql } from 'gatsby';
 import GatsbyLink from 'gatsby-link';
 import { SocialIcon } from 'react-social-icons';
-
-import config from '../../gatsbystorefront-config';
 
 const validURL = str => {
   let pattern = new RegExp(
@@ -21,6 +21,29 @@ const validURL = str => {
 };
 
 function Footer() {
+  const data = useStaticQuery(graphql`
+    query FooterQuery {
+      site {
+        siteMetadata {
+          gatsbyStorefrontConfig {
+            email
+            company
+            location
+            address
+            phone
+            workingDays
+            workingHours
+            socialNetworks
+            footerLinks {
+              name
+              link
+            }
+          }
+        }
+      }
+    }
+  `);
+
   const {
     email,
     company,
@@ -31,7 +54,7 @@ function Footer() {
     workingHours,
     socialNetworks,
     footerLinks,
-  } = config;
+  } = data.site.siteMetadata.gatsbyStorefrontConfig;
 
   const { theme } = useThemeUI();
 

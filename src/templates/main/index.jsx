@@ -5,12 +5,15 @@ import { graphql } from 'gatsby';
 import MainPage from './MainPage';
 import Layout from '../../components/Layout';
 import strings from './strings.json';
-import config from '../../../gatsbystorefront-config';
 
 const { pageTitleTemplate } = strings;
-const { storeName, storeDescription } = config;
 
 export default props => {
+  const {
+    storeName,
+    storeDescription,
+  } = props.data.store.siteMetadata.gatsbyStorefrontConfig;
+
   return (
     <Layout>
       <Helmet title={storeName} titleTemplate={pageTitleTemplate} defer={false}>
@@ -72,6 +75,15 @@ export const mainPageQuery = graphql`
               }
             }
           }
+        }
+      }
+    }
+
+    store: site {
+      siteMetadata {
+        gatsbyStorefrontConfig {
+          storeName
+          storeDescription
         }
       }
     }

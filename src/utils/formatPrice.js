@@ -1,7 +1,4 @@
-import config from '../../gatsbystorefront-config';
-const { locales, currency } = config;
-
-export default function formatPrice(price) {
+export default function formatPrice(price, locales, currency) {
   return new Intl.NumberFormat(locales, {
     style: 'currency',
     currency,

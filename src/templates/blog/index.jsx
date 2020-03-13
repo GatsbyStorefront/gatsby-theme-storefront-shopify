@@ -4,10 +4,10 @@ import { Helmet } from 'react-helmet';
 
 import Layout from '../../components/Layout';
 import BlogPage from './BlogPage';
-import { storeName } from '../../../gatsbystorefront-config';
 
 export default props => {
   const { title: blogTitle } = props.data.blog.nodes[0];
+  const { storeName } = props.data.store.siteMetadata.gatsbyStorefrontConfig;
 
   return (
     <Layout>
@@ -48,6 +48,13 @@ export const articlesQuery = graphql`
         title
         fields {
           shopifyThemePath
+        }
+      }
+    }
+    store: site {
+      siteMetadata {
+        gatsbyStorefrontConfig {
+          storeName
         }
       }
     }

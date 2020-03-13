@@ -4,10 +4,10 @@ import { graphql } from 'gatsby';
 
 import ProductPage from './ProductPage';
 import Layout from '../../components/Layout';
-import { storeName } from '../../../gatsbystorefront-config';
 
 export default props => {
   const { title } = props.data.product;
+  const { storeName } = props.data.store.siteMetadata.gatsbyStorefrontConfig;
   return (
     <Layout>
       <Helmet title={title} titleTemplate={`%s — ${storeName}`} defer={false} />
@@ -78,6 +78,15 @@ export const productQuery = graphql`
       handle
       fields {
         shopifyThemePath
+      }
+    }
+    store: site {
+      siteMetadata {
+        gatsbyStorefrontConfig {
+          storeName
+          payments
+          shareButtons
+        }
       }
     }
   }

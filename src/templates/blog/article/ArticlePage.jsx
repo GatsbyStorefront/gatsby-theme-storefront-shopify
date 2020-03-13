@@ -2,7 +2,6 @@ import React from 'react';
 import { Flex, Box, Heading, Text } from 'rebass';
 import { Helmet } from 'react-helmet';
 
-import { storeName } from '../../../../gatsbystorefront-config';
 import GatsbyLink from 'gatsby-link';
 
 const ArticlePage = props => {
@@ -15,6 +14,7 @@ const ArticlePage = props => {
       title: blogTitle,
     },
   } = props.data.articles.nodes[0];
+  const { storeName } = props.data.store.siteMetadata.gatsbyStorefrontConfig;
 
   return (
     <Flex

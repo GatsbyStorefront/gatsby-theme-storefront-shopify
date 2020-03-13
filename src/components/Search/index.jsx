@@ -3,7 +3,7 @@ import { useStaticQuery, graphql } from 'gatsby';
 import GatsbyLink from 'gatsby-link';
 import { Index } from 'elasticlunr';
 import { Flex, Box, Text } from 'rebass';
-import { Label, Input } from '@rebass/forms';
+import { Input } from '@rebass/forms';
 import styled from '@emotion/styled';
 
 import { useSearchContext } from './context';
@@ -81,8 +81,8 @@ const Search = () => {
   return (
     <React.Fragment>
       <SearchIcon
-        width="20px"
-        height="20px"
+        width="24px"
+        height="24px"
         onClick={toggleSidebar}
         sx={{ cursor: 'pointer' }}
       />

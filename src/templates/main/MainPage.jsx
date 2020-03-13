@@ -1,14 +1,39 @@
 import React from 'react';
 import { Flex, Box } from 'rebass';
+import { useStaticQuery, graphql } from 'gatsby';
 
 import MainPageCarousel from './MainPageCarousel';
 import MainPageCollectionBlock from './MainPageCollectionBlock';
 import MainPageProductBlock from './MainPageProductBlock';
 
-import config from '../../../gatsbystorefront-config';
-
 const MainPage = props => {
-  const { mainPage } = config;
+  const dataQuery = useStaticQuery(graphql`
+    query MainPageStaticQuery {
+      site {
+        siteMetadata {
+          gatsbyStorefrontConfig {
+            mainPage {
+              handle
+              type
+              name
+              textBgColor
+              textColor
+              children {
+                handle
+                type
+                name
+                textBgColor
+                textColor
+              }
+            }
+          }
+        }
+      }
+    }
+  `);
+
+  const { mainPage } = dataQuery.site.siteMetadata.gatsbyStorefrontConfig;
+
   const { data } = props;
 
   return (
@@ -21,6 +46,7 @@ const MainPage = props => {
             </Box>
           );
         } else if (block.type === 'header') {
+          return '';
         } else if (
           block.type === 'collection' &&
           data.collections.nodes.filter(
