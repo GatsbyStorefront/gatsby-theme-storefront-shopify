@@ -133,35 +133,7 @@ exports.onCreateNode = async ({ node, actions, cache }, options) => {
   }
 
   if (node.internal.type === `ShopifyArticle`) {
-    let {
-      basePath = '',
-      articlePageBasePath = 'article',
-      blogPageBasePath = 'blog',
-    } = options;
-    const { createNodeField } = actions;
-    basePath = removeTrailingLeadingSlashes(basePath);
-    if (articlePageBasePath.length > 0) {
-      articlePageBasePath = removeTrailingLeadingSlashes(articlePageBasePath);
-    }
-
-    let nodeArticleUrlArray = node.url.split('/');
-    let articleHandle = nodeArticleUrlArray[nodeArticleUrlArray.length - 1];
-
-    let blogs = await cache.get('availableBlogs');
-
-    blogs.forEach(blog => {
-      const { shopifyId, handle: blogHandle } = blog;
-
-      if (shopifyId === node.blog.id) {
-        createNodeField({
-          node,
-          name: 'shopifyThemePath',
-          value: `${basePath && `/${basePath}`}${blogPageBasePath &&
-            `/${blogPageBasePath}`}/${blogHandle}${articlePageBasePath &&
-            `/${articlePageBasePath}`}/${articleHandle}`,
-        });
-      }
-    });
+    await createArticleNode(options, actions, node, cache);
   }
 };
 
@@ -260,6 +232,30 @@ exports.sourceNodes = ({ actions }) => {
     createTypes(typeDefs);
   }
 };
+async function createArticleNode(options, actions, node, cache) {
+  let { basePath = '', articlePageBasePath = 'article', blogPageBasePath = 'blog', } = options;
+  const { createNodeField } = actions;
+  basePath = removeTrailingLeadingSlashes(basePath);
+  if (articlePageBasePath.length > 0) {
+    articlePageBasePath = removeTrailingLeadingSlashes(articlePageBasePath);
+  }
+  let nodeArticleUrlArray = node.url.split('/');
+  let articleHandle = nodeArticleUrlArray[nodeArticleUrlArray.length - 1];
+  let blogs = await cache.get('availableBlogs');
+  blogs.forEach(blog => {
+    const { shopifyId, handle: blogHandle } = blog;
+    if (shopifyId === node.blog.id) {
+      createNodeField({
+        node,
+        name: 'shopifyThemePath',
+        value: `${basePath && `/${basePath}`}${blogPageBasePath &&
+          `/${blogPageBasePath}`}/${blogHandle}${articlePageBasePath &&
+          `/${articlePageBasePath}`}/${articleHandle}`,
+      });
+    }
+  });
+}
+
 async function createMainPage(basePath, graphql, createPage) {
   const mainPagePath = `${basePath && `/${basePath}`}/`;
   const mainPageHandles = await graphql(`
