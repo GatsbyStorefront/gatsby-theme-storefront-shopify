@@ -82,18 +82,7 @@ exports.onCreateNode = async ({ node, actions, cache }, options) => {
   }
 
   if (node.internal.type === `ShopifyPage`) {
-    let { basePath = '', pageBasePath = 'pages' } = options;
-    const { createNodeField } = actions;
-    basePath = removeTrailingLeadingSlashes(basePath);
-    pageBasePath = removeTrailingLeadingSlashes(pageBasePath);
-
-    // Todo: Improve the way this is done. Maybe using the config.json file.
-    createNodeField({
-      node,
-      name: 'shopifyThemePath',
-      value: `${basePath && `/${basePath}`}${pageBasePath &&
-        `/${pageBasePath}`}/${node.handle}`,
-    });
+    createPageNode(options, actions, node);
   }
 
   if (node.internal.type === `ShopifyBlog`) {
@@ -200,6 +189,20 @@ exports.sourceNodes = ({ actions }) => {
     createTypes(typeDefs);
   }
 };
+function createPageNode(options, actions, node) {
+  let { basePath = '', pageBasePath = 'pages' } = options;
+  const { createNodeField } = actions;
+  basePath = removeTrailingLeadingSlashes(basePath);
+  pageBasePath = removeTrailingLeadingSlashes(pageBasePath);
+  // Todo: Improve the way this is done. Maybe using the config.json file.
+  createNodeField({
+    node,
+    name: 'shopifyThemePath',
+    value: `${basePath && `/${basePath}`}${pageBasePath &&
+      `/${pageBasePath}`}/${node.handle}`,
+  });
+}
+
 async function createBlogNode(options, actions, node, cache) {
   let { basePath = '', blogPageBasePath = 'blog' } = options;
   const { createNodeField } = actions;
