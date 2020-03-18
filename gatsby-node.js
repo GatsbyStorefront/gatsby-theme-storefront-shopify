@@ -34,19 +34,7 @@ const getMainPageHandles = mainPage => {
 
 exports.onCreateNode = async ({ node, actions, cache }, options) => {
   if (node.internal.type === `ShopifyProduct`) {
-    let { basePath = '', productPageBasePath = 'product' } = options;
-    const { createNodeField } = actions;
-    basePath = removeTrailingLeadingSlashes(basePath);
-    productPageBasePath = removeTrailingLeadingSlashes(productPageBasePath);
-
-    // Todo: Improve the way this is done. Maybe using the config.json file.
-    createNodeField({
-      node,
-      name: 'shopifyThemePath',
-      value: `${basePath && `/${basePath}`}/${productPageBasePath}/${
-        node.handle
-      }`,
-    });
+    createProductNode(options, actions, node);
   }
 
   if (node.internal.type === `ShopifyCollection`) {
@@ -165,6 +153,19 @@ exports.sourceNodes = ({ actions }) => {
     createTypes(typeDefs);
   }
 };
+function createProductNode(options, actions, node) {
+  let { basePath = '', productPageBasePath = 'product' } = options;
+  const { createNodeField } = actions;
+  basePath = removeTrailingLeadingSlashes(basePath);
+  productPageBasePath = removeTrailingLeadingSlashes(productPageBasePath);
+  // Todo: Improve the way this is done. Maybe using the config.json file.
+  createNodeField({
+    node,
+    name: 'shopifyThemePath',
+    value: `${basePath && `/${basePath}`}/${productPageBasePath}/${node.handle}`,
+  });
+}
+
 function createCollectionNode(options, actions, node) {
   let { basePath = '', collectionPageBasePath = 'collection' } = options;
   const { createNodeField } = actions;
