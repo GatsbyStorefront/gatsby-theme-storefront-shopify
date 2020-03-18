@@ -354,34 +354,7 @@ exports.createPages = async ({ graphql, actions }, options) => {
       });
     });
 
-    const queryArticles = await graphql(`
-      {
-        articles: allShopifyArticle {
-          nodes {
-            shopifyId
-            fields {
-              shopifyThemePath
-            }
-            blog {
-              shopifyId
-            }
-          }
-        }
-      }
-    `);
-
-    queryArticles.data.articles.nodes.forEach(({ shopifyId, fields }) => {
-      const { shopifyThemePath } = fields;
-      createPage({
-        path: shopifyThemePath,
-        component: articleTemplate,
-        context: {
-          shopifyId,
-          // Todo: Find a better way to do this.
-          cartUrl: finalCartPagePath,
-        },
-      });
-    });
+    const queryArticles = await createArticlePages(graphql, createPage, finalCartPagePath);
 
     await createBlogPages(graphql, queryArticles, articlesPerBlogPage, createPage, finalCartPagePath);
   }
@@ -432,6 +405,37 @@ exports.sourceNodes = ({ actions }) => {
     createTypes(typeDefs);
   }
 };
+async function createArticlePages(graphql, createPage, finalCartPagePath) {
+  const queryArticles = await graphql(`
+      {
+        articles: allShopifyArticle {
+          nodes {
+            shopifyId
+            fields {
+              shopifyThemePath
+            }
+            blog {
+              shopifyId
+            }
+          }
+        }
+      }
+    `);
+  queryArticles.data.articles.nodes.forEach(({ shopifyId, fields }) => {
+    const { shopifyThemePath } = fields;
+    createPage({
+      path: shopifyThemePath,
+      component: articleTemplate,
+      context: {
+        shopifyId,
+        // Todo: Find a better way to do this.
+        cartUrl: finalCartPagePath,
+      },
+    });
+  });
+  return queryArticles;
+}
+
 async function createBlogPages(graphql, queryArticles, articlesPerBlogPage, createPage, finalCartPagePath) {
   const queryBlogs = await graphql(`
       {
