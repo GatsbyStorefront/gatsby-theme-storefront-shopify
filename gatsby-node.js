@@ -50,21 +50,7 @@ exports.onCreateNode = async ({ node, actions, cache }, options) => {
   }
 
   if (node.internal.type === `ShopifyCollection`) {
-    let { basePath = '', collectionPageBasePath = 'collection' } = options;
-    const { createNodeField } = actions;
-    basePath = removeTrailingLeadingSlashes(basePath);
-    collectionPageBasePath = removeTrailingLeadingSlashes(
-      collectionPageBasePath
-    );
-
-    // Todo: Improve the way this is done. Maybe using the config.json file.
-    createNodeField({
-      node,
-      name: 'shopifyThemePath',
-      value: `${basePath && `/${basePath}`}/${collectionPageBasePath}/${
-        node.handle
-      }`,
-    });
+    createCollectionNode(options, actions, node);
   }
 
   if (node.internal.type === `ShopifyShopPolicy`) {
@@ -179,6 +165,19 @@ exports.sourceNodes = ({ actions }) => {
     createTypes(typeDefs);
   }
 };
+function createCollectionNode(options, actions, node) {
+  let { basePath = '', collectionPageBasePath = 'collection' } = options;
+  const { createNodeField } = actions;
+  basePath = removeTrailingLeadingSlashes(basePath);
+  collectionPageBasePath = removeTrailingLeadingSlashes(collectionPageBasePath);
+  // Todo: Improve the way this is done. Maybe using the config.json file.
+  createNodeField({
+    node,
+    name: 'shopifyThemePath',
+    value: `${basePath && `/${basePath}`}/${collectionPageBasePath}/${node.handle}`,
+  });
+}
+
 function createShopPolicyNode(options, actions, node) {
   let { basePath = '', policyPageBasePath = 'policy' } = options;
   const { createNodeField } = actions;
