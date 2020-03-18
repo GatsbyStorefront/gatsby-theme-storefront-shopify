@@ -33,29 +33,26 @@ const getMainPageHandles = mainPage => {
 };
 
 exports.onCreateNode = async ({ node, actions, cache }, options) => {
-  if (node.internal.type === `ShopifyProduct`) {
-    createProductNode(options, actions, node);
-  }
-
-  if (node.internal.type === `ShopifyCollection`) {
-    createCollectionNode(options, actions, node);
-  }
-
-  if (node.internal.type === `ShopifyShopPolicy`) {
-    createShopPolicyNode(options, actions, node);
-  }
-
-  if (node.internal.type === `ShopifyPage`) {
-    createPageNode(options, actions, node);
-  }
-
-  if (node.internal.type === `ShopifyBlog`) {
-    await createBlogNode(options, actions, node, cache);
-  }
-
-  if (node.internal.type === `ShopifyArticle`) {
-    await createArticleNode(options, actions, node, cache);
-  }
+  switch (node.internal.type) {
+    case `ShopifyProduct`:
+      createProductNode(options, actions, node);
+      break;
+    case `ShopifyCollection`:
+      createCollectionNode(options, actions, node);
+      break;
+    case `ShopifyShopPolicy`:
+      createShopPolicyNode(options, actions, node);
+      break;
+    case `ShopifyPage`:
+      createPageNode(options, actions, node);
+      break;
+    case `ShopifyBlog`:
+      await createBlogNode(options, actions, node, cache);
+      break;
+    case `ShopifyArticle`:
+      await createArticleNode(options, actions, node, cache);
+      break; 
+    }
 };
 
 exports.createPages = async ({ graphql, actions }, options) => {
