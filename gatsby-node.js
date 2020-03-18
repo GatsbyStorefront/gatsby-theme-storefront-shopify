@@ -329,30 +329,7 @@ exports.createPages = async ({ graphql, actions }, options) => {
 
   // In case Shopify Lite plan we don't have data to create Pages, Blogs and Articles
   if (!isShopifyLite) {
-    const queryPages = await graphql(`
-      {
-        pages: allShopifyPage {
-          nodes {
-            handle
-            fields {
-              shopifyThemePath
-            }
-          }
-        }
-      }
-    `);
-    queryPages.data.pages.nodes.forEach(({ handle, fields }) => {
-      const { shopifyThemePath } = fields;
-      createPage({
-        path: shopifyThemePath,
-        component: pageTemplate,
-        context: {
-          handle,
-          // Todo: Find a better way to do this.
-          cartUrl: finalCartPagePath,
-        },
-      });
-    });
+    await createPagePages(graphql, createPage, finalCartPagePath);
 
     const queryArticles = await createArticlePages(graphql, createPage, finalCartPagePath);
 
@@ -405,6 +382,33 @@ exports.sourceNodes = ({ actions }) => {
     createTypes(typeDefs);
   }
 };
+async function createPagePages(graphql, createPage, finalCartPagePath) {
+  const queryPages = await graphql(`
+      {
+        pages: allShopifyPage {
+          nodes {
+            handle
+            fields {
+              shopifyThemePath
+            }
+          }
+        }
+      }
+    `);
+  queryPages.data.pages.nodes.forEach(({ handle, fields }) => {
+    const { shopifyThemePath } = fields;
+    createPage({
+      path: shopifyThemePath,
+      component: pageTemplate,
+      context: {
+        handle,
+        // Todo: Find a better way to do this.
+        cartUrl: finalCartPagePath,
+      },
+    });
+  });
+}
+
 async function createArticlePages(graphql, createPage, finalCartPagePath) {
   const queryArticles = await graphql(`
       {
