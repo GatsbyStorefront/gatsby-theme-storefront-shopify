@@ -97,39 +97,7 @@ exports.onCreateNode = async ({ node, actions, cache }, options) => {
   }
 
   if (node.internal.type === `ShopifyBlog`) {
-    let { basePath = '', blogPageBasePath = 'blog' } = options;
-    const { createNodeField } = actions;
-    basePath = removeTrailingLeadingSlashes(basePath);
-    if (blogPageBasePath.length > 0) {
-      blogPageBasePath = removeTrailingLeadingSlashes(blogPageBasePath);
-    }
-
-    let nodeUrlArray = node.url.split('/');
-    let blogHandle = nodeUrlArray[nodeUrlArray.length - 1];
-
-    // As while creating only new nodes we do not know about already existing
-    // We need to store information about blogs received early in cache.
-    // 1. Push new blogs to array
-    availableBlogs.push({
-      shopifyId: node.shopifyId,
-      handle: blogHandle,
-    });
-    // 2. Receive already known blogs from cache
-    let blogs = await cache.get('availableBlogs');
-    // 3. Concat new blogs with already known
-    if (blogs && blogs.length > 0) {
-      availableBlogs = availableBlogs.concat(blogs);
-    }
-    // 4. Write back to cache
-    await cache.set('availableBlogs', availableBlogs);
-
-    // Todo: Improve the way this is done. Maybe using the config.json file.
-    createNodeField({
-      node,
-      name: 'shopifyThemePath',
-      value: `${basePath && `/${basePath}`}${blogPageBasePath &&
-        `/${blogPageBasePath}`}/${blogHandle}`,
-    });
+    await createBlogNode(options, actions, node, cache);
   }
 
   if (node.internal.type === `ShopifyArticle`) {
@@ -232,6 +200,39 @@ exports.sourceNodes = ({ actions }) => {
     createTypes(typeDefs);
   }
 };
+async function createBlogNode(options, actions, node, cache) {
+  let { basePath = '', blogPageBasePath = 'blog' } = options;
+  const { createNodeField } = actions;
+  basePath = removeTrailingLeadingSlashes(basePath);
+  if (blogPageBasePath.length > 0) {
+    blogPageBasePath = removeTrailingLeadingSlashes(blogPageBasePath);
+  }
+  let nodeUrlArray = node.url.split('/');
+  let blogHandle = nodeUrlArray[nodeUrlArray.length - 1];
+  // As while creating only new nodes we do not know about already existing
+  // We need to store information about blogs received early in cache.
+  // 1. Push new blogs to array
+  availableBlogs.push({
+    shopifyId: node.shopifyId,
+    handle: blogHandle,
+  });
+  // 2. Receive already known blogs from cache
+  let blogs = await cache.get('availableBlogs');
+  // 3. Concat new blogs with already known
+  if (blogs && blogs.length > 0) {
+    availableBlogs = availableBlogs.concat(blogs);
+  }
+  // 4. Write back to cache
+  await cache.set('availableBlogs', availableBlogs);
+  // Todo: Improve the way this is done. Maybe using the config.json file.
+  createNodeField({
+    node,
+    name: 'shopifyThemePath',
+    value: `${basePath && `/${basePath}`}${blogPageBasePath &&
+      `/${blogPageBasePath}`}/${blogHandle}`,
+  });
+}
+
 async function createArticleNode(options, actions, node, cache) {
   let { basePath = '', articlePageBasePath = 'article', blogPageBasePath = 'blog', } = options;
   const { createNodeField } = actions;
