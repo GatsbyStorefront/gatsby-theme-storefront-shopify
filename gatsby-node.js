@@ -231,50 +231,7 @@ exports.createPages = async ({ graphql, actions }, options) => {
     },
   });
 
-  const queryCollections = await graphql(`
-    {
-      collections: allShopifyCollection {
-        nodes {
-          handle
-          products {
-            id
-          }
-          fields {
-            shopifyThemePath
-          }
-        }
-      }
-    }
-  `);
-  queryCollections.data.collections.nodes.forEach(
-    ({ handle, products, fields }) => {
-      let { shopifyThemePath } = fields;
-      let collectionProductsCount = products.length;
-      let productsPerPage = parseInt(productsPerCollectionPage);
-      let numPages = Math.ceil(collectionProductsCount / productsPerPage);
-
-      Array.from({
-        length: numPages,
-      }).forEach((_, i) => {
-        createPage({
-          path:
-            i === 0 ? `${shopifyThemePath}` : `${shopifyThemePath}/${i + 1}`,
-          component: catalogTemplate,
-          context: {
-            handle,
-            shopifyThemePath,
-            limit: productsPerPage,
-            skip: i * productsPerPage,
-            numPages,
-            currentPage: i + 1,
-
-            // Todo: Find a better way to do this.
-            cartUrl: finalCartPagePath,
-          },
-        });
-      });
-    }
-  );
+  await createCollectionsPages(graphql, productsPerCollectionPage, createPage, finalCartPagePath);
 
   await createProductsPages(graphql, createPage, finalCartPagePath);
 
@@ -335,6 +292,48 @@ exports.sourceNodes = ({ actions }) => {
     createTypes(typeDefs);
   }
 };
+async function createCollectionsPages(graphql, productsPerCollectionPage, createPage, finalCartPagePath) {
+  const queryCollections = await graphql(`
+    {
+      collections: allShopifyCollection {
+        nodes {
+          handle
+          products {
+            id
+          }
+          fields {
+            shopifyThemePath
+          }
+        }
+      }
+    }
+  `);
+  queryCollections.data.collections.nodes.forEach(({ handle, products, fields }) => {
+    let { shopifyThemePath } = fields;
+    let collectionProductsCount = products.length;
+    let productsPerPage = parseInt(productsPerCollectionPage);
+    let numPages = Math.ceil(collectionProductsCount / productsPerPage);
+    Array.from({
+      length: numPages,
+    }).forEach((_, i) => {
+      createPage({
+        path: i === 0 ? `${shopifyThemePath}` : `${shopifyThemePath}/${i + 1}`,
+        component: catalogTemplate,
+        context: {
+          handle,
+          shopifyThemePath,
+          limit: productsPerPage,
+          skip: i * productsPerPage,
+          numPages,
+          currentPage: i + 1,
+          // Todo: Find a better way to do this.
+          cartUrl: finalCartPagePath,
+        },
+      });
+    });
+  });
+}
+
 async function createProductsPages(graphql, createPage, finalCartPagePath) {
   const queryProducts = await graphql(`
     {
