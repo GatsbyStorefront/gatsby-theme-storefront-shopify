@@ -197,39 +197,7 @@ exports.createPages = async ({ graphql, actions }, options) => {
     component: cartTemplate,
   });
 
-  const mainPagePath = `${basePath && `/${basePath}`}/`;
-  const mainPageHandles = await graphql(`
-    {
-      site {
-        siteMetadata {
-          gatsbyStorefrontConfig {
-            mainPage {
-              handle
-              type
-              children {
-                handle
-                type
-              }
-            }
-          }
-        }
-      }
-    }
-  `);
-  const mainPageHandlesArray = getMainPageHandles(
-    JSON.parse(
-      JSON.stringify(
-        mainPageHandles.data.site.siteMetadata.gatsbyStorefrontConfig.mainPage
-      )
-    )
-  );
-  createPage({
-    path: mainPagePath,
-    component: mainPageTemplate,
-    context: {
-      handles: mainPageHandlesArray,
-    },
-  });
+  await createMainPage(basePath, graphql, createPage);
 
   await createCollectionsPages(graphql, productsPerCollectionPage, createPage, finalCartPagePath);
 
@@ -292,6 +260,36 @@ exports.sourceNodes = ({ actions }) => {
     createTypes(typeDefs);
   }
 };
+async function createMainPage(basePath, graphql, createPage) {
+  const mainPagePath = `${basePath && `/${basePath}`}/`;
+  const mainPageHandles = await graphql(`
+    {
+      site {
+        siteMetadata {
+          gatsbyStorefrontConfig {
+            mainPage {
+              handle
+              type
+              children {
+                handle
+                type
+              }
+            }
+          }
+        }
+      }
+    }
+  `);
+  const mainPageHandlesArray = getMainPageHandles(JSON.parse(JSON.stringify(mainPageHandles.data.site.siteMetadata.gatsbyStorefrontConfig.mainPage)));
+  createPage({
+    path: mainPagePath,
+    component: mainPageTemplate,
+    context: {
+      handles: mainPageHandlesArray,
+    },
+  });
+}
+
 async function createCollectionsPages(graphql, productsPerCollectionPage, createPage, finalCartPagePath) {
   const queryCollections = await graphql(`
     {
