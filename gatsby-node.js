@@ -276,31 +276,7 @@ exports.createPages = async ({ graphql, actions }, options) => {
     }
   );
 
-  const queryProducts = await graphql(`
-    {
-      products: allShopifyProduct {
-        nodes {
-          handle
-          fields {
-            shopifyThemePath
-          }
-        }
-      }
-    }
-  `);
-  queryProducts.data.products.nodes.forEach(({ handle, fields }) => {
-    const { shopifyThemePath } = fields;
-    createPage({
-      path: shopifyThemePath,
-      component: productTemplate,
-      context: {
-        handle,
-
-        // Todo: Find a better way to do this.
-        cartUrl: finalCartPagePath,
-      },
-    });
-  });
+  await createProductsPages(graphql, createPage, finalCartPagePath);
 
   await createPoliciesPages(graphql, createPage, finalCartPagePath);
 
@@ -359,6 +335,33 @@ exports.sourceNodes = ({ actions }) => {
     createTypes(typeDefs);
   }
 };
+async function createProductsPages(graphql, createPage, finalCartPagePath) {
+  const queryProducts = await graphql(`
+    {
+      products: allShopifyProduct {
+        nodes {
+          handle
+          fields {
+            shopifyThemePath
+          }
+        }
+      }
+    }
+  `);
+  queryProducts.data.products.nodes.forEach(({ handle, fields }) => {
+    const { shopifyThemePath } = fields;
+    createPage({
+      path: shopifyThemePath,
+      component: productTemplate,
+      context: {
+        handle,
+        // Todo: Find a better way to do this.
+        cartUrl: finalCartPagePath,
+      },
+    });
+  });
+}
+
 async function createPoliciesPages(graphql, createPage, finalCartPagePath) {
   const queryPolicies = await graphql(`
     {
