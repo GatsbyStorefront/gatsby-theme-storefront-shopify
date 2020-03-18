@@ -383,50 +383,7 @@ exports.createPages = async ({ graphql, actions }, options) => {
       });
     });
 
-    const queryBlogs = await graphql(`
-      {
-        blogs: allShopifyBlog {
-          nodes {
-            shopifyId
-            fields {
-              shopifyThemePath
-            }
-          }
-        }
-      }
-    `);
-
-    queryBlogs.data.blogs.nodes.forEach(({ shopifyId, fields }) => {
-      let { shopifyThemePath } = fields;
-      let articlesArray = queryArticles.data.articles.nodes.filter(node => {
-        return shopifyId === node.blog.shopifyId;
-      });
-
-      let articlesCount = articlesArray.length;
-      let articlesPerPage = parseInt(articlesPerBlogPage);
-      let numPages = Math.ceil(articlesCount / articlesPerPage);
-
-      Array.from({
-        length: numPages,
-      }).forEach((_, i) => {
-        createPage({
-          path:
-            i === 0 ? `${shopifyThemePath}` : `${shopifyThemePath}/${i + 1}`,
-          component: blogTemplate,
-          context: {
-            shopifyId,
-            shopifyThemePath,
-            limit: articlesPerPage,
-            skip: i * articlesPerPage,
-            numPages,
-            currentPage: i + 1,
-
-            // Todo: Find a better way to do this.
-            cartUrl: finalCartPagePath,
-          },
-        });
-      });
-    });
+    await createBlogPages(graphql, queryArticles, articlesPerBlogPage, createPage, finalCartPagePath);
   }
 };
 
@@ -475,3 +432,45 @@ exports.sourceNodes = ({ actions }) => {
     createTypes(typeDefs);
   }
 };
+async function createBlogPages(graphql, queryArticles, articlesPerBlogPage, createPage, finalCartPagePath) {
+  const queryBlogs = await graphql(`
+      {
+        blogs: allShopifyBlog {
+          nodes {
+            shopifyId
+            fields {
+              shopifyThemePath
+            }
+          }
+        }
+      }
+    `);
+  queryBlogs.data.blogs.nodes.forEach(({ shopifyId, fields }) => {
+    let { shopifyThemePath } = fields;
+    let articlesArray = queryArticles.data.articles.nodes.filter(node => {
+      return shopifyId === node.blog.shopifyId;
+    });
+    let articlesCount = articlesArray.length;
+    let articlesPerPage = parseInt(articlesPerBlogPage);
+    let numPages = Math.ceil(articlesCount / articlesPerPage);
+    Array.from({
+      length: numPages,
+    }).forEach((_, i) => {
+      createPage({
+        path: i === 0 ? `${shopifyThemePath}` : `${shopifyThemePath}/${i + 1}`,
+        component: blogTemplate,
+        context: {
+          shopifyId,
+          shopifyThemePath,
+          limit: articlesPerPage,
+          skip: i * articlesPerPage,
+          numPages,
+          currentPage: i + 1,
+          // Todo: Find a better way to do this.
+          cartUrl: finalCartPagePath,
+        },
+      });
+    });
+  });
+}
+
