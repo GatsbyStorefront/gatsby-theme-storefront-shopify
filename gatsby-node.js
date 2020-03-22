@@ -32,6 +32,10 @@ const getMainPageHandles = mainPage => {
   return handles;
 };
 
+exports.onPreInit = (_, pluginOptions) => {
+  isShopifyLite = pluginOptions.shopifyLite;
+}
+
 exports.onCreateNode = async ({ node, actions, cache }, options) => {
   switch (node.internal.type) {
     case `ShopifyProduct`:
@@ -61,7 +65,6 @@ exports.createPages = async ({ graphql, actions }, options) => {
       site {
         siteMetadata {
           gatsbyStorefrontConfig {
-            shopifyLite
             productsPerCollectionPage
             articlesPerBlogPage
           }
@@ -72,9 +75,7 @@ exports.createPages = async ({ graphql, actions }, options) => {
   const {
     productsPerCollectionPage = 9,
     articlesPerBlogPage = 6,
-    shopifyLite = false,
   } = gatsbyStorefrontConfig.data.site.siteMetadata.gatsbyStorefrontConfig;
-  isShopifyLite = shopifyLite;
 
   const { createPage } = actions;
   let { cartPagePath = 'cart', basePath = '' } = options;
@@ -110,44 +111,47 @@ exports.createSchemaCustomization =({ actions }) => {
   // In case using Shopify Lite plan GraphQL nodes for Articles and Pages are not created.
   // While build process GatsbyJS extracts queries and checks them against schema (see https://www.gatsbyjs.org/docs/query-extraction/).
   // Here we are creating mock data, so the queries could pass validation.
-  
-  const typeDefs = `
-      type ShopifyArticleFields {
-        shopifyThemePath: String
-      }
-      type ShopifyBlog implements Node {
-        Name: String
-        title: String
-        url: String
-        shopifyId: String
-        fields: ShopifyArticleFields
-      }
-      type ShopifyArticle implements Node {
-        Name: String
-        content: String
-        contentHtml: String
-        excerpt: String
-        excerptHtml: String
-        blog: ShopifyBlog
-        publishedAt(formatString: String): Date
-        title: String
-        url: String
-        shopifyId: String
-        fields: ShopifyArticleFields
-      }
-      type ShopifyPage implements Node {
-        Name: String
-        handle: String
-        title: String
-        body: String
-        bodySummary: String
-        updatedAt(formatString: String): Date
-        url: String
-        shopifyId: String
-        fields: ShopifyArticleFields
-      }
-  `;
-  createTypes(typeDefs);
+  if (isShopifyLite){
+    console.log('>>>>>>>>>>>>>>', isShopifyLite);
+
+    const typeDefs = `
+        type ShopifyArticleFields {
+          shopifyThemePath: String
+        }
+        type ShopifyBlog implements Node {
+          Name: String
+          title: String
+          url: String
+          shopifyId: String
+          fields: ShopifyArticleFields
+        }
+        type ShopifyArticle implements Node {
+          Name: String
+          content: String
+          contentHtml: String
+          excerpt: String
+          excerptHtml: String
+          blog: ShopifyBlog
+          publishedAt(formatString: String): Date
+          title: String
+          url: String
+          shopifyId: String
+          fields: ShopifyArticleFields
+        }
+        type ShopifyPage implements Node {
+          Name: String
+          handle: String
+          title: String
+          body: String
+          bodySummary: String
+          updatedAt(formatString: String): Date
+          url: String
+          shopifyId: String
+          fields: ShopifyArticleFields
+        }
+    `;
+    createTypes(typeDefs);
+  }
 };
 
 const createProductNode = (options, actions, node) => {

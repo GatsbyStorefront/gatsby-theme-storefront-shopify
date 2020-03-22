@@ -1,4 +1,4 @@
-module.exports = ({ shopName, accessToken }) => ({
+module.exports = ({ shopName, accessToken, shopifyLite = false }) => ({
   plugins: [
     {
       resolve: 'gatsby-source-shopify',
@@ -76,7 +76,7 @@ module.exports = ({ shopName, accessToken }) => ({
       // For available socia share buttons see: https://github.com/nygardk/react-share
       shareButtons: [],
       googleAnalyticsId: 'UA-141525658-3',
-      shopifyLite: false,
+      isShopifyLite: shopifyLite,
       //
       // carousel, collection, product
       //

@@ -97,6 +97,7 @@ module.exports = {
         shopName: process.env.GATSBY_SHOP_NAME,
         accessToken: process.env.GATSBY_SHOPIFY_ACCESS_TOKEN,
         basePath: '/',
+        shopifyLite: ; false,
       },
     },
   ],
@@ -117,7 +118,7 @@ Please make sure that your Shopify web store has at least one [Collection](https
 
 ### A setup for Shopify Lite plan
 
-If you are using Shopify Lite plan. Please set `shopifyLite` property to `ture` in `gatsby-config.js`. This will disable generation of pages for Blog and Pages as they are not avalible in "Lite" plan.
+If you are using Shopify Lite plan. Please set `shopifyLite` property to `true` in `@gatsbystorefront/gatsby-theme-storefront-shopify` plugin `options` in `gatsby-config.js`. This will disable generation of pages for Blog and Pages as they are not avalible in "Lite" plan.
 
 ### Starter
 
