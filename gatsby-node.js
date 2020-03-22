@@ -150,7 +150,7 @@ exports.createSchemaCustomization =({ actions }) => {
   createTypes(typeDefs);
 };
 
-function createProductNode(options, actions, node) {
+const createProductNode = (options, actions, node) => {
   let { basePath = '', productPageBasePath = 'product' } = options;
   const { createNodeField } = actions;
   basePath = removeTrailingLeadingSlashes(basePath);
@@ -163,7 +163,7 @@ function createProductNode(options, actions, node) {
   });
 }
 
-function createCollectionNode(options, actions, node) {
+const createCollectionNode = (options, actions, node) => {
   let { basePath = '', collectionPageBasePath = 'collection' } = options;
   const { createNodeField } = actions;
   basePath = removeTrailingLeadingSlashes(basePath);
@@ -176,7 +176,7 @@ function createCollectionNode(options, actions, node) {
   });
 }
 
-function createShopPolicyNode(options, actions, node) {
+const createShopPolicyNode = (options, actions, node) => {
   let { basePath = '', policyPageBasePath = 'policy' } = options;
   const { createNodeField } = actions;
   basePath = removeTrailingLeadingSlashes(basePath);
@@ -189,7 +189,7 @@ function createShopPolicyNode(options, actions, node) {
   });
 }
 
-function createPageNode(options, actions, node) {
+const createPageNode = (options, actions, node) => {
   let { basePath = '', pageBasePath = 'pages' } = options;
   const { createNodeField } = actions;
   basePath = removeTrailingLeadingSlashes(basePath);
@@ -203,7 +203,7 @@ function createPageNode(options, actions, node) {
   });
 }
 
-async function createBlogNode(options, actions, node, cache) {
+const createBlogNode = async (options, actions, node, cache) => {
   let { basePath = '', blogPageBasePath = 'blog' } = options;
   const { createNodeField } = actions;
   basePath = removeTrailingLeadingSlashes(basePath);
@@ -236,7 +236,7 @@ async function createBlogNode(options, actions, node, cache) {
   });
 }
 
-async function createArticleNode(options, actions, node, cache) {
+const createArticleNode = async (options, actions, node, cache) => {
   let { basePath = '', articlePageBasePath = 'article', blogPageBasePath = 'blog', } = options;
   const { createNodeField } = actions;
   basePath = removeTrailingLeadingSlashes(basePath);
@@ -260,7 +260,7 @@ async function createArticleNode(options, actions, node, cache) {
   });
 }
 
-async function createMainPage(basePath, graphql, createPage) {
+const createMainPage = async (basePath, graphql, createPage) => {
   const mainPagePath = `${basePath && `/${basePath}`}/`;
   const mainPageHandles = await graphql(`
     {
@@ -290,7 +290,7 @@ async function createMainPage(basePath, graphql, createPage) {
   });
 }
 
-async function createCollectionsPages(graphql, productsPerCollectionPage, createPage, finalCartPagePath) {
+const createCollectionsPages = async (graphql, productsPerCollectionPage, createPage, finalCartPagePath) => {
   const queryCollections = await graphql(`
     {
       collections: allShopifyCollection {
@@ -332,7 +332,7 @@ async function createCollectionsPages(graphql, productsPerCollectionPage, create
   });
 }
 
-async function createProductsPages(graphql, createPage, finalCartPagePath) {
+const createProductsPages = async (graphql, createPage, finalCartPagePath) => {
   const queryProducts = await graphql(`
     {
       products: allShopifyProduct {
@@ -359,7 +359,7 @@ async function createProductsPages(graphql, createPage, finalCartPagePath) {
   });
 }
 
-async function createPoliciesPages(graphql, createPage, finalCartPagePath) {
+const createPoliciesPages = async (graphql, createPage, finalCartPagePath) => {
   const queryPolicies = await graphql(`
     {
       policies: allShopifyShopPolicy {
@@ -386,7 +386,7 @@ async function createPoliciesPages(graphql, createPage, finalCartPagePath) {
   });
 }
 
-async function createPagePages(graphql, createPage, finalCartPagePath) {
+const createPagePages = async (graphql, createPage, finalCartPagePath) => {
   const queryPages = await graphql(`
       {
         pages: allShopifyPage {
@@ -413,7 +413,7 @@ async function createPagePages(graphql, createPage, finalCartPagePath) {
   });
 }
 
-async function createArticlePages(graphql, createPage, finalCartPagePath) {
+const createArticlePages = async (graphql, createPage, finalCartPagePath) => {
   const queryArticles = await graphql(`
       {
         articles: allShopifyArticle {
@@ -444,7 +444,7 @@ async function createArticlePages(graphql, createPage, finalCartPagePath) {
   return queryArticles;
 }
 
-async function createBlogPages(graphql, queryArticles, articlesPerBlogPage, createPage, finalCartPagePath) {
+const createBlogPages = async (graphql, queryArticles, articlesPerBlogPage, createPage, finalCartPagePath) => {
   const queryBlogs = await graphql(`
       {
         blogs: allShopifyBlog {
