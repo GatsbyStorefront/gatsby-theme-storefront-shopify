@@ -1,6 +1,6 @@
 <p align="center">
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 <img alt="Logo" src="https://gatsbystorefront-static.now.sh/gatsbystorefront_readme_logo.png"/>
 </p>
@@ -194,7 +194,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://pavelivanov.net"><img src="https://avatars3.githubusercontent.com/u/202422?v=4" width="100px;" alt=""/><br /><sub><b>Pavel</b></sub></a><br /><a href="https://github.com/paveli/@gatsbystorefront/gatsby-theme-storefront-shopify/commits?author=paveli" title="Code">💻</a> <a href="#design-paveli" title="Design">🎨</a> <a href="https://github.com/paveli/@gatsbystorefront/gatsby-theme-storefront-shopify/commits?author=paveli" title="Documentation">📖</a> <a href="#example-paveli" title="Examples">💡</a> <a href="#ideas-paveli" title="Ideas, Planning, & Feedback">🤔</a> <a href="#projectManagement-paveli" title="Project Management">📆</a> <a href="https://github.com/paveli/@gatsbystorefront/gatsby-theme-storefront-shopify/pulls?q=is%3Apr+reviewed-by%3Apaveli" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://pavelivanov.net"><img src="https://avatars3.githubusercontent.com/u/202422?v=4" width="100px;" alt=""/><br /><sub><b>Pavel</b></sub></a><br /><a href="https://github.com/GatsbyStorefront/gatsby-theme-storefront-shopify/commits?author=paveli" title="Code">💻</a> <a href="#design-paveli" title="Design">🎨</a> <a href="https://github.com/GatsbyStorefront/gatsby-theme-storefront-shopify/commits?author=paveli" title="Documentation">📖</a> <a href="#example-paveli" title="Examples">💡</a> <a href="#ideas-paveli" title="Ideas, Planning, & Feedback">🤔</a> <a href="#projectManagement-paveli" title="Project Management">📆</a> <a href="https://github.com/GatsbyStorefront/gatsby-theme-storefront-shopify/pulls?q=is%3Apr+reviewed-by%3Apaveli" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/mimibar"><img src="https://avatars2.githubusercontent.com/u/2718783?v=4" width="100px;" alt=""/><br /><sub><b>mimibar</b></sub></a><br /><a href="https://github.com/GatsbyStorefront/gatsby-theme-storefront-shopify/issues?q=author%3Amimibar" title="Bug reports">🐛</a> <a href="https://github.com/GatsbyStorefront/gatsby-theme-storefront-shopify/commits?author=mimibar" title="Code">💻</a></td>
   </tr>
 </table>
 
