@@ -1,16 +1,24 @@
 {
-  "files": ["README.md"],
+  "projectName": "@gatsbystorefront/gatsby-theme-storefront-shopify",
+  "projectOwner": "paveli",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
   "imageSize": 100,
-  "contributorsPerLine": 7,
-  "badgeTemplate": "[![All Contributors](https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg?style=flat-square)](#contributors)",
-  "contributorTemplate": "<%= avatarBlock %><br /><%= contributions %>",
-  "types": {
-    "custom": {
-      "symbol": "🔭",
-      "description": "A custom contribution type.",
-      "link": "[<%= symbol %>](<%= url %> \"<%= description %>\"),"
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "paveli",
+      "name": "Pavel",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/202422?v=4",
+      "profile": "https://pavelivanov.net",
+      "contributions": [
+        "code"
+      ]
     }
-  },
-  "skipCi": "true",
-  "contributors": []
+  ],
+  "contributorsPerLine": 7
 }
