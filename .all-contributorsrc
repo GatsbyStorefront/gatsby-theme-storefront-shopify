@@ -16,7 +16,13 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/202422?v=4",
       "profile": "https://pavelivanov.net",
       "contributions": [
-        "code"
+        "code",
+        "design",
+        "doc",
+        "example",
+        "ideas",
+        "projectManagement",
+        "review"
       ]
     }
   ],
