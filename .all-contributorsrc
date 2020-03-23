@@ -1,6 +1,6 @@
 {
-  "projectName": "@gatsbystorefront/gatsby-theme-storefront-shopify",
-  "projectOwner": "paveli",
+  "projectName": "gatsby-theme-storefront-shopify",
+  "projectOwner": "GatsbyStorefront",
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [
@@ -24,7 +24,18 @@
         "projectManagement",
         "review"
       ]
+    },
+    {
+      "login": "mimibar",
+      "name": "mimibar",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/2718783?v=4",
+      "profile": "https://github.com/mimibar",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
-  "contributorsPerLine": 7
+  "contributorsPerLine": 7,
+  "skipCi": true
 }
