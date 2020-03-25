@@ -97,7 +97,8 @@ module.exports = {
         shopName: process.env.GATSBY_SHOP_NAME,
         accessToken: process.env.GATSBY_SHOPIFY_ACCESS_TOKEN,
         basePath: '/',
-        shopifyLite: false,
+        shopifyLite: false, // default 'false'
+        enableWebp: true, // default 'true'
       },
     },
   ],

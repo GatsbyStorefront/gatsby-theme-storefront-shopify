@@ -34,9 +34,8 @@ const IndividualProduct = ({ product }) => {
     availableForSale,
     variants,
     title,
-    images,
     tags,
-    fields: { shopifyThemePath },
+    fields: { shopifyThemePath, firstImage },
     cartUrl,
   } = product;
 
@@ -186,10 +185,10 @@ const IndividualProduct = ({ product }) => {
               to={shopifyThemePath}
               style={{ textDecoration: 'none' }}
             >
-              {images && images.length > 0 ? (
+              {firstImage && firstImage.localFile ? (
                 <Image
                   alt={title}
-                  fluid={images['0'].localFile.childImageSharp.fluid}
+                  fluid={firstImage.localFile.childImageSharp.fluid}
                 />
               ) : (
                 <NoImage width="100%" height="100%" color="grey" p={4} />

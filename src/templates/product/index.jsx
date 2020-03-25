@@ -17,7 +17,7 @@ export default props => {
 };
 
 export const productQuery = graphql`
-  query SingleProductQuery($handle: String!) {
+  query SingleProductQuery($handle: String!, $enableWebp: Boolean!) {
     product: shopifyProduct(handle: { eq: $handle }) {
       title
       description
@@ -28,12 +28,38 @@ export const productQuery = graphql`
         id
         altText
         localFile {
-          childImageSharp {
-            main: fluid(maxWidth: 800) {
+          childImageSharp @include(if: $enableWebp) {
+            main: fluid(
+              maxWidth: 800
+              srcSetBreakpoints: [400, 800]
+              webpQuality: 85
+            ) {
               ...GatsbyImageSharpFluid_withWebp
             }
-            thumbnail: fluid(maxWidth: 200, maxHeight: 200) {
+            thumbnail: fluid(
+              maxWidth: 90
+              maxHeight: 90
+              srcSetBreakpoints: [90]
+              webpQuality: 75
+            ) {
               ...GatsbyImageSharpFluid_withWebp
+            }
+          }
+          childImageSharp @skip(if: $enableWebp) {
+            main: fluid(
+              maxWidth: 800
+              srcSetBreakpoints: [400, 800]
+              webpQuality: 85
+            ) {
+              ...GatsbyImageSharpFluid
+            }
+            thumbnail: fluid(
+              maxWidth: 90
+              maxHeight: 90
+              srcSetBreakpoints: [90]
+              webpQuality: 75
+            ) {
+              ...GatsbyImageSharpFluid
             }
           }
         }
@@ -47,20 +73,6 @@ export const productQuery = graphql`
         sku
         weight
         weightUnit
-        image {
-          id
-          altText
-          localFile {
-            childImageSharp {
-              main: fluid(maxWidth: 800) {
-                ...GatsbyImageSharpFluid_withWebp
-              }
-              thumbnail: fluid(maxWidth: 200, maxHeight: 200) {
-                ...GatsbyImageSharpFluid_withWebp
-              }
-            }
-          }
-        }
         selectedOptions {
           name
           value

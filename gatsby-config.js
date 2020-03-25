@@ -24,7 +24,14 @@ module.exports = ({ shopName, accessToken, shopifyLite = false }) => ({
       },
     },
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-sharp',
+    {
+      resolve: `gatsby-plugin-sharp`,
+      options: {
+        useMozJpeg: false,
+        stripMetadata: true,
+        defaultQuality: 75,
+      },
+    },
     'gatsby-transformer-sharp',
     'gatsby-plugin-theme-ui',
     'gatsby-plugin-sitemap',
@@ -78,80 +85,9 @@ module.exports = ({ shopName, accessToken, shopifyLite = false }) => ({
       googleAnalyticsId: 'UA-141525658-3',
       isShopifyLite: shopifyLite,
       //
-      // carousel, collection, product
+      // Main page types: "carousel", "collection", "product"
       //
-      mainPage: [
-        {
-          type: 'carousel',
-          children: [
-            {
-              name: 'Jewelery',
-              type: 'collection',
-              handle: 'jewelery',
-            },
-            {
-              name: 'Apparel',
-              type: 'collection',
-              handle: 'apparel',
-              textColor: 'white',
-              textBgColor: 'primary',
-            },
-            {
-              name: 'Silk Summer Top',
-              type: 'product',
-              handle: 'silk-summer-top',
-              textColor: 'white',
-              textBgColor: 'primary',
-            },
-          ],
-        },
-        {
-          name: 'Apparel',
-          type: 'collection',
-          handle: 'apparel',
-          textColor: 'white',
-          textBgColor: 'primary',
-        },
-        {
-          name: 'Garden',
-          type: 'collection',
-          handle: 'garden',
-          textColor: 'white',
-          textBgColor: 'primary',
-        },
-        {
-          name: 'Test',
-          type: 'collection',
-          handle: 'test-collection',
-        },
-        {
-          name: 'One product',
-          type: 'product',
-          handle: 'red-sports-tee',
-        },
-        {
-          name: 'Anchor Bracelet Mens',
-          type: 'product',
-          handle: 'leather-anchor',
-        },
-        {
-          name: 'Yellow Sofa',
-          type: 'product',
-          handle: 'yellow-sofa',
-        },
-        {
-          name: '7 Shakra Bracelet',
-          type: 'product',
-          handle: 'chain-bracelet',
-        },
-        {
-          name: 'White Cotton Shirt',
-          type: 'product',
-          handle: 'white-cotton-shirt',
-          textColor: 'white',
-          textBgColor: 'primary',
-        },
-      ],
+      mainPage: [],
       // Menu types: "header", "collection", "product", "link"
       menu: {},
       footerLinks: [],

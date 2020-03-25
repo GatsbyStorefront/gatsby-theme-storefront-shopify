@@ -25,7 +25,7 @@ export default props => {
 };
 
 export const mainPageQuery = graphql`
-  query MainPageQuery($handles: [String]) {
+  query MainPageQuery($handles: [String], $enableWebp: Boolean!) {
     collections: allShopifyCollection(filter: { handle: { in: $handles } }) {
       nodes {
         handle
@@ -36,15 +36,28 @@ export const mainPageQuery = graphql`
         }
         image {
           localFile {
-            childImageSharp {
+            childImageSharp @include(if: $enableWebp) {
               fluid(
                 maxWidth: 1300
                 maxHeight: 800
                 cropFocus: CENTER
                 fit: COVER
                 background: "white"
+                webpQuality: 85
               ) {
                 ...GatsbyImageSharpFluid_withWebp
+              }
+            }
+            childImageSharp @skip(if: $enableWebp) {
+              fluid(
+                maxWidth: 1300
+                maxHeight: 800
+                cropFocus: CENTER
+                fit: COVER
+                background: "white"
+                webpQuality: 85
+              ) {
+                ...GatsbyImageSharpFluid
               }
             }
           }
@@ -59,19 +72,32 @@ export const mainPageQuery = graphql`
         handle
         fields {
           shopifyThemePath
-        }
-        images {
-          altText
-          localFile {
-            childImageSharp {
-              fluid(
-                maxWidth: 1300
-                maxHeight: 800
-                cropFocus: CENTER
-                fit: COVER
-                background: "white"
-              ) {
-                ...GatsbyImageSharpFluid_withWebp
+          firstImage {
+            altText
+            localFile {
+              childImageSharp @include(if: $enableWebp) {
+                fluid(
+                  maxWidth: 1300
+                  maxHeight: 800
+                  cropFocus: CENTER
+                  fit: COVER
+                  background: "white"
+                  webpQuality: 85
+                ) {
+                  ...GatsbyImageSharpFluid_withWebp
+                }
+              }
+              childImageSharp @skip(if: $enableWebp) {
+                fluid(
+                  maxWidth: 1300
+                  maxHeight: 800
+                  cropFocus: CENTER
+                  fit: COVER
+                  background: "white"
+                  webpQuality: 85
+                ) {
+                  ...GatsbyImageSharpFluid
+                }
               }
             }
           }

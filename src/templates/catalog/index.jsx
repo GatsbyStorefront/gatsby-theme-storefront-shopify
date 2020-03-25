@@ -18,7 +18,7 @@ export default props => {
 };
 
 export const catalogQuery = graphql`
-  query CatalogQuery($handle: String) {
+  query CatalogQuery($handle: String, $enableWebp: Boolean!) {
     collection: allShopifyCollection(filter: { handle: { eq: $handle } }) {
       nodes {
         title
@@ -31,6 +31,37 @@ export const catalogQuery = graphql`
           tags
           fields {
             shopifyThemePath
+            firstImage {
+              altText
+              localFile {
+                childImageSharp @include(if: $enableWebp) {
+                  fluid(
+                    maxWidth: 450
+                    maxHeight: 450
+                    cropFocus: ATTENTION
+                    fit: COVER
+                    background: "white"
+                    srcSetBreakpoints: [450]
+                    webpQuality: 85
+                  ) {
+                    ...GatsbyImageSharpFluid_withWebp
+                  }
+                }
+                childImageSharp @skip(if: $enableWebp) {
+                  fluid(
+                    maxWidth: 450
+                    maxHeight: 450
+                    cropFocus: ATTENTION
+                    fit: COVER
+                    background: "white"
+                    srcSetBreakpoints: [450]
+                    webpQuality: 85
+                  ) {
+                    ...GatsbyImageSharpFluid
+                  }
+                }
+              }
+            }
           }
           availableForSale
           priceRange {
@@ -48,22 +79,6 @@ export const catalogQuery = graphql`
             availableForSale
             compareAtPrice
             price
-          }
-          images {
-            altText
-            localFile {
-              childImageSharp {
-                fluid(
-                  maxWidth: 450
-                  maxHeight: 450
-                  cropFocus: ATTENTION
-                  fit: COVER
-                  background: "white"
-                ) {
-                  ...GatsbyImageSharpFluid_withWebp
-                }
-              }
-            }
           }
         }
       }

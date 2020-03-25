@@ -32,16 +32,15 @@ const MainPageProductBlock = props => {
   const {
     title,
     description,
-    images,
-    fields: { shopifyThemePath },
+    fields: { shopifyThemePath, firstImage },
   } = props.product;
   const { textColor = 'primary', textBgColor = 'white' } = props;
   return (
     <StyledBox sx={{ position: 'relative' }}>
       <Box sx={{ overflow: 'hidden' }}>
-        {images ? (
+        {firstImage ? (
           <Image
-            fluid={images[0].localFile.childImageSharp.fluid}
+            fluid={firstImage.localFile.childImageSharp.fluid}
             alt={title}
           />
         ) : (

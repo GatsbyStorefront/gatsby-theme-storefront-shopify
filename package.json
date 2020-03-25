@@ -1,6 +1,6 @@
 {
   "name": "@gatsbystorefront/gatsby-theme-storefront-shopify",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "keywords": [
     "gatsbystorefront",
     "shopify",
@@ -41,7 +41,7 @@
     "gatsby-plugin-offline": "^3.0.22",
     "gatsby-plugin-react-helmet": "^3.1.2",
     "gatsby-plugin-robots-txt": "^1.5.0",
-    "gatsby-plugin-sharp": "2.3.1",
+    "gatsby-plugin-sharp": "^2.3.1",
     "gatsby-plugin-sitemap": "^2.2.21",
     "gatsby-plugin-theme-ui": "^0.2.43",
     "gatsby-plugin-web-font-loader": "^1.0.4",
