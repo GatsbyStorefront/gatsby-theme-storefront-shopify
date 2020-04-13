@@ -1,6 +1,7 @@
 const R = require('ramda');
+const hasOwnProp = require('has-own-prop');
 
-module.exports = menu => {
+module.exports = (menu) => {
   let flattenMenu = [];
   let id = 0;
 
@@ -10,8 +11,8 @@ module.exports = menu => {
   const assocParentId = R.assoc('parentId');
 
   const iterate = (childrenArray, parentId = 0) => {
-    childrenArray.forEach((obj, index) => {
-      id++;
+    childrenArray.forEach((obj) => {
+      id += 1;
       flattenMenu = R.concat(flattenMenu, [
         dissoc(assocId(id, assocParentId(parentId, obj))),
       ]);
@@ -22,6 +23,8 @@ module.exports = menu => {
     });
   };
 
-  iterate(menu.children);
+  if (hasOwnProp(menu, 'children') && menu.children.length > 0) {
+    iterate(menu.children);
+  }
   return flattenMenu;
 };
