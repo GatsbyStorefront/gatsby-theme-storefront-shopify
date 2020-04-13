@@ -1,3 +1,5 @@
+const hasOwnProp = require('has-own-prop');
+
 const productTemplate = require.resolve('./src/templates/product/index.jsx');
 const cartTemplate = require.resolve('./src/templates/cart/index.jsx');
 const catalogTemplate = require.resolve('./src/templates/catalog/index.jsx');
@@ -19,159 +21,21 @@ function removeTrailingLeadingSlashes(string) {
   return string.replace(/^\/*|\/*$/g, '');
 }
 
-const getMainPageHandles = mainPage => {
-  let handles = [];
-  mainPage.forEach(element => {
+const getMainPageHandles = (mainPage) => {
+  const handles = [];
+  mainPage.forEach((element) => {
     if (element.type === 'collection' || element.type === 'product') {
       handles.push(element.handle);
-    } else if (element.type === 'carousel' || element.type === 'header') {
-      element.children.forEach(e => {
+    } else if (
+      (element.type === 'carousel' || element.type === 'header') &&
+      element.children.length > 0
+    ) {
+      element.children.forEach((e) => {
         handles.push(e.handle);
       });
     }
   });
   return handles;
-};
-
-exports.onPreInit = (_, pluginOptions) => {
-  isShopifyLite = pluginOptions.hasOwnProperty('shopifyLite')
-    ? pluginOptions.shopifyLite
-    : false;
-  enableWebp = pluginOptions.hasOwnProperty('enableWebp')
-    ? pluginOptions.enableWebp
-    : true;
-};
-
-exports.onCreateNode = async ({ node, actions, cache }, options) => {
-  switch (node.internal.type) {
-    case `ShopifyProduct`:
-      createProductNode(options, actions, node);
-      break;
-    case `ShopifyCollection`:
-      createCollectionNode(options, actions, node);
-      break;
-    case `ShopifyShopPolicy`:
-      createShopPolicyNode(options, actions, node);
-      break;
-    case `ShopifyPage`:
-      createPageNode(options, actions, node);
-      break;
-    case `ShopifyBlog`:
-      await createBlogNode(options, actions, node, cache);
-      break;
-    case `ShopifyArticle`:
-      await createArticleNode(options, actions, node, cache);
-      break;
-    default: // do nothing
-  }
-};
-
-exports.createPages = async ({ graphql, actions }, options) => {
-  const gatsbyStorefrontConfig = await graphql(`
-    {
-      site {
-        siteMetadata {
-          gatsbyStorefrontConfig {
-            productsPerCollectionPage
-            articlesPerBlogPage
-          }
-        }
-      }
-    }
-  `);
-  const {
-    productsPerCollectionPage = 9,
-    articlesPerBlogPage = 6,
-  } = gatsbyStorefrontConfig.data.site.siteMetadata.gatsbyStorefrontConfig;
-
-  const { createPage } = actions;
-  let { cartPagePath = 'cart', basePath = '' } = options;
-  basePath = removeTrailingLeadingSlashes(basePath);
-  cartPagePath = removeTrailingLeadingSlashes(cartPagePath);
-
-  const finalCartPagePath = `${basePath && `/${basePath}`}/${cartPagePath}`;
-  createPage({
-    path: finalCartPagePath,
-    component: cartTemplate,
-  });
-
-  await createMainPage(basePath, graphql, createPage);
-
-  await createCollectionsPages(
-    graphql,
-    productsPerCollectionPage,
-    createPage,
-    finalCartPagePath
-  );
-
-  await createProductsPages(graphql, createPage, finalCartPagePath);
-
-  await createPoliciesPages(graphql, createPage, finalCartPagePath);
-
-  // In case Shopify Lite plan we don't have data to create Pages, Blogs and Articles
-  if (!isShopifyLite) {
-    await createPagePages(graphql, createPage, finalCartPagePath);
-
-    const queryArticles = await createArticlePages(
-      graphql,
-      createPage,
-      finalCartPagePath
-    );
-
-    await createBlogPages(
-      graphql,
-      queryArticles,
-      articlesPerBlogPage,
-      createPage,
-      finalCartPagePath
-    );
-  }
-};
-
-exports.createSchemaCustomization = ({ actions }) => {
-  const { createTypes } = actions;
-  // In case using Shopify Lite plan GraphQL nodes for Articles and Pages are not created.
-  // While build process GatsbyJS extracts queries and checks them against schema (see https://www.gatsbyjs.org/docs/query-extraction/).
-  // Here we are creating mock data, so the queries could pass validation.
-  if (isShopifyLite) {
-    const typeDefs = `
-        type ShopifyArticleFields {
-          shopifyThemePath: String
-        }
-        type ShopifyBlog implements Node {
-          Name: String
-          title: String
-          url: String
-          shopifyId: String
-          fields: ShopifyArticleFields
-        }
-        type ShopifyArticle implements Node {
-          Name: String
-          content: String
-          contentHtml: String
-          excerpt: String
-          excerptHtml: String
-          blog: ShopifyBlog
-          publishedAt(formatString: String): Date
-          title: String
-          url: String
-          shopifyId: String
-          fields: ShopifyArticleFields
-        }
-        type ShopifyPage implements Node {
-          Name: String
-          handle: String
-          title: String
-          body: String
-          bodySummary: String
-          updatedAt(formatString: String): Date
-          url: String
-          shopifyId: String
-          fields: ShopifyArticleFields
-        }
-    `;
-    createTypes(typeDefs);
-  }
 };
 
 const createProductNode = (options, actions, node) => {
@@ -233,8 +97,9 @@ const createPageNode = (options, actions, node) => {
   createNodeField({
     node,
     name: 'shopifyThemePath',
-    value: `${basePath && `/${basePath}`}${pageBasePath &&
-      `/${pageBasePath}`}/${node.handle}`,
+    value: `${basePath && `/${basePath}`}${
+      pageBasePath && `/${pageBasePath}`
+    }/${node.handle}`,
   });
 };
 
@@ -245,8 +110,8 @@ const createBlogNode = async (options, actions, node, cache) => {
   if (blogPageBasePath.length > 0) {
     blogPageBasePath = removeTrailingLeadingSlashes(blogPageBasePath);
   }
-  let nodeUrlArray = node.url.split('/');
-  let blogHandle = nodeUrlArray[nodeUrlArray.length - 1];
+  const nodeUrlArray = node.url.split('/');
+  const blogHandle = nodeUrlArray[nodeUrlArray.length - 1];
   // As while creating only new nodes we do not know about already existing
   // We need to store information about blogs received early in cache.
   // 1. Push new blogs to array
@@ -255,7 +120,7 @@ const createBlogNode = async (options, actions, node, cache) => {
     handle: blogHandle,
   });
   // 2. Receive already known blogs from cache
-  let blogs = await cache.get('availableBlogs');
+  const blogs = await cache.get('availableBlogs');
   // 3. Concat new blogs with already known
   if (blogs && blogs.length > 0) {
     availableBlogs = availableBlogs.concat(blogs);
@@ -266,8 +131,9 @@ const createBlogNode = async (options, actions, node, cache) => {
   createNodeField({
     node,
     name: 'shopifyThemePath',
-    value: `${basePath && `/${basePath}`}${blogPageBasePath &&
-      `/${blogPageBasePath}`}/${blogHandle}`,
+    value: `${basePath && `/${basePath}`}${
+      blogPageBasePath && `/${blogPageBasePath}`
+    }/${blogHandle}`,
   });
 };
 
@@ -279,21 +145,24 @@ const createArticleNode = async (options, actions, node, cache) => {
   } = options;
   const { createNodeField } = actions;
   basePath = removeTrailingLeadingSlashes(basePath);
+  blogPageBasePath = removeTrailingLeadingSlashes(blogPageBasePath);
   if (articlePageBasePath.length > 0) {
     articlePageBasePath = removeTrailingLeadingSlashes(articlePageBasePath);
   }
-  let nodeArticleUrlArray = node.url.split('/');
-  let articleHandle = nodeArticleUrlArray[nodeArticleUrlArray.length - 1];
-  let blogs = await cache.get('availableBlogs');
-  blogs.forEach(blog => {
+  const nodeArticleUrlArray = node.url.split('/');
+  const articleHandle = nodeArticleUrlArray[nodeArticleUrlArray.length - 1];
+  const blogs = await cache.get('availableBlogs');
+  blogs.forEach((blog) => {
     const { shopifyId, handle: blogHandle } = blog;
     if (shopifyId === node.blog.id) {
       createNodeField({
         node,
         name: 'shopifyThemePath',
-        value: `${basePath && `/${basePath}`}${blogPageBasePath &&
-          `/${blogPageBasePath}`}/${blogHandle}${articlePageBasePath &&
-          `/${articlePageBasePath}`}/${articleHandle}`,
+        value: `${basePath && `/${basePath}`}${
+          blogPageBasePath && `/${blogPageBasePath}`
+        }/${blogHandle}${
+          articlePageBasePath && `/${articlePageBasePath}`
+        }/${articleHandle}`,
       });
     }
   });
@@ -359,10 +228,10 @@ const createCollectionsPages = async (
   `);
   queryCollections.data.collections.nodes.forEach(
     ({ handle, products, fields }) => {
-      let { shopifyThemePath } = fields;
-      let collectionProductsCount = products.length;
-      let productsPerPage = parseInt(productsPerCollectionPage);
-      let numPages = Math.ceil(collectionProductsCount / productsPerPage);
+      const { shopifyThemePath } = fields;
+      const collectionProductsCount = products.length;
+      const productsPerPage = parseInt(productsPerCollectionPage, 10);
+      const numPages = Math.ceil(collectionProductsCount / productsPerPage);
       Array.from({
         length: numPages,
       }).forEach((_, i) => {
@@ -520,13 +389,13 @@ const createBlogPages = async (
     }
   `);
   queryBlogs.data.blogs.nodes.forEach(({ shopifyId, fields }) => {
-    let { shopifyThemePath } = fields;
-    let articlesArray = queryArticles.data.articles.nodes.filter(node => {
+    const { shopifyThemePath } = fields;
+    const articlesArray = queryArticles.data.articles.nodes.filter((node) => {
       return shopifyId === node.blog.shopifyId;
     });
-    let articlesCount = articlesArray.length;
-    let articlesPerPage = parseInt(articlesPerBlogPage);
-    let numPages = Math.ceil(articlesCount / articlesPerPage);
+    const articlesCount = articlesArray.length;
+    const articlesPerPage = parseInt(articlesPerBlogPage, 10);
+    const numPages = Math.ceil(articlesCount / articlesPerPage);
     Array.from({
       length: numPages,
     }).forEach((_, i) => {
@@ -546,4 +415,200 @@ const createBlogPages = async (
       });
     });
   });
+};
+
+exports.onPreInit = (_, pluginOptions) => {
+  isShopifyLite = hasOwnProp(pluginOptions, 'shopifyLite')
+    ? pluginOptions.shopifyLite
+    : false;
+  enableWebp = hasOwnProp(pluginOptions, 'enableWebp')
+    ? pluginOptions.enableWebp
+    : true;
+};
+
+exports.onCreateNode = async ({ node, actions, cache }, options) => {
+  switch (node.internal.type) {
+    case `ShopifyProduct`:
+      createProductNode(options, actions, node);
+      break;
+    case `ShopifyCollection`:
+      createCollectionNode(options, actions, node);
+      break;
+    case `ShopifyShopPolicy`:
+      createShopPolicyNode(options, actions, node);
+      break;
+    case `ShopifyPage`:
+      createPageNode(options, actions, node);
+      break;
+    case `ShopifyBlog`:
+      await createBlogNode(options, actions, node, cache);
+      break;
+    case `ShopifyArticle`:
+      await createArticleNode(options, actions, node, cache);
+      break;
+    default: // do nothing
+  }
+};
+
+exports.createPages = async ({ graphql, actions }, options) => {
+  const gatsbyStorefrontConfig = await graphql(`
+    {
+      site {
+        siteMetadata {
+          gatsbyStorefrontConfig {
+            productsPerCollectionPage
+            articlesPerBlogPage
+          }
+        }
+      }
+    }
+  `);
+  const {
+    productsPerCollectionPage = 9,
+    articlesPerBlogPage = 6,
+  } = gatsbyStorefrontConfig.data.site.siteMetadata.gatsbyStorefrontConfig;
+
+  const { createPage } = actions;
+  let { cartPagePath = 'cart', basePath = '' } = options;
+  basePath = removeTrailingLeadingSlashes(basePath);
+  cartPagePath = removeTrailingLeadingSlashes(cartPagePath);
+
+  const finalCartPagePath = `${basePath && `/${basePath}`}/${cartPagePath}`;
+  createPage({
+    path: finalCartPagePath,
+    component: cartTemplate,
+  });
+
+  await createMainPage(basePath, graphql, createPage);
+
+  await createCollectionsPages(
+    graphql,
+    productsPerCollectionPage,
+    createPage,
+    finalCartPagePath
+  );
+
+  await createProductsPages(graphql, createPage, finalCartPagePath);
+
+  await createPoliciesPages(graphql, createPage, finalCartPagePath);
+
+  // In case Shopify Lite plan we don't have data to create Pages, Blogs and Articles
+  if (!isShopifyLite) {
+    await createPagePages(graphql, createPage, finalCartPagePath);
+
+    const queryArticles = await createArticlePages(
+      graphql,
+      createPage,
+      finalCartPagePath
+    );
+
+    await createBlogPages(
+      graphql,
+      queryArticles,
+      articlesPerBlogPage,
+      createPage,
+      finalCartPagePath
+    );
+  }
+};
+
+exports.createSchemaCustomization = ({ actions }) => {
+  const { createTypes } = actions;
+
+  // Here we are define types for gatsbyStorefrontConfig.
+  // We need it in case some data wasn't set up, but queries need to pass verification during build process.
+  // While build process GatsbyJS extracts queries and checks them against schema (see https://www.gatsbyjs.org/docs/query-extraction/).
+  let typeDefs = `
+    type SiteSiteMetadataGatsbyStorefrontConfig {
+      storeName: String
+      storeDescription: String
+      email: String
+      company: String
+      location: String
+      address: String
+      phone: String
+      workingDays: String
+      workingHours: String
+      socialNetworks: [String]
+      payments: [String]
+      shareButtons: [String]
+      googleAnalyticsId: String
+      isShopifyLite: Boolean
+      mainPage: [SiteSiteMetadataGatsbyStorefrontConfigMainPage]
+      menu: [SiteSiteMetadataGatsbyStorefrontConfigMenu]
+      footerLinks: [SiteSiteMetadataGatsbyStorefrontConfigFooterLinks]
+      locales: String
+      currency: String
+      productsPerCollectionPage: String
+      articlesPerBlogPage: String
+    }
+    type SiteSiteMetadataGatsbyStorefrontConfigMainPage {
+      type: String
+      children: [SiteSiteMetadataGatsbyStorefrontConfigMainPageChildren]
+      name: String
+      handle: String
+      textColor: String
+      textBgColor: String
+    }
+    type SiteSiteMetadataGatsbyStorefrontConfigMainPageChildren {
+      name: String
+      type: String
+      handle: String
+      textColor: String
+      textBgColor: String
+    }
+    type SiteSiteMetadataGatsbyStorefrontConfigMenu {
+      name: String
+      handle: String
+      type: String
+      link: String
+      parentId: Int
+      id: Int
+    }
+    type SiteSiteMetadataGatsbyStorefrontConfigFooterLinks {
+      name: String
+      link: String
+    }
+`;
+
+  // In case using Shopify Lite plan GraphQL nodes for Articles and Pages are not created.
+  if (isShopifyLite) {
+    typeDefs += `
+        type ShopifyArticleFields {
+          shopifyThemePath: String
+        }
+        type ShopifyBlog implements Node {
+          Name: String
+          title: String
+          url: String
+          shopifyId: String
+          fields: ShopifyArticleFields
+        }
+        type ShopifyArticle implements Node {
+          Name: String
+          content: String
+          contentHtml: String
+          excerpt: String
+          excerptHtml: String
+          blog: ShopifyBlog
+          publishedAt(formatString: String): Date
+          title: String
+          url: String
+          shopifyId: String
+          fields: ShopifyArticleFields
+        }
+        type ShopifyPage implements Node {
+          Name: String
+          handle: String
+          title: String
+          body: String
+          bodySummary: String
+          updatedAt(formatString: String): Date
+          url: String
+          shopifyId: String
+          fields: ShopifyArticleFields
+        }
+    `;
+  }
+  createTypes(typeDefs);
 };
