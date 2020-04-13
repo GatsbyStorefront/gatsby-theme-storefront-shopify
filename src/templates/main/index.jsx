@@ -8,7 +8,7 @@ import strings from './strings.json';
 
 const { pageTitleTemplate } = strings;
 
-export default props => {
+export default (props) => {
   const {
     storeName,
     storeDescription,
@@ -43,7 +43,6 @@ export const mainPageQuery = graphql`
                 cropFocus: CENTER
                 fit: COVER
                 background: "white"
-                webpQuality: 85
               ) {
                 ...GatsbyImageSharpFluid_withWebp
               }
@@ -55,7 +54,6 @@ export const mainPageQuery = graphql`
                 cropFocus: CENTER
                 fit: COVER
                 background: "white"
-                webpQuality: 85
               ) {
                 ...GatsbyImageSharpFluid
               }
@@ -82,7 +80,6 @@ export const mainPageQuery = graphql`
                   cropFocus: CENTER
                   fit: COVER
                   background: "white"
-                  webpQuality: 85
                 ) {
                   ...GatsbyImageSharpFluid_withWebp
                 }
@@ -94,7 +91,6 @@ export const mainPageQuery = graphql`
                   cropFocus: CENTER
                   fit: COVER
                   background: "white"
-                  webpQuality: 85
                 ) {
                   ...GatsbyImageSharpFluid
                 }

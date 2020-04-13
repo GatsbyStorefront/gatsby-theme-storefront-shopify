@@ -5,7 +5,7 @@ import { graphql } from 'gatsby';
 import ProductPage from './ProductPage';
 import Layout from '../../components/Layout';
 
-export default props => {
+export default (props) => {
   const { title } = props.data.product;
   const { storeName } = props.data.store.siteMetadata.gatsbyStorefrontConfig;
   return (
@@ -29,35 +29,25 @@ export const productQuery = graphql`
         altText
         localFile {
           childImageSharp @include(if: $enableWebp) {
-            main: fluid(
-              maxWidth: 800
-              srcSetBreakpoints: [400, 800]
-              webpQuality: 85
-            ) {
+            main: fluid(maxWidth: 800, srcSetBreakpoints: [400, 800]) {
               ...GatsbyImageSharpFluid_withWebp
             }
             thumbnail: fluid(
               maxWidth: 90
               maxHeight: 90
               srcSetBreakpoints: [90]
-              webpQuality: 75
             ) {
               ...GatsbyImageSharpFluid_withWebp
             }
           }
           childImageSharp @skip(if: $enableWebp) {
-            main: fluid(
-              maxWidth: 800
-              srcSetBreakpoints: [400, 800]
-              webpQuality: 85
-            ) {
+            main: fluid(maxWidth: 800, srcSetBreakpoints: [400, 800]) {
               ...GatsbyImageSharpFluid
             }
             thumbnail: fluid(
               maxWidth: 90
               maxHeight: 90
               srcSetBreakpoints: [90]
-              webpQuality: 75
             ) {
               ...GatsbyImageSharpFluid
             }

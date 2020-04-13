@@ -29,7 +29,7 @@ module.exports = ({ shopName, accessToken, shopifyLite = false }) => ({
       options: {
         useMozJpeg: false,
         stripMetadata: true,
-        defaultQuality: 75,
+        defaultQuality: 95,
       },
     },
     'gatsby-transformer-sharp',
@@ -58,9 +58,9 @@ module.exports = ({ shopName, accessToken, shopifyLite = false }) => ({
         resolvers: {
           // For any node of type MarkdownRemark, list how to resolve the fields` values
           ShopifyProduct: {
-            title: node => node.title,
-            tags: node => node.tags,
-            shopifyThemePath: node => node.fields.shopifyThemePath,
+            title: (node) => node.title,
+            tags: (node) => node.tags,
+            shopifyThemePath: (node) => node.fields.shopifyThemePath,
           },
         },
       },

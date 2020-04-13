@@ -22,14 +22,14 @@ import strings from './strings.json';
 
 const { ariaNextButtonLabel, ariaBackButtonLabel } = strings;
 
-const MainPageCarousel = props => {
+const MainPageCarousel = (props) => {
   const { carousel, data } = props;
   return (
     <Box width={1} sx={{ position: 'relative' }}>
       <CarouselProvider
         naturalSlideWidth={1300}
         naturalSlideHeight={800}
-        totalSlides={3}
+        totalSlides={carousel.children.length}
         isPlaying={true}
         infinite={true}
       >

@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import Layout from '../../components/Layout';
 import CatalogPage from './CatalogPage';
 
-export default props => {
+export default (props) => {
   const { title, description } = props.data.collection.nodes[0];
   const { storeName } = props.data.store.siteMetadata.gatsbyStorefrontConfig;
   return (
@@ -42,7 +42,6 @@ export const catalogQuery = graphql`
                     fit: COVER
                     background: "white"
                     srcSetBreakpoints: [450]
-                    webpQuality: 85
                   ) {
                     ...GatsbyImageSharpFluid_withWebp
                   }
@@ -55,7 +54,6 @@ export const catalogQuery = graphql`
                     fit: COVER
                     background: "white"
                     srcSetBreakpoints: [450]
-                    webpQuality: 85
                   ) {
                     ...GatsbyImageSharpFluid
                   }
