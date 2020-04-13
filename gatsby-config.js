@@ -1,4 +1,9 @@
-module.exports = ({ shopName, accessToken, shopifyLite = false }) => ({
+module.exports = ({
+  shopName,
+  accessToken,
+  shopifyLite = false,
+  imageQuality = '95',
+}) => ({
   plugins: [
     {
       resolve: 'gatsby-source-shopify',
@@ -29,7 +34,7 @@ module.exports = ({ shopName, accessToken, shopifyLite = false }) => ({
       options: {
         useMozJpeg: false,
         stripMetadata: true,
-        defaultQuality: 95,
+        defaultQuality: imageQuality,
       },
     },
     'gatsby-transformer-sharp',

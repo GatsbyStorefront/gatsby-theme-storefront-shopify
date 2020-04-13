@@ -99,6 +99,7 @@ module.exports = {
         basePath: '/',
         shopifyLite: false, // default 'false'
         enableWebp: true, // default 'true'
+        imageQuality: '95', // default '95', better to decrease but always check your result images quality
       },
     },
   ],
