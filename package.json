@@ -1,6 +1,6 @@
 {
   "name": "@gatsbystorefront/gatsby-theme-storefront-shopify",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "keywords": [
     "gatsbystorefront",
     "shopify",
@@ -70,8 +70,8 @@
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.10.1",
-    "eslint-plugin-flowtype": "^4.7.0",
     "eslint-config-react-app": "^5.0.2",
+    "eslint-plugin-flowtype": "^4.7.0",
     "eslint-plugin-graphql": "^3.1.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
