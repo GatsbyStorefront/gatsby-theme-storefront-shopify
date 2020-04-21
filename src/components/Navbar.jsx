@@ -5,10 +5,10 @@ import GatsbyLink from 'gatsby-link';
 import styled from '@emotion/styled';
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 
-import Menu from '../components/Menu';
-import Search from '../components/Search';
-import ShoppingBag from '../components/Icons/ShoppingBag';
-import ShoppingCart from '../components/Icons/ShoppingCart';
+import Menu from './Menu';
+import Search from './Search';
+import ShoppingBag from './Icons/ShoppingBag';
+import ShoppingCart from './Icons/ShoppingCart';
 import strings from './strings.json';
 
 const { ariaShoppingCartLabel, ariaHomaPageLinkLabel } = strings;
@@ -23,12 +23,12 @@ const NavbarBase = styled.nav`
 
 const Nav = styled(NavbarBase)`
   box-shadow: 0 0px 5px rgba(0, 0, 0, 0.2);
-  visibility: ${props => (props.show ? 'visible' : 'hidden')};
-  transition: all 200ms ${props => (props.show ? 'ease-in' : 'ease-out')};
-  transform: ${props => (props.show ? 'none' : 'translate(0, -100%)')};
+  visibility: ${(props) => (props.show ? 'visible' : 'hidden')};
+  transition: all 200ms ${(props) => (props.show ? 'ease-in' : 'ease-out')};
+  transform: ${(props) => (props.show ? 'none' : 'translate(0, -100%)')};
 `;
 
-const Navbar = props => {
+const Navbar = (props) => {
   const [hideNavbarOnScroll, setHideNavbarOnScroll] = useState(true);
 
   useScrollPosition(
@@ -50,6 +50,7 @@ const Navbar = props => {
         siteMetadata {
           gatsbyStorefrontConfig {
             storeName
+            logoUrl
             menu {
               handle
               id
@@ -64,7 +65,11 @@ const Navbar = props => {
     }
   `);
 
-  const { storeName, menu } = data.site.siteMetadata.gatsbyStorefrontConfig;
+  const {
+    storeName,
+    logoUrl,
+    menu,
+  } = data.site.siteMetadata.gatsbyStorefrontConfig;
 
   return (
     <Nav show={hideNavbarOnScroll}>
@@ -87,19 +92,26 @@ const Navbar = props => {
             style={{ textDecoration: 'none' }}
             ml="auto"
           >
-            <ShoppingBag
-              m="auto"
-              width={['25px', '30px']}
-              height={['25px', '30px']}
-              color="secondary"
-            />
-            <Text
-              color="primary"
-              fontSize={[2, 3]}
-              sx={{ display: ['none', 'block'] }}
-            >
-              {storeName}
-            </Text>
+            {logoUrl ? (
+              <img src={logoUrl} alt={storeName} />
+            ) : (
+              <>
+                <ShoppingBag
+                  m="auto"
+                  width={['25px', '30px']}
+                  height={['25px', '30px']}
+                  color="secondary"
+                />
+
+                <Text
+                  color="primary"
+                  fontSize={[2, 3]}
+                  sx={{ display: ['none', 'block'] }}
+                >
+                  {storeName}
+                </Text>
+              </>
+            )}
           </Text>
 
           <Flex ml="auto" width={100}>

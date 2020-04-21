@@ -77,6 +77,7 @@ module.exports = ({
       storeName: 'Gatsby Storefront',
       storeDescription: 'Demo store description',
       email: 'info@gatsbystorefront.com',
+      logoUrl: '',
       company: 'Gatsby Storefront Inc.',
       location: 'New York, NY',
       address: '1 Centre St.',
