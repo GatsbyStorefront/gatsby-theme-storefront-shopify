@@ -10,11 +10,14 @@ Gatby Storefront is a headless eCommerce PWA storefront for Shopify. Powered by 
 ![GitHub](https://img.shields.io/github/license/gatsbystorefront/gatsby-theme-storefront-shopify?color=green)
 [![Join the community on Spectrum](https://img.shields.io/badge/join%20the%20community-on%20spectrum-blue.svg?style=flat-square&colorB=3818E5)](https://spectrum.chat/GatsbyStorefront)
 
-Please <a href="https://demo.gatsbystorefront.com" >see our demo here</a>. And if you like it please give us a star on GitHub ⭐ 👍 😀
+Please see our <a href="https://demo.gatsbystorefront.com" >demo</a> and <a href="https://youtu.be/B7CXzx9jQeM">speed test video</a>.
+
+And if you like Gtasby Storefront **please give us a star on GitHub** ⭐ 👍 😀
 
 <!-- toc -->
 
 - [Demo](#demo)
+- [How fast is Gatsby Storefront?](#how-fast-is-gatsby-storefront)
 - [Setup guide](#setup-guide)
   - [Install CLI](#install-cli)
   - [Create store site](#create-store-site)
@@ -22,6 +25,7 @@ Please <a href="https://demo.gatsbystorefront.com" >see our demo here</a>. And i
   - [Create `.env` file](#create-env-file)
   - [Enable theme](#enable-theme)
   - [Shopify content requirement](#shopify-content-requirement)
+  - [A setup for Shopify Lite plan](#a-setup-for-shopify-lite-plan)
   - [Starter](#starter)
 - [Configuration](#configuration)
   - [Configuration file](#configuration-file)
@@ -30,6 +34,8 @@ Please <a href="https://demo.gatsbystorefront.com" >see our demo here</a>. And i
   - [Build](#build)
   - [Serve](#serve)
   - [Publish](#publish)
+- [Thank you!](#thank-you)
+- [Contributors ✨](#contributors-%E2%9C%A8)
 
 ## Demo
 
@@ -45,6 +51,14 @@ Please <a href="https://demo.gatsbystorefront.com" >see our demo here</a>. And i
 </p>
 
 Please, see the demo here: [https://demo.gatsbystorefront.com](https://demo.gatsbystorefront.com/).
+
+## How fast is Gatsby Storefront?
+
+Please, see our speed test video: [https://youtu.be/B7CXzx9jQeM](https://youtu.be/B7CXzx9jQeM).
+
+[<img src="https://img.youtube.com/vi/B7CXzx9jQeM/maxresdefault.jpg" width="50%">](https://youtu.be/B7CXzx9jQeM)
+
+The tests are made with [puppeteer](https://github.com/puppeteer/puppeteer) based test script that emulates a customer journey and counts time necessary to load the pages: [https://github.com/GatsbyStorefront/speedtests](https://github.com/GatsbyStorefront/speedtests).
 
 ## Setup guide
 
