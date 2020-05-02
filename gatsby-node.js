@@ -570,7 +570,10 @@ exports.createSchemaCustomization = ({ actions }) => {
       link: String
     }
     type ShopifyProductFieldsFirstImage {
+      id: String
       altText: String
+      originalSrc: String
+      localFile: File
     }
 `;
 
