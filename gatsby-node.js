@@ -569,6 +569,12 @@ exports.createSchemaCustomization = ({ actions }) => {
       name: String
       link: String
     }
+    type ShopifyProductFieldsFirstImage {
+      id: String
+      altText: String
+      originalSrc: String
+      localFile: File
+    }
 `;
 
   // In case using Shopify Lite plan GraphQL nodes for Articles and Pages are not created.
