@@ -4,7 +4,7 @@
 
 # Gatby Storefront – lightning fast PWA storefront for Shopify
 
-Gatby Storefront is a headless eCommerce PWA storefront for Shopify. Powered by GatsbyJS it brings eCommerce to the edge for lightning fast webstore performance.
+Gatsby Storefront is a headless eCommerce PWA storefront for Shopify. Powered by GatsbyJS it brings eCommerce to the edge for lightning fast webstore performance.
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/gatsbystorefront/gatsby-theme-storefront-shopify)
 ![GitHub](https://img.shields.io/github/license/gatsbystorefront/gatsby-theme-storefront-shopify?color=green)
@@ -12,7 +12,7 @@ Gatby Storefront is a headless eCommerce PWA storefront for Shopify. Powered by 
 
 Please see our <a href="https://demo.gatsbystorefront.com" >demo</a> and <a href="https://youtu.be/B7CXzx9jQeM">speed test video</a>.
 
-And if you like Gtasby Storefront **please give us a star on GitHub** ⭐ 👍 😀
+And if you like Gatsby Storefront **please give us a star on GitHub** ⭐ 👍 😀
 
 <!-- toc -->
 
@@ -217,6 +217,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
