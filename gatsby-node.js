@@ -1,4 +1,5 @@
 const hasOwnProp = require('has-own-prop');
+const R = require('ramda');
 
 const productTemplate = require.resolve('./src/templates/product/index.jsx');
 const cartTemplate = require.resolve('./src/templates/cart/index.jsx');
@@ -10,6 +11,8 @@ const pageTemplate = require.resolve('./src/templates/page/index.jsx');
 const articleTemplate = require.resolve(
   './src/templates/blog/article/index.jsx'
 );
+
+const typeDefs = require('./typedefs');
 
 let isShopifyLite = false;
 let enableWebp = true;
@@ -226,34 +229,41 @@ const createCollectionsPages = async (
       }
     }
   `);
-  queryCollections.data.collections.nodes.forEach(
-    ({ handle, products, fields }) => {
-      const { shopifyThemePath } = fields;
-      const collectionProductsCount = products.length;
-      const productsPerPage = parseInt(productsPerCollectionPage, 10);
-      const numPages = Math.ceil(collectionProductsCount / productsPerPage);
-      Array.from({
-        length: numPages,
-      }).forEach((_, i) => {
-        createPage({
-          path:
-            i === 0 ? `${shopifyThemePath}` : `${shopifyThemePath}/${i + 1}`,
-          component: catalogTemplate,
-          context: {
-            handle,
-            shopifyThemePath,
-            limit: productsPerPage,
-            skip: i * productsPerPage,
-            numPages,
-            currentPage: i + 1,
-            // Todo: Find a better way to do this.
-            cartUrl: finalCartPagePath,
-            enableWebp,
-          },
+
+  if (
+    queryCollections &&
+    queryCollections.data &&
+    R.hasPath(['collections', 'nodes'], queryCollections.data)
+  ) {
+    queryCollections.data.collections.nodes.forEach(
+      ({ handle, products, fields }) => {
+        const { shopifyThemePath } = fields;
+        const collectionProductsCount = products.length;
+        const productsPerPage = parseInt(productsPerCollectionPage, 10);
+        const numPages = Math.ceil(collectionProductsCount / productsPerPage);
+        Array.from({
+          length: numPages,
+        }).forEach((_, i) => {
+          createPage({
+            path:
+              i === 0 ? `${shopifyThemePath}` : `${shopifyThemePath}/${i + 1}`,
+            component: catalogTemplate,
+            context: {
+              handle,
+              shopifyThemePath,
+              limit: productsPerPage,
+              skip: i * productsPerPage,
+              numPages,
+              currentPage: i + 1,
+              // Todo: Find a better way to do this.
+              cartUrl: finalCartPagePath,
+              enableWebp,
+            },
+          });
         });
-      });
-    }
-  );
+      }
+    );
+  }
 };
 
 const createProductsPages = async (graphql, createPage, finalCartPagePath) => {
@@ -297,18 +307,24 @@ const createPoliciesPages = async (graphql, createPage, finalCartPagePath) => {
       }
     }
   `);
-  queryPolicies.data.policies.nodes.forEach(({ type, fields }) => {
-    const { shopifyThemePath } = fields;
-    createPage({
-      path: shopifyThemePath,
-      component: policyTemplate,
-      context: {
-        type,
-        // Todo: Find a better way to do this.
-        cartUrl: finalCartPagePath,
-      },
+  if (
+    queryPolicies &&
+    queryPolicies.data &&
+    R.hasPath(['policies', 'nodes'], queryPolicies.data)
+  ) {
+    queryPolicies.data.policies.nodes.forEach(({ type, fields }) => {
+      const { shopifyThemePath } = fields;
+      createPage({
+        path: shopifyThemePath,
+        component: policyTemplate,
+        context: {
+          type,
+          // Todo: Find a better way to do this.
+          cartUrl: finalCartPagePath,
+        },
+      });
     });
-  });
+  }
 };
 
 const createPagePages = async (graphql, createPage, finalCartPagePath) => {
@@ -324,18 +340,24 @@ const createPagePages = async (graphql, createPage, finalCartPagePath) => {
       }
     }
   `);
-  queryPages.data.pages.nodes.forEach(({ handle, fields }) => {
-    const { shopifyThemePath } = fields;
-    createPage({
-      path: shopifyThemePath,
-      component: pageTemplate,
-      context: {
-        handle,
-        // Todo: Find a better way to do this.
-        cartUrl: finalCartPagePath,
-      },
+  if (
+    queryPages &&
+    queryPages.data &&
+    R.hasPath(['pages', 'nodes'], queryPages.data)
+  ) {
+    queryPages.data.pages.nodes.forEach(({ handle, fields }) => {
+      const { shopifyThemePath } = fields;
+      createPage({
+        path: shopifyThemePath,
+        component: pageTemplate,
+        context: {
+          handle,
+          // Todo: Find a better way to do this.
+          cartUrl: finalCartPagePath,
+        },
+      });
     });
-  });
+  }
 };
 
 const createArticlePages = async (graphql, createPage, finalCartPagePath) => {
@@ -354,19 +376,25 @@ const createArticlePages = async (graphql, createPage, finalCartPagePath) => {
       }
     }
   `);
-  queryArticles.data.articles.nodes.forEach(({ shopifyId, fields }) => {
-    const { shopifyThemePath } = fields;
-    createPage({
-      path: shopifyThemePath,
-      component: articleTemplate,
-      context: {
-        shopifyId,
-        // Todo: Find a better way to do this.
-        cartUrl: finalCartPagePath,
-      },
+  if (
+    queryArticles &&
+    queryArticles.data &&
+    R.hasPath(['articles', 'nodes'], queryArticles.data)
+  ) {
+    queryArticles.data.articles.nodes.forEach(({ shopifyId, fields }) => {
+      const { shopifyThemePath } = fields;
+      createPage({
+        path: shopifyThemePath,
+        component: articleTemplate,
+        context: {
+          shopifyId,
+          // Todo: Find a better way to do this.
+          cartUrl: finalCartPagePath,
+        },
+      });
     });
-  });
-  return queryArticles;
+    return queryArticles;
+  }
 };
 
 const createBlogPages = async (
@@ -388,33 +416,40 @@ const createBlogPages = async (
       }
     }
   `);
-  queryBlogs.data.blogs.nodes.forEach(({ shopifyId, fields }) => {
-    const { shopifyThemePath } = fields;
-    const articlesArray = queryArticles.data.articles.nodes.filter((node) => {
-      return shopifyId === node.blog.shopifyId;
-    });
-    const articlesCount = articlesArray.length;
-    const articlesPerPage = parseInt(articlesPerBlogPage, 10);
-    const numPages = Math.ceil(articlesCount / articlesPerPage);
-    Array.from({
-      length: numPages,
-    }).forEach((_, i) => {
-      createPage({
-        path: i === 0 ? `${shopifyThemePath}` : `${shopifyThemePath}/${i + 1}`,
-        component: blogTemplate,
-        context: {
-          shopifyId,
-          shopifyThemePath,
-          limit: articlesPerPage,
-          skip: i * articlesPerPage,
-          numPages,
-          currentPage: i + 1,
-          // Todo: Find a better way to do this.
-          cartUrl: finalCartPagePath,
-        },
+  if (
+    queryBlogs &&
+    queryBlogs.data &&
+    R.hasPath(['blogs', 'nodes', queryBlogs.data])
+  ) {
+    queryBlogs.data.blogs.nodes.forEach(({ shopifyId, fields }) => {
+      const { shopifyThemePath } = fields;
+      const articlesArray = queryArticles.data.articles.nodes.filter((node) => {
+        return shopifyId === node.blog.shopifyId;
+      });
+      const articlesCount = articlesArray.length;
+      const articlesPerPage = parseInt(articlesPerBlogPage, 10);
+      const numPages = Math.ceil(articlesCount / articlesPerPage);
+      Array.from({
+        length: numPages,
+      }).forEach((_, i) => {
+        createPage({
+          path:
+            i === 0 ? `${shopifyThemePath}` : `${shopifyThemePath}/${i + 1}`,
+          component: blogTemplate,
+          context: {
+            shopifyId,
+            shopifyThemePath,
+            limit: articlesPerPage,
+            skip: i * articlesPerPage,
+            numPages,
+            currentPage: i + 1,
+            // Todo: Find a better way to do this.
+            cartUrl: finalCartPagePath,
+          },
+        });
       });
     });
-  });
+  }
 };
 
 exports.onPreInit = (_, pluginOptions) => {
@@ -513,108 +548,10 @@ exports.createPages = async ({ graphql, actions }, options) => {
 };
 
 exports.createSchemaCustomization = ({ actions }) => {
-  const { createTypes } = actions;
-
-  // Here we are define types for gatsbyStorefrontConfig.
+  // Here we define types.
   // We need it in case some data wasn't set up, but queries need to pass verification during build process.
   // While build process GatsbyJS extracts queries and checks them against schema (see https://www.gatsbyjs.org/docs/query-extraction/).
-  let typeDefs = `
-    type SiteSiteMetadataGatsbyStorefrontConfig {
-      storeName: String
-      storeDescription: String
-      email: String
-      company: String
-      location: String
-      address: String
-      phone: String
-      workingDays: String
-      workingHours: String
-      socialNetworks: [String]
-      payments: [String]
-      shareButtons: [String]
-      googleAnalyticsId: String
-      isShopifyLite: Boolean
-      mainPage: [SiteSiteMetadataGatsbyStorefrontConfigMainPage]
-      menu: [SiteSiteMetadataGatsbyStorefrontConfigMenu]
-      footerLinks: [SiteSiteMetadataGatsbyStorefrontConfigFooterLinks]
-      locales: String
-      currency: String
-      productsPerCollectionPage: String
-      articlesPerBlogPage: String
-    }
-    type SiteSiteMetadataGatsbyStorefrontConfigMainPage {
-      type: String
-      children: [SiteSiteMetadataGatsbyStorefrontConfigMainPageChildren]
-      name: String
-      handle: String
-      textColor: String
-      textBgColor: String
-    }
-    type SiteSiteMetadataGatsbyStorefrontConfigMainPageChildren {
-      name: String
-      type: String
-      handle: String
-      textColor: String
-      textBgColor: String
-    }
-    type SiteSiteMetadataGatsbyStorefrontConfigMenu {
-      name: String
-      handle: String
-      type: String
-      link: String
-      parentId: Int
-      id: Int
-    }
-    type SiteSiteMetadataGatsbyStorefrontConfigFooterLinks {
-      name: String
-      link: String
-    }
-    type ShopifyProductFieldsFirstImage {
-      id: String
-      altText: String
-      originalSrc: String
-      localFile: File
-    }
-`;
 
-  // In case using Shopify Lite plan GraphQL nodes for Articles and Pages are not created.
-  if (isShopifyLite) {
-    typeDefs += `
-        type ShopifyArticleFields {
-          shopifyThemePath: String
-        }
-        type ShopifyBlog implements Node {
-          Name: String
-          title: String
-          url: String
-          shopifyId: String
-          fields: ShopifyArticleFields
-        }
-        type ShopifyArticle implements Node {
-          Name: String
-          content: String
-          contentHtml: String
-          excerpt: String
-          excerptHtml: String
-          blog: ShopifyBlog
-          publishedAt(formatString: String): Date
-          title: String
-          url: String
-          shopifyId: String
-          fields: ShopifyArticleFields
-        }
-        type ShopifyPage implements Node {
-          Name: String
-          handle: String
-          title: String
-          body: String
-          bodySummary: String
-          updatedAt(formatString: String): Date
-          url: String
-          shopifyId: String
-          fields: ShopifyArticleFields
-        }
-    `;
-  }
+  const { createTypes } = actions;
   createTypes(typeDefs);
 };
