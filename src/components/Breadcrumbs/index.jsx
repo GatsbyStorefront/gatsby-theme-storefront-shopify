@@ -34,7 +34,7 @@ const Breadcrumbs = ({
             itemScope
             itemType="https://schema.org/ListItem"
           >
-            <GatsbyLink to={`/${collectionPath}`} mr={1} itemProp="item">
+            <GatsbyLink to={`${collectionPath}`} mr={1} itemProp="item">
               <Text as="span" itemProp="name" variant="link">
                 {collectionTitle}
               </Text>
