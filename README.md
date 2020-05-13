@@ -114,6 +114,16 @@ module.exports = {
         shopifyLite: false, // default 'false'
         enableWebp: true, // default 'true'
         imageQuality: '95', // default '95', better to decrease but always check your result images quality
+        manifest: { // web app manifest options to be passed to 'gatsby-plugin-manifest' installed inside theme
+          name: 'Gatsby Storefront Demo Store',
+          short_name: 'Gatsby Storefront',
+          start_url: '/',
+          background_color: '#fff',
+          theme_color: '#333',
+          display: 'standalone',
+          icon: 'src/images/shopping_bag.svg',
+          cache_busting_mode: 'none',
+        },
       },
     },
   ],
