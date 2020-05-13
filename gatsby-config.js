@@ -3,6 +3,7 @@ module.exports = ({
   accessToken,
   shopifyLite = false,
   imageQuality = '95',
+  manifest = {},
 }) => ({
   plugins: [
     {
@@ -24,7 +25,6 @@ module.exports = ({
       resolve: 'gatsby-plugin-nprogress',
       options: {
         color: '#333',
-
         showSpinner: false,
       },
     },
@@ -41,21 +41,39 @@ module.exports = ({
     'gatsby-plugin-theme-ui',
     'gatsby-plugin-sitemap',
     {
-      resolve: `gatsby-plugin-manifest`,
+      resolve: 'gatsby-plugin-manifest',
       options: {
-        name: `Gatsby Storefront`,
-        short_name: `Gatsby Storefront`,
-        start_url: `/`,
-        background_color: `#fff`,
-        theme_color: `#333`,
-        display: `standalone`,
+        name: manifest.hasOwnProperty('name')
+          ? manifest.name
+          : 'Gatsby Storefront',
+        short_name: manifest.hasOwnProperty('short_name')
+          ? manifest.short_name
+          : 'Gatsby Storefront',
+        start_url: manifest.hasOwnProperty('start_url')
+          ? manifest.start_url
+          : '/',
+        background_color: manifest.hasOwnProperty('background_color')
+          ? manifest.background_color
+          : '#fff',
+        theme_color: manifest.hasOwnProperty('theme_color')
+          ? manifest.theme_color
+          : '#333',
+        display: manifest.hasOwnProperty('display')
+          ? manifest.display
+          : 'standalone',
+        icon: manifest.hasOwnProperty('icon') ? manifest.icon : undefined,
+        cache_busting_mode: manifest.hasOwnProperty('cache_busting_mode')
+          ? manifest.cache_busting_mode
+          : 'none',
       },
     },
-    'gatsby-plugin-offline',
+    {
+      resolve: 'gatsby-plugin-offline',
+    },
     'gatsby-plugin-robots-txt',
     'gatsby-plugin-lint-queries',
     {
-      resolve: `@gatsby-contrib/gatsby-plugin-elasticlunr-search`,
+      resolve: '@gatsby-contrib/gatsby-plugin-elasticlunr-search',
       options: {
         // Fields to index
         fields: ['title', 'tags'],
