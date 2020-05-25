@@ -5,12 +5,12 @@ import * as R from 'ramda';
 
 import { useCurrentVariantContext } from './CurrentVariantContext';
 
-const ProductVariantSelector = props => {
+const ProductVariantSelector = (props) => {
   const { variants, options } = props;
   const { setCurrentVariant } = useCurrentVariantContext();
   const [userSelectedOptions, setUserSelectedOptions] = useState(() => {
     let initialState;
-    options.forEach(option => {
+    options.forEach((option) => {
       initialState = { ...initialState, [option.name]: option.values[0] };
     });
     return initialState;
@@ -18,10 +18,15 @@ const ProductVariantSelector = props => {
 
   const showVariants =
     options.length > 0 &&
-    (options[0].name !== 'Title' && options[0].values[0] !== 'Default Title');
+    !(
+      options.length === 1 &&
+      options[0].name === 'Title' &&
+      options[0].values.length === 1 &&
+      options[0].values[0] === 'Default Title'
+    );
 
   const handleOptionsSelect = (name, value) => {
-    setUserSelectedOptions(prevState => {
+    setUserSelectedOptions((prevState) => {
       return {
         ...prevState,
         [name]: value,
@@ -37,8 +42,8 @@ const ProductVariantSelector = props => {
     let compareAtPrice;
     let sku;
 
-    variants.forEach(v => {
-      v.selectedOptions.forEach(o => {
+    variants.forEach((v) => {
+      v.selectedOptions.forEach((o) => {
         variantSelectedOptions = {
           ...variantSelectedOptions,
           [o.name]: o.value,
@@ -62,7 +67,7 @@ const ProductVariantSelector = props => {
   }, [userSelectedOptions, setCurrentVariant, variants]);
 
   return (
-    <React.Fragment>
+    <>
       {showVariants ? (
         <Flex {...props}>
           {options.map((option, index) => {
@@ -75,7 +80,7 @@ const ProductVariantSelector = props => {
               <Box width={1 / 3} mx={1} key={`box-${option.name}-${index}`}>
                 <Label htmlFor={option.name}>{option.name}</Label>
                 <Select
-                  onChange={event => {
+                  onChange={(event) => {
                     handleOptionsSelect(option.name, event.target.value);
                   }}
                   id={option.name}
@@ -98,7 +103,7 @@ const ProductVariantSelector = props => {
       ) : (
         ''
       )}
-    </React.Fragment>
+    </>
   );
 };
 
