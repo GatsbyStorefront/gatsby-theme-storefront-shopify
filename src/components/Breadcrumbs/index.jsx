@@ -16,11 +16,9 @@ const Breadcrumbs = ({
         itemScope
         itemType="https://schema.org/ListItem"
       >
-        <GatsbyLink to="/" itemProp="item">
-          <Text as="span" itemProp="name" variant="link">
-            Home
-          </Text>
-        </GatsbyLink>
+        <Text as={GatsbyLink} to="/" itemProp="item" variant="link">
+          Home
+        </Text>
       </Box>
 
       {collectionPath && collectionTitle ? (
@@ -34,11 +32,15 @@ const Breadcrumbs = ({
             itemScope
             itemType="https://schema.org/ListItem"
           >
-            <GatsbyLink to={`${collectionPath}`} mr={1} itemProp="item">
-              <Text as="span" itemProp="name" variant="link">
-                {collectionTitle}
-              </Text>
-            </GatsbyLink>
+            <Text
+              as={GatsbyLink}
+              to={`${collectionPath}`}
+              mr={1}
+              itemProp="item"
+              variant="link"
+            >
+              {collectionTitle}
+            </Text>
           </Box>
         </Box>
       ) : (

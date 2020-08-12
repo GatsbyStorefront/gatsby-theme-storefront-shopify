@@ -35,7 +35,7 @@ export const preset = {
   colors,
   breakpoints,
   mediaQueries: breakpoints.map(
-    bp => `@media only screen and (min-width: ${bp})`
+    (bp) => `@media only screen and (min-width: ${bp})`
   ),
   fonts: {
     body: '"Work Sans", system-ui, sans-serif',
@@ -90,6 +90,7 @@ export const preset = {
       textDecoration: 'none',
       ':hover,:focus,.active': {
         color: 'primary',
+        textDecoration: 'none',
       },
     },
     searchLink: {
@@ -117,6 +118,7 @@ export const preset = {
       textDecoration: 'none',
       ':hover,:focus,.active': {
         color: 'primary',
+        textDecoration: 'none',
       },
     },
     nav: {
