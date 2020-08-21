@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Flex, Box } from 'rebass';
 import { Label, Select } from '@rebass/forms';
-import * as R from 'ramda';
+import equals from 'ramda/src/equals';
 
 import { useCurrentVariantContext } from './CurrentVariantContext';
 
@@ -49,7 +49,7 @@ const ProductVariantSelector = (props) => {
           [o.name]: o.value,
         };
       });
-      if (R.equals(variantSelectedOptions, options)) {
+      if (equals(variantSelectedOptions, options)) {
         shopifyId = v.shopifyId;
         availableForSale = v.availableForSale;
         price = v.price;
