@@ -1,24 +1,27 @@
 import React, { useState } from 'react';
 import { Flex, Box, Text } from 'rebass';
 import { Helmet } from 'react-helmet';
+import loadable from '@loadable/component';
 
 import strings from './strings';
 import substrDescription from '../../utils/substrDescription.js';
 import shortcodeParser from '../../utils/shortcode-parser';
 import ProductCounter from '../../components/ProductCounter';
-import Payments from '../../components/Payments';
-import ShareButtons from '../../components/ShareButtons';
 import Divider from '../../components/Divider';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import ProductGalleryCurrentImage from './ProductGalleryCurrentImage';
 import ProductGalleryThumbnails from './ProductGalleryThumbnails';
 import { CurrentVariantContextProvider } from './CurrentVariantContext';
 import { CurrentImageContextProvider } from './CurrentImageContext';
-import DescriptionBox from './DescriptionBox';
 import ProductVariantSelector from './ProductVariantSelector';
 import ProductVariantAddToCart from './ProductVariantAddToCart';
 import ProductVariantPrice from './ProductVariantPrice';
 import ProductVariantSku from './ProductVariantSku';
+
+// react-payment-icons-inline heavily increases webpack bundle size. Need to find alternative solution. Will disable it for now.
+// const Payments = loadable(() => import('../../components/Payments'));
+const ShareButtons = loadable(() => import('../../components/ShareButtons'));
+const DescriptionBox = loadable(() => import('./DescriptionBox'));
 
 const {
   productQuantityLabel,
@@ -59,17 +62,18 @@ function ProductPage({ data, pageContext, location }) {
   const {
     payments,
     shareButtons,
+    gatsbyImageProps,
   } = data.store.siteMetadata.gatsbyStorefrontConfig;
 
   function increaseAmount() {
-    setCurrentAmount(a => a + 1);
+    setCurrentAmount((a) => a + 1);
   }
 
   function decreaseAmount() {
-    setCurrentAmount(a => (a <= 1 ? 1 : a - 1));
+    setCurrentAmount((a) => (a <= 1 ? 1 : a - 1));
   }
 
-  const getShortDescription = descriptionHtml => {
+  const getShortDescription = (descriptionHtml) => {
     let shortDescrition_temp;
     return {
       withoutShortDescription: shortcodeParser.parseInContext(descriptionHtml, {
@@ -116,7 +120,11 @@ function ProductPage({ data, pageContext, location }) {
               px={[2, null, 0]}
               order={[2, null, 1]}
             >
-              <ProductGalleryThumbnails images={images} title={title} />
+              <ProductGalleryThumbnails
+                images={images}
+                title={title}
+                gatsbyImageProps={gatsbyImageProps}
+              />
             </Box>
           ) : (
             ''
@@ -144,7 +152,11 @@ function ProductPage({ data, pageContext, location }) {
               />
             </Box>
 
-            <ProductGalleryCurrentImage images={images} title={title} />
+            <ProductGalleryCurrentImage
+              images={images}
+              title={title}
+              gatsbyImageProps={gatsbyImageProps}
+            />
           </Box>
 
           <Flex
@@ -214,7 +226,7 @@ function ProductPage({ data, pageContext, location }) {
             <Flex mb={4}>
               <Box>
                 <Text>{paymentsLabel}</Text>
-                <Payments payments={payments} />
+                {/* <Payments payments={payments} /> */}
               </Box>
             </Flex>
 

@@ -1,14 +1,17 @@
 /** @jsx jsx */
-/*eslint no-unused-vars: 0*/
+/* eslint no-unused-vars: 0 */
 import React from 'react';
 import { jsx, useThemeUI } from 'theme-ui';
 import { Flex, Box, Text, Link } from 'rebass';
 import { useStaticQuery, graphql } from 'gatsby';
 import GatsbyLink from 'gatsby-link';
-import { SocialIcon } from 'react-social-icons';
+import loadable from '@loadable/component';
+// import { SocialIcon } from 'react-social-icons';
 
-const validURL = str => {
-  let pattern = new RegExp(
+const SocialIcon = loadable(() => import('./SocialIcon'));
+
+const validURL = (str) => {
+  const pattern = new RegExp(
     '^(https?:\\/\\/)?' + // protocol
     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
     '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
@@ -135,7 +138,7 @@ function Footer() {
         <Flex>
           <Box>
             <Text fontSize={[1, 2]}>
-              © {year} {company ? company : ''}
+              © {year} {company || ''}
               {address || location ? ' | ' : ''} {address} {location}
               {phone || workingDays || workingHours ? ' | ' : ''}
               {phone} {workingDays} {workingHours}
