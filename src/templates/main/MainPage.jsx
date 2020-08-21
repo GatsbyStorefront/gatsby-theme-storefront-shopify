@@ -6,7 +6,7 @@ import MainPageCarousel from './MainPageCarousel';
 import MainPageCollectionBlock from './MainPageCollectionBlock';
 import MainPageProductBlock from './MainPageProductBlock';
 
-const MainPage = props => {
+const MainPage = (props) => {
   const dataQuery = useStaticQuery(graphql`
     query MainPageStaticQuery {
       site {
@@ -36,13 +36,19 @@ const MainPage = props => {
 
   const { data } = props;
 
+  const { gatsbyImageProps } = data.store.siteMetadata.gatsbyStorefrontConfig;
+
   return (
     <Flex flexWrap="wrap" px={2} pt={3} mx="auto" style={{ maxWidth: 1300 }}>
       {mainPage.map((block, index) => {
         if (block.type === 'carousel') {
           return (
             <Box width={1} p={1} key={index}>
-              <MainPageCarousel carousel={block} data={data} />
+              <MainPageCarousel
+                carousel={block}
+                data={data}
+                gatsbyImageProps={gatsbyImageProps}
+              />
             </Box>
           );
         } else if (block.type === 'header') {
@@ -50,7 +56,7 @@ const MainPage = props => {
         } else if (
           block.type === 'collection' &&
           data.collections.nodes.filter(
-            collection => collection.handle === block.handle
+            (collection) => collection.handle === block.handle
           )[0]
         ) {
           return (
@@ -58,18 +64,19 @@ const MainPage = props => {
               <MainPageCollectionBlock
                 collection={
                   data.collections.nodes.filter(
-                    collection => collection.handle === block.handle
+                    (collection) => collection.handle === block.handle
                   )[0]
                 }
                 textColor={block.textColor}
                 textBgColor={block.textBgColor}
+                gatsbyImageProps={gatsbyImageProps}
               />
             </Box>
           );
         } else if (
           block.type === 'product' &&
           data.products.nodes.filter(
-            product => product.handle === block.handle
+            (product) => product.handle === block.handle
           )[0]
         ) {
           return (
@@ -77,11 +84,12 @@ const MainPage = props => {
               <MainPageProductBlock
                 product={
                   data.products.nodes.filter(
-                    product => product.handle === block.handle
+                    (product) => product.handle === block.handle
                   )[0]
                 }
                 textColor={block.textColor}
                 textBgColor={block.textBgColor}
+                gatsbyImageProps={gatsbyImageProps}
               />
             </Box>
           );

@@ -1,5 +1,5 @@
 /** @jsx jsx */
-/*eslint no-unused-vars: 0*/
+/* eslint no-unused-vars: 0 */
 import React from 'react';
 import { jsx } from 'theme-ui';
 import { Box } from 'rebass';
@@ -23,15 +23,15 @@ import strings from './strings.json';
 const { ariaNextButtonLabel, ariaBackButtonLabel } = strings;
 
 const MainPageCarousel = (props) => {
-  const { carousel, data } = props;
+  const { carousel, data, gatsbyImageProps } = props;
   return (
     <Box width={1} sx={{ position: 'relative' }}>
       <CarouselProvider
         naturalSlideWidth={1300}
         naturalSlideHeight={800}
         totalSlides={carousel.children.length}
-        isPlaying={true}
-        infinite={true}
+        isPlaying
+        infinite
       >
         <Slider>
           {carousel.children.map((slide, index) => {
@@ -46,6 +46,7 @@ const MainPageCarousel = (props) => {
                           key={index}
                           textColor={slide.textColor}
                           textBgColor={slide.textBgColor}
+                          gatsbyImageProps={gatsbyImageProps}
                         />
                       );
                     } else {
@@ -65,6 +66,7 @@ const MainPageCarousel = (props) => {
                           key={index}
                           textColor={slide.textColor}
                           textBgColor={slide.textBgColor}
+                          gatsbyImageProps={gatsbyImageProps}
                         />
                       );
                     } else {

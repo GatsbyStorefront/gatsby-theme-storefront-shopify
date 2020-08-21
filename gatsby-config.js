@@ -4,6 +4,7 @@ module.exports = ({
   shopifyLite = false,
   imageQuality = '95',
   manifest = {},
+  gatsbyImageProps = {},
 }) => ({
   plugins: [
     {
@@ -17,7 +18,7 @@ module.exports = ({
       resolve: 'gatsby-plugin-web-font-loader',
       options: {
         google: {
-          families: ['Work Sans'],
+          families: ['Work Sans&display=swap'],
         },
       },
     },
@@ -88,6 +89,7 @@ module.exports = ({
         },
       },
     },
+    'gatsby-plugin-loadable-components-ssr',
   ],
   siteMetadata: {
     siteUrl: 'https://demo.gatsbystorefront.com',
@@ -108,6 +110,7 @@ module.exports = ({
       shareButtons: [],
       googleAnalyticsId: 'UA-141525658-3',
       isShopifyLite: shopifyLite,
+      gatsbyImageProps: { ...gatsbyImageProps },
       //
       // Main page types: "carousel", "collection", "product"
       //

@@ -1,5 +1,5 @@
 /** @jsx jsx */
-/*eslint no-unused-vars: 0*/
+/* eslint no-unused-vars: 0 */
 import React from 'react';
 import GatsbyImage from 'gatsby-image';
 import { Link as GatsbyLink } from 'gatsby';
@@ -28,12 +28,15 @@ const StyledBox = styled(Box)`
   }
 `;
 
-const MainPageProductBlock = props => {
+const MainPageProductBlock = (props) => {
   const {
     title,
     description,
     fields: { shopifyThemePath, firstImage },
   } = props.product;
+
+  const { gatsbyImageProps } = props;
+
   const { textColor = 'primary', textBgColor = 'white' } = props;
   return (
     <StyledBox sx={{ position: 'relative' }}>
@@ -42,6 +45,8 @@ const MainPageProductBlock = props => {
           <Image
             fluid={firstImage.localFile.childImageSharp.fluid}
             alt={title}
+            // eslint-disable-next-line
+            {...gatsbyImageProps}
           />
         ) : (
           <Box pt="60%" />

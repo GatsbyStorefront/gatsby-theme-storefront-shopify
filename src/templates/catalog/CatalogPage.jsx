@@ -6,12 +6,14 @@ import Pagination from '../../components/Pagination';
 import CollectionStats from '../../components/CollectionStats';
 
 function CatalogPage(props) {
+  const {
+    gatsbyImageProps,
+  } = props.data.store.siteMetadata.gatsbyStorefrontConfig;
   const { limit, skip, cartUrl } = props.pageContext;
-
   const { title, description } = props.data.collection.nodes[0];
   let products = [];
 
-  props.data.collection.nodes.forEach(node => {
+  props.data.collection.nodes.forEach((node) => {
     products = [...products, ...node.products];
   });
 
@@ -45,10 +47,14 @@ function CatalogPage(props) {
         </Text>
       </Flex>
       {products.map((product, index) => {
-        product['cartUrl'] = cartUrl;
+        product.cartUrl = cartUrl;
         if (index + 1 > skip && index + 1 <= skip + limit) {
           return (
-            <IndividualProduct key={product.shopifyId} product={product} />
+            <IndividualProduct
+              key={product.shopifyId}
+              product={product}
+              gatsbyImageProps={gatsbyImageProps}
+            />
           );
         } else {
           return '';

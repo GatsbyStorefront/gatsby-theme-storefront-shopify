@@ -1,3 +1,4 @@
+/* eslint react/jsx-props-no-spreading: "off" */
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { graphql } from 'gatsby';
@@ -106,6 +107,11 @@ export const mainPageQuery = graphql`
         gatsbyStorefrontConfig {
           storeName
           storeDescription
+          gatsbyImageProps {
+            loading
+            fadeIn
+            durationFadeIn
+          }
         }
       }
     }

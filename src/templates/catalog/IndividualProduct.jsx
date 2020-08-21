@@ -11,7 +11,7 @@ import NoImage from '../../components/Icons/NoImage';
 import formatPrice from '../../utils/formatPrice';
 import strings from './strings.json';
 
-const IndividualProduct = ({ product }) => {
+const IndividualProduct = ({ product, gatsbyImageProps }) => {
   const data = useStaticQuery(graphql`
     {
       site {
@@ -45,7 +45,7 @@ const IndividualProduct = ({ product }) => {
   const minDisplayPrice = formatPrice(minPrice, locales, currency);
   const maxDisplayPrice = formatPrice(maxPrice, locales, currency);
 
-  const compareAtPrice = variants[0].compareAtPrice;
+  const { compareAtPrice } = variants[0];
   const compareAtPriceFmormatted = formatPrice(
     variants[0].compareAtPrice,
     locales,
@@ -137,7 +137,7 @@ const IndividualProduct = ({ product }) => {
             m={2}
             sx={{ display: 'inline-block', position: 'absolute', 'z-index': 9 }}
           >
-            {tags.map(tag => {
+            {tags.map((tag) => {
               if (tag === 'new' && availableForSale) {
                 return (
                   <Badge
@@ -189,6 +189,7 @@ const IndividualProduct = ({ product }) => {
                 <Image
                   alt={title}
                   fluid={firstImage.localFile.childImageSharp.fluid}
+                  {...gatsbyImageProps}
                 />
               ) : (
                 <NoImage width="100%" height="100%" color="grey" p={4} />

@@ -30,6 +30,7 @@ function ProductGalleryThumbnails({
   maxImageHeight = 100,
   maxImageWidth = 100,
   maxContainerHeight = 500,
+  gatsbyImageProps,
 }) {
   const { currentImageIndex, setCurrentImageIndex } = useCurrentImageContext();
 
@@ -72,6 +73,7 @@ function ProductGalleryThumbnails({
             <GatsbyImage
               fluid={image.localFile.childImageSharp.thumbnail}
               alt={image.altText ? image.altText : title}
+              {...gatsbyImageProps}
             />
           </ThumbnailBox>
         ))}
