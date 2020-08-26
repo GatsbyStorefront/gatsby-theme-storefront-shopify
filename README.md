@@ -8,7 +8,6 @@ Gatsby Storefront is a headless eCommerce PWA storefront for Shopify. Powered by
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/gatsbystorefront/gatsby-theme-storefront-shopify)
 ![GitHub](https://img.shields.io/github/license/gatsbystorefront/gatsby-theme-storefront-shopify?color=green)
-[![Join the community on Spectrum](https://img.shields.io/badge/join%20the%20community-on%20spectrum-blue.svg?style=flat-square&colorB=3818E5)](https://spectrum.chat/GatsbyStorefront)
 
 Please see our <a href="https://demo.gatsbystorefront.com" >demo</a> and <a href="https://youtu.be/B7CXzx9jQeM">speed test video</a>.
 
@@ -35,7 +34,7 @@ And if you like Gatsby Storefront **please give us a star on GitHub** ⭐ 👍 �
   - [Serve](#serve)
   - [Publish](#publish)
 - [Thank you!](#thank-you)
-- [Contributors ✨](#contributors-%E2%9C%A8)
+- [Contributors ✨](#contributors)
 
 ## Demo
 
@@ -114,6 +113,11 @@ module.exports = {
         shopifyLite: false, // default 'false'
         enableWebp: true, // default 'true'
         imageQuality: '95', // default '95', better to decrease but always check your result images quality
+        gatsbyImageProps: { // See: https://www.gatsbyjs.com/plugins/gatsby-image/#gatsby-image-props
+          loading: 'eager', // Using 'eager' currently improves Lighthouse 6 metrics. See: https://github.com/gatsbyjs/gatsby/issues/24332#issuecomment-650760081
+          fadeIn: false,
+          durationFadeIn: 500,
+        }
         manifest: { // web app manifest options to be passed to 'gatsby-plugin-manifest' installed inside theme
           name: 'Gatsby Storefront Demo Store',
           short_name: 'Gatsby Storefront',
@@ -208,7 +212,7 @@ Thank you! And we would love to hear your [feedback [😍😜😮😐😤]](http
 
 ![Expolore Gatsby Storefront](https://octodex.github.com/images/scubatocat.png)
 
-## Contributors ✨
+## Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
