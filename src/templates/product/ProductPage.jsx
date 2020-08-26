@@ -90,29 +90,30 @@ function ProductPage({ data, pageContext, location }) {
   );
 
   return (
-    <CurrentVariantContextProvider>
-      <CurrentImageContextProvider>
-        <Helmet>
-          {/* Google's meta description length is up to 920 pixels, which might
+    <>
+      <Helmet>
+        {/* Google's meta description length is up to 920 pixels, which might
           allow for up to 158 characters. On mobile devices, the max limit is
           about 680 pixels and 120 characters. Oct 1, 2019 */}
-          <meta
-            name="description"
-            content={
-              shortDescription
-                ? substrDescription(shortDescription, 158)
-                : substrDescription(description, 158)
-            }
-          />
-        </Helmet>
-        <Flex
-          flexDirection={['column', null, 'row']}
-          pt={3}
-          px={4}
-          mx="auto"
-          sx={{ maxWidth: 1300 }}
-          fontFamily="body"
-        >
+        <meta
+          name="description"
+          content={
+            shortDescription
+              ? substrDescription(shortDescription, 158)
+              : substrDescription(description, 158)
+          }
+        />
+      </Helmet>
+
+      <Flex
+        flexDirection={['column', null, 'row']}
+        pt={3}
+        px={4}
+        mx="auto"
+        sx={{ maxWidth: 1300 }}
+        fontFamily="body"
+      >
+        <CurrentImageContextProvider>
           {images && images.length > 1 ? (
             <Box
               width={[1, null, 1 / 10]}
@@ -158,23 +159,26 @@ function ProductPage({ data, pageContext, location }) {
               gatsbyImageProps={gatsbyImageProps}
             />
           </Box>
+        </CurrentImageContextProvider>
 
-          <Flex
-            flexDirection="column"
-            width={[1, null, 4 / 10]}
-            px={[2, null, 3]}
-            data-product-info
-            order={3}
-          >
-            {/* Breadcrumbs block 2 for desktop */}
-            <Box sx={{ display: ['none', 'none', 'block'] }} pt={1}>
-              <Breadcrumbs
-                productTitle={title}
-                collectionTitle={collectionTitle}
-                collectionPath={collectionPath}
-                separator="/"
-              />
-            </Box>
+        <Flex
+          flexDirection="column"
+          width={[1, null, 4 / 10]}
+          px={[2, null, 3]}
+          data-product-info
+          order={3}
+        >
+          {/* Breadcrumbs block 2 for desktop */}
+          <Box sx={{ display: ['none', 'none', 'block'] }} pt={1}>
+            <Breadcrumbs
+              productTitle={title}
+              collectionTitle={collectionTitle}
+              collectionPath={collectionPath}
+              separator="/"
+            />
+          </Box>
+
+          <CurrentVariantContextProvider>
             <Box>
               <Text as="h1" mb={3} data-title-box>
                 {title}
@@ -233,58 +237,58 @@ function ProductPage({ data, pageContext, location }) {
             <Divider bg="grey" mb={4} />
 
             <ProductVariantSku />
+          </CurrentVariantContextProvider>
 
-            {vendor ? (
-              <Flex mb={4}>
-                <Box mr={2}>
-                  <Text>{vendorLabel}</Text>
-                </Box>
-                <Box>{vendor}</Box>
-              </Flex>
-            ) : (
-              ''
-            )}
-
-            {productType ? (
-              <Flex mb={4}>
-                <Box mr={2}>
-                  <Text>{productTypeLabel}</Text>
-                </Box>
-                <Box>{productType}</Box>
-              </Flex>
-            ) : (
-              ''
-            )}
-
-            <Flex mb={4} alignItems="center">
+          {vendor ? (
+            <Flex mb={4}>
               <Box mr={2}>
-                <Text>{shareButtonsLabel}</Text>
+                <Text>{vendorLabel}</Text>
               </Box>
-              <Box>
-                <ShareButtons buttons={shareButtons} location={location.href} />
-              </Box>
+              <Box>{vendor}</Box>
             </Flex>
+          ) : (
+            ''
+          )}
+
+          {productType ? (
+            <Flex mb={4}>
+              <Box mr={2}>
+                <Text>{productTypeLabel}</Text>
+              </Box>
+              <Box>{productType}</Box>
+            </Flex>
+          ) : (
+            ''
+          )}
+
+          <Flex mb={4} alignItems="center">
+            <Box mr={2}>
+              <Text>{shareButtonsLabel}</Text>
+            </Box>
+            <Box>
+              <ShareButtons buttons={shareButtons} location={location.href} />
+            </Box>
           </Flex>
         </Flex>
+      </Flex>
 
-        <Flex
-          pt={3}
-          px={4}
-          mx="auto"
-          style={{ maxWidth: 1300 }}
-          fontFamily="body"
-        >
-          <Box width={1}>
-            <Divider bg="grey" mb={4} />
-            <DescriptionBox
-              pt={3}
-              source={withoutShortDescription}
-              escapeHtml={false}
-            />
-          </Box>
-        </Flex>
-      </CurrentImageContextProvider>
-    </CurrentVariantContextProvider>
+      <Flex
+        pt={3}
+        px={4}
+        mx="auto"
+        style={{ maxWidth: 1300 }}
+        fontFamily="body"
+      >
+        <Box width={1}>
+          <Divider bg="grey" mb={4} />
+          <DescriptionBox
+            pt={3}
+            source={withoutShortDescription}
+            escapeHtml={false}
+          />
+        </Box>
+      </Flex>
+    </>
   );
 }
 

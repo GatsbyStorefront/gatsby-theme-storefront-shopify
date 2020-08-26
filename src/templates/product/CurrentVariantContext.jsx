@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 
 const CurrentVariantContext = React.createContext();
+CurrentVariantContext.displayName = 'CurrentVariantContext';
 const { Provider } = CurrentVariantContext;
 
 export function CurrentVariantContextProvider({ children }) {

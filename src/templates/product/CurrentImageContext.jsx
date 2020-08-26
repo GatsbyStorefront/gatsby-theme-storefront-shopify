@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 
 const CurrentImageContext = React.createContext(0);
+CurrentImageContext.displayName = 'CurrentImageContext';
 const { Provider } = CurrentImageContext;
 
 export function CurrentImageContextProvider({ children }) {
