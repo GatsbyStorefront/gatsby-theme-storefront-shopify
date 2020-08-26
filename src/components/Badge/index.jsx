@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex, Box } from 'rebass';
 
-const Badge = props => {
+const Badge = (props) => {
   const {
     text,
     format = 'circle',
@@ -33,9 +33,9 @@ const Badge = props => {
       sx={{
         display: 'inline-block',
         fontSize: 1,
-        width: width,
-        height: height,
-        borderRadius: borderRadius,
+        width,
+        height,
+        borderRadius,
       }}
     >
       <Box fontFamily="body">{text}</Box>
@@ -43,4 +43,4 @@ const Badge = props => {
   );
 };
 
-export default Badge;
+export default React.memo(Badge);

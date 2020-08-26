@@ -70,4 +70,4 @@ const Breadcrumbs = ({
   );
 };
 
-export default Breadcrumbs;
+export default React.memo(Breadcrumbs);
