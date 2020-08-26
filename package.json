@@ -35,6 +35,7 @@
     "@rebass/forms": "^4.0.6",
     "@rebass/preset": "^4.0.5",
     "@theme-ui/presets": "^0.2.42",
+    "body-scroll-lock": "^3.0.3",
     "elasticlunr": "^0.9.5",
     "gatsby-image": "^2.2.7",
     "gatsby-plugin-lint-queries": "^0.0.3",
