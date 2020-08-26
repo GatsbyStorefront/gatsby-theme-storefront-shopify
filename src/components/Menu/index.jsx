@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Flex, Box } from 'rebass';
 import GatsbyLink from 'gatsby-link';
 import styled from '@emotion/styled';
+import {
+  disableBodyScroll,
+  enableBodyScroll,
+  clearAllBodyScrollLocks,
+} from 'body-scroll-lock';
 
 import { useMenuContext } from './context';
-import ChevronLeft from '../Icons/ChevronLeft/';
+import ChevronLeft from '../Icons/ChevronLeft';
 import Burger from '../Icons/Burger';
 import Close from '../Icons/Close';
 
@@ -47,7 +52,7 @@ const Menu = ({ menu: componentMenu }) => {
   const [showSidebar, setShowsidebar] = useState(false);
   const { menuShowed, setMenuShowed } = useMenuContext();
 
-  const updateParentId = id => {
+  const updateParentId = (id) => {
     setParentId(id);
   };
 
@@ -56,8 +61,21 @@ const Menu = ({ menu: componentMenu }) => {
     setMenuShowed(!menuShowed);
   };
 
+  const sidebarRef = useRef();
+
+  useEffect(() => {
+    if (showSidebar) {
+      disableBodyScroll(sidebarRef.current);
+    } else {
+      enableBodyScroll(sidebarRef.current);
+    }
+    return () => {
+      clearAllBodyScrollLocks();
+    };
+  }, [showSidebar]);
+
   return (
-    <React.Fragment>
+    <>
       <Burger
         width="20px"
         height="20px"
@@ -65,12 +83,16 @@ const Menu = ({ menu: componentMenu }) => {
         sx={{ cursor: 'pointer' }}
       />
       {showSidebar ? (
-        <React.Fragment>
-          <Sidebar width={[1, 1 / 3, 1 / 4, 1 / 5]} sx={{ bg: 'menu' }}>
+        <>
+          <Sidebar
+            width={[1, 1 / 3, 1 / 4, 1 / 5]}
+            sx={{ bg: 'menu' }}
+            ref={sidebarRef}
+          >
             <Flex bg="menuItem" color="menuText" p={[2]} fontSize={[4]}>
               <Box mr={3} width={1 / 2}>
                 {componentMenu && parentId > 0
-                  ? componentMenu.map(element => {
+                  ? componentMenu.map((element) => {
                       if (element.id === parentId) {
                         return (
                           <ChevronLeft
@@ -105,7 +127,7 @@ const Menu = ({ menu: componentMenu }) => {
 
             <Flex flexDirection="column">
               {componentMenu
-                ? componentMenu.map(element => {
+                ? componentMenu.map((element) => {
                     if (element.parentId === parentId) {
                       return (
                         <React.Fragment key={element.id}>
@@ -128,7 +150,7 @@ const Menu = ({ menu: componentMenu }) => {
                           {element.type !== 'header' &&
                           element.type !== 'external' ? (
                             <GatsbyLink
-                              to={'/' + element.type + '/' + element.handle}
+                              to={`/${element.type}/${element.handle}`}
                               key={element.id}
                               style={{ textDecoration: 'none' }}
                             >
@@ -171,11 +193,11 @@ const Menu = ({ menu: componentMenu }) => {
           </Sidebar>
 
           <DisabledArea onClick={toggleSidebar} />
-        </React.Fragment>
+        </>
       ) : (
         ''
       )}
-    </React.Fragment>
+    </>
   );
 };
 

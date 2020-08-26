@@ -5,22 +5,16 @@ import { Flex, Box } from 'rebass';
 import ReactGA from 'react-ga';
 import { useStaticQuery, graphql } from 'gatsby';
 
-import {
-  MenuContextProvider,
-  useMenuContext,
-} from '../components/Menu/context';
+import { MenuContextProvider } from './Menu/context';
 
-import {
-  SearchContextProvider,
-  useSearchContext,
-} from '../components/Search/context';
+import { SearchContextProvider } from './Search/context';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import theme from '../gatsby-plugin-theme-ui/index';
 
 import './reset.css';
 
-const initializeReactGA = googleAnalyticsId => {
+const initializeReactGA = (googleAnalyticsId) => {
   ReactGA.initialize(googleAnalyticsId);
   if (typeof window !== `undefined`) {
     ReactGA.pageview(window.location.pathname + window.location.search);
@@ -49,25 +43,17 @@ const Layout = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <Styled.root>
-        <MenuContextProvider>
-          <SearchContextProvider>
-            <LayoutComponents children={children} />
-          </SearchContextProvider>
-        </MenuContextProvider>
+        <LayoutComponents children={children} />
       </Styled.root>
     </ThemeProvider>
   );
 };
 
 const LayoutComponents = ({ children }) => {
-  const { menuShowed } = useMenuContext();
-  const { searchShowed } = useSearchContext();
   return (
     <Box
       bg="background"
       sx={{
-        position: menuShowed || searchShowed ? 'fixed' : 'relative',
-        overflow: menuShowed || searchShowed ? 'hidden' : 'visible',
         width: '100%',
       }}
     >
@@ -78,7 +64,12 @@ const LayoutComponents = ({ children }) => {
       </Helmet>
 
       <Flex flexDirection="column" style={{ minHeight: '100vh' }}>
-        <Navbar />
+        <MenuContextProvider>
+          <SearchContextProvider>
+            <Navbar />{' '}
+          </SearchContextProvider>
+        </MenuContextProvider>
+
         <Box
           as="main"
           flex="1"
@@ -89,6 +80,7 @@ const LayoutComponents = ({ children }) => {
         >
           {children}
         </Box>
+
         <Footer />
       </Flex>
     </Box>

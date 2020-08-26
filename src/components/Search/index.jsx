@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import GatsbyLink from 'gatsby-link';
 import { Index } from 'elasticlunr';
 import { Flex, Box, Text } from 'rebass';
 import { Input } from '@rebass/forms';
 import styled from '@emotion/styled';
+import {
+  disableBodyScroll,
+  enableBodyScroll,
+  clearAllBodyScrollLocks,
+} from 'body-scroll-lock';
 
 import { useSearchContext } from './context';
 import SearchIcon from '../Icons/SearchIcon';
@@ -59,9 +64,9 @@ const Search = () => {
   let index;
 
   const getOrCreateIndex = () =>
-    index ? index : Index.load(data.siteSearchIndex.index);
+    index || Index.load(data.siteSearchIndex.index);
 
-  const search = evt => {
+  const search = (evt) => {
     const query = evt.target.value;
     index = getOrCreateIndex();
     setQuery(query);
@@ -78,8 +83,21 @@ const Search = () => {
     setSearchShowed(!searchShowed);
   };
 
+  const sidebarRef = useRef();
+
+  useEffect(() => {
+    if (showSidebar) {
+      disableBodyScroll(sidebarRef.current);
+    } else {
+      enableBodyScroll(sidebarRef.current);
+    }
+    return () => {
+      clearAllBodyScrollLocks();
+    };
+  }, [showSidebar]);
+
   return (
-    <React.Fragment>
+    <>
       <SearchIcon
         width="24px"
         height="24px"
@@ -87,8 +105,12 @@ const Search = () => {
         sx={{ cursor: 'pointer' }}
       />
       {showSidebar ? (
-        <React.Fragment>
-          <Sidebar width={[1, 1 / 3, 1 / 4]} sx={{ bg: 'white' }}>
+        <>
+          <Sidebar
+            width={[1, 1 / 3, 1 / 4]}
+            sx={{ bg: 'white' }}
+            ref={sidebarRef}
+          >
             <Flex flexDirection="column" m={[1, 2]}>
               <Flex
                 onClick={toggleSidebar}
@@ -117,7 +139,7 @@ const Search = () => {
                 />
               </Box>
               <Box>
-                {results.map(page => (
+                {results.map((page) => (
                   <SearchItem key={page.id} m={2}>
                     <Text
                       as={GatsbyLink}
@@ -132,11 +154,11 @@ const Search = () => {
             </Flex>
           </Sidebar>
           <DisabledArea onClick={toggleSidebar} />
-        </React.Fragment>
+        </>
       ) : (
         ''
       )}
-    </React.Fragment>
+    </>
   );
 };
 
