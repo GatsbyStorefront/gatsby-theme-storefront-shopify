@@ -63,6 +63,9 @@ module.exports = ({
           ? manifest.display
           : 'standalone',
         icon: manifest.hasOwnProperty('icon') ? manifest.icon : undefined,
+        icon_options: manifest.hasOwnProperty('icon_options')
+          ? manifest.icon_options
+          : undefined,
         cache_busting_mode: manifest.hasOwnProperty('cache_busting_mode')
           ? manifest.cache_busting_mode
           : 'none',
