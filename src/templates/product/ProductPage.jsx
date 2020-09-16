@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Flex, Box, Text } from 'rebass';
 import { Helmet } from 'react-helmet';
 import loadable from '@loadable/component';
+import { CarouselProvider } from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 
 import strings from './strings';
 import substrDescription from '../../utils/substrDescription.js';
@@ -9,10 +11,10 @@ import shortcodeParser from '../../utils/shortcode-parser';
 import ProductCounter from '../../components/ProductCounter';
 import Divider from '../../components/Divider';
 import Breadcrumbs from '../../components/Breadcrumbs';
-import ProductGalleryCurrentImage from './ProductGalleryCurrentImage';
+
 import ProductGalleryThumbnails from './ProductGalleryThumbnails';
+import ProductGalleryCarousel from './ProductGalleryCarousel';
 import { CurrentVariantContextProvider } from './CurrentVariantContext';
-import { CurrentImageContextProvider } from './CurrentImageContext';
 import ProductVariantSelector from './ProductVariantSelector';
 import ProductVariantAddToCart from './ProductVariantAddToCart';
 import ProductVariantPrice from './ProductVariantPrice';
@@ -63,6 +65,7 @@ function ProductPage({ data, pageContext, location }) {
     payments,
     shareButtons,
     gatsbyImageProps,
+    productImagesCarouselProps,
   } = data.store.siteMetadata.gatsbyStorefrontConfig;
 
   function increaseAmount() {
@@ -104,16 +107,18 @@ function ProductPage({ data, pageContext, location }) {
           }
         />
       </Helmet>
-
-      <Flex
-        flexDirection={['column', null, 'row']}
-        pt={3}
-        px={4}
-        mx="auto"
-        sx={{ maxWidth: 1300 }}
-        fontFamily="body"
+      <CarouselProvider
+        {...productImagesCarouselProps}
+        totalSlides={images.length}
       >
-        <CurrentImageContextProvider>
+        <Flex
+          flexDirection={['column', null, 'row']}
+          pt={3}
+          px={4}
+          mx="auto"
+          sx={{ maxWidth: 1300 }}
+          fontFamily="body"
+        >
           {images && images.length > 1 ? (
             <Box
               width={[1, null, 1 / 10]}
@@ -125,17 +130,16 @@ function ProductPage({ data, pageContext, location }) {
                 images={images}
                 title={title}
                 gatsbyImageProps={gatsbyImageProps}
+                maxContainerHeight={
+                  productImagesCarouselProps.naturalSlideHeight
+                }
               />
             </Box>
           ) : (
             ''
           )}
           <Box
-            width={
-              images && images.length > 1
-                ? [1, null, 5 / 10]
-                : [1, null, 6 / 10]
-            }
+            width={[1, null, 6 / 10]}
             ml="auto"
             py={2}
             pr={images && images.length > 1 ? [2, null, 3] : [2, null, 3]}
@@ -153,141 +157,141 @@ function ProductPage({ data, pageContext, location }) {
               />
             </Box>
 
-            <ProductGalleryCurrentImage
+            <ProductGalleryCarousel
               images={images}
               title={title}
               gatsbyImageProps={gatsbyImageProps}
-            />
-          </Box>
-        </CurrentImageContextProvider>
-
-        <Flex
-          flexDirection="column"
-          width={[1, null, 4 / 10]}
-          px={[2, null, 3]}
-          data-product-info
-          order={3}
-        >
-          {/* Breadcrumbs block 2 for desktop */}
-          <Box sx={{ display: ['none', 'none', 'block'] }} pt={1}>
-            <Breadcrumbs
-              productTitle={title}
-              collectionTitle={collectionTitle}
-              collectionPath={collectionPath}
-              separator="/"
+              maxContainerHeight={productImagesCarouselProps.naturalSlideHeight}
             />
           </Box>
 
-          <CurrentVariantContextProvider>
-            <Box>
-              <Text as="h1" mb={3} data-title-box>
-                {title}
-              </Text>
-              <ProductVariantPrice
-                initialDisplayPrice={variants[0].price}
-                mb={3}
+          <Flex
+            flexDirection="column"
+            width={[1, null, 4 / 10]}
+            px={[2, null, 3]}
+            data-product-info
+            order={3}
+          >
+            {/* Breadcrumbs block 2 for desktop */}
+            <Box sx={{ display: ['none', 'none', 'block'] }} pt={1}>
+              <Breadcrumbs
+                productTitle={title}
+                collectionTitle={collectionTitle}
+                collectionPath={collectionPath}
+                separator="/"
               />
-              {shortDescription ? (
-                <DescriptionBox
-                  source={shortDescription}
-                  escapeHtml={false}
+            </Box>
+
+            <CurrentVariantContextProvider>
+              <Box>
+                <Text as="h1" mb={3} data-title-box>
+                  {title}
+                </Text>
+                <ProductVariantPrice
+                  initialDisplayPrice={variants[0].price}
                   mb={3}
                 />
-              ) : (
-                ''
-              )}
-            </Box>
+                {shortDescription ? (
+                  <DescriptionBox
+                    source={shortDescription}
+                    escapeHtml={false}
+                    mb={3}
+                  />
+                ) : (
+                  ''
+                )}
+              </Box>
 
-            <ProductVariantSelector
-              variants={variants}
-              options={options}
-              pageContext={pageContext}
-              mb={4}
-            />
+              <ProductVariantSelector
+                variants={variants}
+                options={options}
+                pageContext={pageContext}
+                mb={4}
+              />
 
-            <Flex alignItems="center" mb={4}>
+              <Flex alignItems="center" mb={4}>
+                <Box mr={2}>
+                  <Text>{productQuantityLabel}</Text>
+                </Box>
+                <Box width={0.2}>
+                  <ProductCounter
+                    decreaseAmount={decreaseAmount}
+                    increaseAmount={increaseAmount}
+                    currentAmount={currentAmount}
+                  />
+                </Box>
+              </Flex>
+
+              <Flex mb={4}>
+                <Box>
+                  <ProductVariantAddToCart
+                    amount={currentAmount}
+                    cartUrl={cartUrl}
+                  />
+                </Box>
+              </Flex>
+
+              <Flex mb={4}>
+                <Box>
+                  <Text>{paymentsLabel}</Text>
+                  {/* <Payments payments={payments} /> */}
+                </Box>
+              </Flex>
+
+              <Divider bg="grey" mb={4} />
+
+              <ProductVariantSku />
+            </CurrentVariantContextProvider>
+
+            {vendor ? (
+              <Flex mb={4}>
+                <Box mr={2}>
+                  <Text>{vendorLabel}</Text>
+                </Box>
+                <Box>{vendor}</Box>
+              </Flex>
+            ) : (
+              ''
+            )}
+
+            {productType ? (
+              <Flex mb={4}>
+                <Box mr={2}>
+                  <Text>{productTypeLabel}</Text>
+                </Box>
+                <Box>{productType}</Box>
+              </Flex>
+            ) : (
+              ''
+            )}
+
+            <Flex mb={4} alignItems="center">
               <Box mr={2}>
-                <Text>{productQuantityLabel}</Text>
+                <Text>{shareButtonsLabel}</Text>
               </Box>
-              <Box width={0.2}>
-                <ProductCounter
-                  decreaseAmount={decreaseAmount}
-                  increaseAmount={increaseAmount}
-                  currentAmount={currentAmount}
-                />
-              </Box>
-            </Flex>
-
-            <Flex mb={4}>
               <Box>
-                <ProductVariantAddToCart
-                  amount={currentAmount}
-                  cartUrl={cartUrl}
-                />
+                <ShareButtons buttons={shareButtons} location={location.href} />
               </Box>
             </Flex>
-
-            <Flex mb={4}>
-              <Box>
-                <Text>{paymentsLabel}</Text>
-                {/* <Payments payments={payments} /> */}
-              </Box>
-            </Flex>
-
-            <Divider bg="grey" mb={4} />
-
-            <ProductVariantSku />
-          </CurrentVariantContextProvider>
-
-          {vendor ? (
-            <Flex mb={4}>
-              <Box mr={2}>
-                <Text>{vendorLabel}</Text>
-              </Box>
-              <Box>{vendor}</Box>
-            </Flex>
-          ) : (
-            ''
-          )}
-
-          {productType ? (
-            <Flex mb={4}>
-              <Box mr={2}>
-                <Text>{productTypeLabel}</Text>
-              </Box>
-              <Box>{productType}</Box>
-            </Flex>
-          ) : (
-            ''
-          )}
-
-          <Flex mb={4} alignItems="center">
-            <Box mr={2}>
-              <Text>{shareButtonsLabel}</Text>
-            </Box>
-            <Box>
-              <ShareButtons buttons={shareButtons} location={location.href} />
-            </Box>
           </Flex>
         </Flex>
-      </Flex>
-
-      <Flex
-        pt={3}
-        px={4}
-        mx="auto"
-        style={{ maxWidth: 1300 }}
-        fontFamily="body"
-      >
-        <Box width={1}>
-          <Divider bg="grey" mb={4} />
-          <DescriptionBox
-            pt={3}
-            source={withoutShortDescription}
-            escapeHtml={false}
-          />
-        </Box>
-      </Flex>
+        <Flex
+          pt={3}
+          px={4}
+          mx="auto"
+          style={{ maxWidth: 1300 }}
+          fontFamily="body"
+        >
+          <Box width={1}>
+            <Divider bg="grey" mb={4} />
+            <DescriptionBox
+              pt={3}
+              source={withoutShortDescription}
+              escapeHtml={false}
+            />
+          </Box>
+        </Flex>
+      </CarouselProvider>
     </>
   );
 }

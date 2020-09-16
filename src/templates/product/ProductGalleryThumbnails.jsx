@@ -1,8 +1,10 @@
-import React from 'react';
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import GatsbyImage from 'gatsby-image';
 import { Flex, Box } from 'rebass';
-import { useCurrentImageContext } from './CurrentImageContext';
+import { CarouselContext, Dot } from 'pure-react-carousel';
 
 const ThumbnailBox = styled(Box)(
   ({ theme, maxImageHeight, maxImageWidth, currentImageIndex, index }) => ({
@@ -32,25 +34,41 @@ function ProductGalleryThumbnails({
   maxContainerHeight = 500,
   gatsbyImageProps,
 }) {
-  const { currentImageIndex, setCurrentImageIndex } = useCurrentImageContext();
+  const carouselContext = useContext(CarouselContext);
+  const [currentImageIndex, setCurrentImageIndex] = useState(
+    carouselContext.state.currentSlide
+  );
+
+  useEffect(() => {
+    function onChange() {
+      setCurrentImageIndex(carouselContext.state.currentSlide);
+    }
+    carouselContext.subscribe(onChange);
+    return () => carouselContext.unsubscribe(onChange);
+  }, [carouselContext]);
 
   function calculateTransform() {
-    if (currentImageIndex < 1) {
+    if (currentImageIndex < 2) {
       return 0;
-    }
-
-    if (currentImageIndex >= images.length - 1) {
+    } else if (currentImageIndex >= images.length - 1) {
       return (images.length - 2.5) * -(maxImageHeight + 16);
+    } else {
+      return (currentImageIndex - 1) * -(maxImageHeight + 8);
     }
-
-    return (currentImageIndex - 1) * -(maxImageHeight + 8);
   }
 
   return (
     <Box
       width={1}
-      aria-hidden
-      style={{ maxHeight: maxContainerHeight, overflow: 'hidden' }}
+      sx={{
+        maxHeight: maxContainerHeight,
+        overflow: ['scroll', 'hidden'],
+        '::-webkit-scrollbar': {
+          display: 'none',
+        },
+        ' -ms-overflow-style': 'none',
+        'scrollbar-width': 'none',
+      }}
     >
       <ThumbnailFlex
         flexDirection={['row', null, 'column']}
@@ -58,24 +76,44 @@ function ProductGalleryThumbnails({
         transformPx={calculateTransform()}
       >
         {images.map((image, index) => (
-          <ThumbnailBox
-            key={image.id}
-            index={index}
-            currentImageIndex={currentImageIndex}
-            maxImageHeight={maxImageHeight}
-            maxImageWidth={maxImageWidth}
-            width={['300px', null, 'auto']}
-            onClick={() => setCurrentImageIndex(index)}
-            ml={[0, null, 2]}
-            mr={[2, null, 0]}
-            my={1}
+          <Dot
+            slide={index}
+            sx={{
+              width: 'auto',
+              maxWidth: maxImageWidth,
+              height: 100,
+              borderRadius: 0,
+              border: 0,
+              margin: 0,
+              padding: 0,
+              backgroundColor: 'transparent',
+              mr: [2, null, 0],
+              my: 1,
+              ':focus': {
+                outline: 'none',
+              },
+            }}
           >
-            <GatsbyImage
-              fluid={image.localFile.childImageSharp.thumbnail}
-              alt={image.altText ? image.altText : title}
-              {...gatsbyImageProps}
-            />
-          </ThumbnailBox>
+            <ThumbnailBox
+              key={image.id}
+              index={index}
+              currentImageIndex={currentImageIndex}
+              maxImageHeight={maxImageHeight}
+              maxImageWidth={maxImageWidth}
+              width={[100, null, 'auto']}
+              onClick={() => setCurrentImageIndex(index)}
+            >
+              {image && image.localFile && image.localFile.childImageSharp ? (
+                <GatsbyImage
+                  fluid={image.localFile.childImageSharp.thumbnail}
+                  alt={image.altText ? image.altText : title}
+                  {...gatsbyImageProps}
+                />
+              ) : (
+                ''
+              )}
+            </ThumbnailBox>
+          </Dot>
         ))}
       </ThumbnailFlex>
     </Box>

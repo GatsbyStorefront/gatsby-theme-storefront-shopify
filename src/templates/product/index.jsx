@@ -93,6 +93,10 @@ export const productQuery = graphql`
             fadeIn
             durationFadeIn
           }
+          productImagesCarouselProps {
+            naturalSlideHeight
+            naturalSlideWidth
+          }
         }
       }
     }

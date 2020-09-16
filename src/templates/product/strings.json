@@ -8,5 +8,7 @@
   "shareButtonsLabel": "Share:",
   "vendorLabel": "Vendor:",
   "productTypeLabel": "Type:",
-  "skuLabel": "SKU:"
+  "skuLabel": "SKU:",
+  "ariaBackButtonLabel": "previous slide",
+  "ariaNextButtonLabel": "next slide"
 }
