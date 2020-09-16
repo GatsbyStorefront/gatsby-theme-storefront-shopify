@@ -118,7 +118,7 @@ module.exports = {
           loading: 'eager', // Using 'eager' currently improves Lighthouse 6 metrics. See: https://github.com/gatsbyjs/gatsby/issues/24332#issuecomment-650760081
           fadeIn: false,
           durationFadeIn: 500,
-        }
+        },
         productImagesCarouselProps: {
           // See: https://github.com/express-labs/pure-react-carousel#carouselprovider-
           naturalSlideWidth: 500,
