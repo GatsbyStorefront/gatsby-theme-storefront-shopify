@@ -104,60 +104,58 @@ const Search = () => {
         onClick={toggleSidebar}
         sx={{ cursor: 'pointer' }}
       />
-      {showSidebar ? (
-        <>
-          <Sidebar
-            width={[1, 1 / 3, 1 / 4]}
-            sx={{ bg: 'white' }}
-            ref={sidebarRef}
-          >
-            <Flex flexDirection="column" m={[1, 2]}>
-              <Flex
-                onClick={toggleSidebar}
-                justifyContent="space-between"
-                alignItems="center"
-                mb={2}
-                width={1}
-              >
-                <Box>{searchLabel}</Box>
-                <Box ml="auto">
-                  <Close
-                    width="20px"
-                    height="20px"
-                    color="primary"
-                    sx={{ cursor: 'pointer' }}
+      <Box ref={sidebarRef}>
+        {showSidebar ? (
+          <>
+            <Sidebar width={[1, 1 / 3, 1 / 4]} sx={{ bg: 'white' }}>
+              <Flex flexDirection="column" m={[1, 2]}>
+                <Flex
+                  onClick={toggleSidebar}
+                  justifyContent="space-between"
+                  alignItems="center"
+                  mb={2}
+                  width={1}
+                >
+                  <Box>{searchLabel}</Box>
+                  <Box ml="auto">
+                    <Close
+                      width="20px"
+                      height="20px"
+                      color="primary"
+                      sx={{ cursor: 'pointer' }}
+                    />
+                  </Box>
+                </Flex>
+                <Box>
+                  <Input
+                    id="search"
+                    type="text"
+                    value={query}
+                    onChange={search}
+                    placeholder={searchInputLabel}
                   />
                 </Box>
+                <Box>
+                  {results.map((page) => (
+                    <SearchItem key={page.id} m={2}>
+                      <Text
+                        as={GatsbyLink}
+                        variant="searchLink"
+                        to={page.shopifyThemePath}
+                      >
+                        <Box>{page.title}</Box>
+                      </Text>
+                    </SearchItem>
+                  ))}
+                </Box>
               </Flex>
-              <Box>
-                <Input
-                  id="search"
-                  type="text"
-                  value={query}
-                  onChange={search}
-                  placeholder={searchInputLabel}
-                />
-              </Box>
-              <Box>
-                {results.map((page) => (
-                  <SearchItem key={page.id} m={2}>
-                    <Text
-                      as={GatsbyLink}
-                      variant="searchLink"
-                      to={page.shopifyThemePath}
-                    >
-                      <Box>{page.title}</Box>
-                    </Text>
-                  </SearchItem>
-                ))}
-              </Box>
-            </Flex>
-          </Sidebar>
-          <DisabledArea onClick={toggleSidebar} />
-        </>
-      ) : (
-        ''
-      )}
+            </Sidebar>
+            <DisabledArea onClick={toggleSidebar} />
+          </>
+        ) : (
+          ''
+        )}
+      </Box>
     </>
   );
 };
