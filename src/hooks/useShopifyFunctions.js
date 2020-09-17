@@ -90,34 +90,33 @@ const useShopifyFunctions = () => {
     });
   }
 
+  async function createNewCheckout() {
+    const checkout = await client.checkout.create();
+    setShopifyCheckoutId(checkout.id);
+    return checkout;
+  }
+
+  async function checkCartExistence() {
+    let temporalCheckout = null;
+    if (shopifyCheckoutId === '') {
+      temporalCheckout = createNewCheckout();
+    } else {
+      temporalCheckout = await client.checkout.fetch(shopifyCheckoutId);
+      if (temporalCheckout === null || temporalCheckout.completedAt !== null) {
+        temporalCheckout = createNewCheckout();
+      }
+    }
+
+    dispatch({
+      type: shopifyActions.setCheckout,
+      payload: temporalCheckout,
+    });
+  }
+
   useEffect(() => {
     if (!client || !client.checkout) return;
-
-    async function createNewCheckout() {
-      const checkout = await client.checkout.create();
-      setShopifyCheckoutId(checkout.id);
-      return checkout;
-    }
-
-    async function checkCartExistance() {
-      let temporalCheckout = null;
-      if (shopifyCheckoutId === '') {
-        temporalCheckout = createNewCheckout();
-      } else {
-        temporalCheckout = await client.checkout.fetch(shopifyCheckoutId);
-        if (temporalCheckout === null) {
-          temporalCheckout = createNewCheckout();
-        }
-      }
-
-      dispatch({
-        type: shopifyActions.setCheckout,
-        payload: temporalCheckout,
-      });
-    }
-
-    checkCartExistance();
-  }, [shopifyCheckoutId, setShopifyCheckoutId, client]);
+    checkCartExistence();
+  }, [client]);
 
   return {
     addItem,
