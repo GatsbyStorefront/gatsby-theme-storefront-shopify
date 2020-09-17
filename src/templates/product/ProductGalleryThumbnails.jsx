@@ -66,8 +66,8 @@ function ProductGalleryThumbnails({
         '::-webkit-scrollbar': {
           display: 'none',
         },
-        ' -ms-overflow-style': 'none',
-        'scrollbar-width': 'none',
+        msOverflowStyle: 'none',
+        scrollbarWidth: 'none',
       }}
     >
       <ThumbnailFlex
@@ -93,6 +93,7 @@ function ProductGalleryThumbnails({
                 outline: 'none',
               },
             }}
+            key={index}
           >
             <ThumbnailBox
               key={image.id}

@@ -37,7 +37,7 @@ const ProductGalleryCarousel = ({
           {images && images.length > 1
             ? images.map((image, index) => {
                 return (
-                  <Slide index={index}>
+                  <Slide index={index} key={index}>
                     <GatsbyImage
                       fluid={image.localFile.childImageSharp.main}
                       alt={image.altText ? image.altText : title}
