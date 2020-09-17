@@ -55,7 +55,7 @@ const ProductGalleryCarousel = ({
             <ButtonBack
               aria-label={ariaBackButtonLabel}
               sx={{
-                display: ['none', 'block'],
+                display: ['none', 'none', 'block'],
                 position: 'absolute',
                 bottom: '48%',
                 left: 1,
@@ -71,9 +71,9 @@ const ProductGalleryCarousel = ({
               <ChevronLeft width="40px" height="40px" />
             </ButtonBack>
             <ButtonNext
-              aria-label={ariaBackButtonLabel}
+              aria-label={ariaNextButtonLabel}
               sx={{
-                display: ['none', 'block'],
+                display: ['none', 'none', 'block'],
                 position: 'absolute',
                 bottom: '48%',
                 right: 1,
