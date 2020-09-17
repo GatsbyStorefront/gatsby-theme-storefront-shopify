@@ -124,6 +124,9 @@ module.exports = {
           naturalSlideWidth: 500,
           naturalSlideHeight: 500,
         },
+        product: {
+          maxDescriptionSectionsNumber: 10,
+        },
         manifest: { // web app manifest options to be passed to 'gatsby-plugin-manifest' installed inside theme
           name: 'Gatsby Storefront Demo Store',
           short_name: 'Gatsby Storefront',

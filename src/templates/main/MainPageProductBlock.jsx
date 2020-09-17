@@ -32,12 +32,18 @@ const MainPageProductBlock = (props) => {
   const {
     title,
     description,
-    fields: { shopifyThemePath, firstImage },
+    fields: {
+      shopifyThemePath,
+      firstImage,
+      descriptionSections,
+      shortDescription,
+    },
   } = props.product;
 
   const { gatsbyImageProps } = props;
 
   const { textColor = 'primary', textBgColor = 'white' } = props;
+
   return (
     <StyledBox sx={{ position: 'relative' }}>
       <Box sx={{ overflow: 'hidden' }}>
@@ -102,7 +108,19 @@ const MainPageProductBlock = (props) => {
                 {substrDescription(title, 30)}
               </Heading>
               <Text fontSize={[1, 2, 3]} sx={{ display: ['none', 'block'] }}>
-                {substrDescription(description, 80)}
+                {!descriptionSections || descriptionSections.length > 0 ? (
+                  <>
+                    {shortDescription
+                      ? substrDescription(shortDescription, 80)
+                      : ''}
+                  </>
+                ) : (
+                  <>
+                    {shortDescription
+                      ? substrDescription(shortDescription, 80)
+                      : substrDescription(description, 80)}
+                  </>
+                )}
               </Text>
             </GatsbyLink>
           </Box>

@@ -72,6 +72,18 @@ export const productQuery = graphql`
         name
         values
       }
+      fields {
+        descriptionSections {
+          id
+          section
+          options {
+            title
+            isOpen
+          }
+        }
+        shortDescription
+        withoutShortDescription
+      }
     }
     collection: shopifyCollection(
       products: { elemMatch: { handle: { eq: $handle } } }

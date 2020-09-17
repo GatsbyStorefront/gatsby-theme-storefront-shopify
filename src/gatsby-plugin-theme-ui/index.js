@@ -20,6 +20,7 @@ const colors = {
   menu: '#333',
   menuItem: '#333',
   menuText: '#e3f9f7',
+  divider: '#eee',
 };
 
 const heading = {

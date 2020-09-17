@@ -98,6 +98,10 @@ export const mainPageQuery = graphql`
               }
             }
           }
+          descriptionSections {
+            id
+          }
+          shortDescription
         }
       }
     }

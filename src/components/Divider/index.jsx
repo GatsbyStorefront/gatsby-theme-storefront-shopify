@@ -1,13 +1,15 @@
 import React from 'react';
 import { Box } from 'rebass';
 
-const Divider = props => (
+const Divider = (props) => (
   <Box
     {...props}
     as="hr"
     sx={{
-      border: 0,
-      height: 1,
+      borderTop: '1px solid',
+      height: '1px',
+      borderLeft: 'none',
+      borderTopColor: 'divider',
     }}
   />
 );

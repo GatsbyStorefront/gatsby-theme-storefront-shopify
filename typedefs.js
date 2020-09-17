@@ -127,7 +127,22 @@ const typeDefs = `
     type ShopifyProductFields {
       shopifyThemePath: String
       firstImage: ShopifyProductFieldsFirstImage
+      descriptionSections: [ShopifyProductFieldsDescriptionSections]
+      shortDescription: String
+      withoutShortDescription: String
     }
+
+    type ShopifyProductFieldsDescriptionSections {
+      id: Int
+      section: String
+      options: ShopifyProductFieldsDescriptionSectionsOptions
+    }
+
+    type ShopifyProductFieldsDescriptionSectionsOptions {
+      title: String
+      isOpen: Boolean
+    }
+
     type ShopifyProductImages {
       id: String
       altText: String

@@ -1,6 +1,8 @@
 const hasOwnProp = require('has-own-prop');
 const R = require('ramda');
 
+const shortcode = require('./src/utils/shortcode-parser');
+
 const productTemplate = require.resolve('./src/templates/product/index.jsx');
 const cartTemplate = require.resolve('./src/templates/cart/index.jsx');
 const catalogTemplate = require.resolve('./src/templates/catalog/index.jsx');
@@ -16,6 +18,7 @@ const typeDefs = require('./typedefs');
 
 let isShopifyLite = false;
 let enableWebp = true;
+let maxDescriptionSectionsNumber;
 
 // Used as workaround (together with cache) to store and access Blogs ids and handles while creating fields for Articles
 let availableBlogs = [];
@@ -41,6 +44,46 @@ const getMainPageHandles = (mainPage) => {
   return handles;
 };
 
+const getShortTagContent = (tag, text) => {
+  let tagContent;
+  let tagOptions;
+  shortcode.parseInContext(text, {
+    [tag]: (buf, opts) => {
+      tagContent = buf;
+      tagOptions = opts;
+      return ''; // return but not using it
+    },
+  });
+
+  if (tagContent) {
+    return { content: tagContent, options: tagOptions };
+  } else {
+    return false;
+  }
+};
+
+const getSection = (tag, text) => {
+  const section = getShortTagContent(tag, text);
+  if (section) {
+    return { section: section.content, options: section.options };
+  } else {
+    return false;
+  }
+};
+
+const getShortDescription = (text) => {
+  let shortDescritionTemp;
+  return {
+    withoutShortDescription: shortcode.parseInContext(text, {
+      short_description: (buf, opts) => {
+        shortDescritionTemp = buf;
+        return ''; // return but not using it
+      },
+    }),
+    shortDescription: shortDescritionTemp,
+  };
+};
+
 const createProductNode = (options, actions, node) => {
   let { basePath = '', productPageBasePath = 'product' } = options;
   const { createNodeField } = actions;
@@ -60,6 +103,36 @@ const createProductNode = (options, actions, node) => {
     node,
     name: 'firstImage',
     value: node.images[0] ? node.images[0] : {},
+  });
+
+  const sections = [];
+  for (let i = 0; i < maxDescriptionSectionsNumber; i += 1) {
+    const section = getSection(`section_${i}`, node.descriptionHtml);
+    if (section) {
+      section.id = i;
+      sections.push(section);
+    }
+  }
+
+  const { withoutShortDescription, shortDescription } = getShortDescription(
+    node.descriptionHtml
+  );
+
+  createNodeField({
+    node,
+    name: 'descriptionSections',
+    value: sections,
+  });
+
+  createNodeField({
+    node,
+    name: 'shortDescription',
+    value: shortDescription || '',
+  });
+  createNodeField({
+    node,
+    name: 'withoutShortDescription',
+    value: withoutShortDescription || '',
   });
 };
 
@@ -459,6 +532,15 @@ exports.onPreInit = (_, pluginOptions) => {
   enableWebp = hasOwnProp(pluginOptions, 'enableWebp')
     ? pluginOptions.enableWebp
     : true;
+  const product = hasOwnProp(pluginOptions, 'product')
+    ? pluginOptions.product
+    : {};
+  maxDescriptionSectionsNumber = hasOwnProp(
+    product,
+    'maxDescriptionSectionsNumber'
+  )
+    ? product.maxDescriptionSectionsNumber
+    : 10;
 };
 
 exports.onCreateNode = async ({ node, actions, cache }, options) => {

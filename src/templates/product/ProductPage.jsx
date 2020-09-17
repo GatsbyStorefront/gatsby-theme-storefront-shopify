@@ -5,9 +5,8 @@ import loadable from '@loadable/component';
 import { CarouselProvider } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
-import strings from './strings';
-import substrDescription from '../../utils/substrDescription.js';
-import shortcodeParser from '../../utils/shortcode-parser';
+import strings from './strings.json';
+import substrDescription from '../../utils/substrDescription';
 import ProductCounter from '../../components/ProductCounter';
 import Divider from '../../components/Divider';
 import Breadcrumbs from '../../components/Breadcrumbs';
@@ -19,6 +18,7 @@ import ProductVariantSelector from './ProductVariantSelector';
 import ProductVariantAddToCart from './ProductVariantAddToCart';
 import ProductVariantPrice from './ProductVariantPrice';
 import ProductVariantSku from './ProductVariantSku';
+import ProductDescription from './ProductDescription';
 
 // react-payment-icons-inline heavily increases webpack bundle size. Need to find alternative solution. Will disable it for now.
 // const Payments = loadable(() => import('../../components/Payments'));
@@ -40,12 +40,16 @@ function ProductPage({ data, pageContext, location }) {
     product: {
       title,
       description,
-      descriptionHtml,
       images,
       variants,
       options,
       vendor,
       productType,
+      fields: {
+        descriptionSections: sections,
+        shortDescription,
+        withoutShortDescription,
+      },
     },
   } = data;
 
@@ -75,22 +79,6 @@ function ProductPage({ data, pageContext, location }) {
   function decreaseAmount() {
     setCurrentAmount((a) => (a <= 1 ? 1 : a - 1));
   }
-
-  const getShortDescription = (descriptionHtml) => {
-    let shortDescrition_temp;
-    return {
-      withoutShortDescription: shortcodeParser.parseInContext(descriptionHtml, {
-        short_description: (buf, opts) => {
-          shortDescrition_temp = buf;
-          return ''; // return but not using it
-        },
-      }),
-      shortDescription: shortDescrition_temp,
-    };
-  };
-  const { withoutShortDescription, shortDescription } = getShortDescription(
-    descriptionHtml
-  );
 
   return (
     <>
@@ -284,10 +272,9 @@ function ProductPage({ data, pageContext, location }) {
         >
           <Box width={1}>
             <Divider bg="grey" mb={4} />
-            <DescriptionBox
-              pt={3}
-              source={withoutShortDescription}
-              escapeHtml={false}
+            <ProductDescription
+              description={withoutShortDescription}
+              sections={sections}
             />
           </Box>
         </Flex>
