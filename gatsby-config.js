@@ -5,6 +5,10 @@ module.exports = ({
   imageQuality = '95',
   manifest = {},
   gatsbyImageProps = {},
+  productImagesCarouselProps = {
+    naturalSlideWidth: 500,
+    naturalSlideHeight: 500,
+  },
 }) => ({
   plugins: [
     {
@@ -114,6 +118,7 @@ module.exports = ({
       googleAnalyticsId: 'UA-141525658-3',
       isShopifyLite: shopifyLite,
       gatsbyImageProps: { ...gatsbyImageProps },
+      productImagesCarouselProps: { ...productImagesCarouselProps },
       //
       // Main page types: "carousel", "collection", "product"
       //
