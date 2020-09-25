@@ -60,6 +60,8 @@ const typeDefs = `
       allShopifyShopPolicy(filter: ShopifyShopPolicyFilterInput, sort: ShopifyShopPolicySortInput, skip: Int, limit: Int): ShopifyShopPolicyConnection!
       allShopifyArticle(filter: ShopifyArticleFilterInput, sort: ShopifyArticleSortInput, skip: Int, limit: Int): ShopifyArticleConnection!
       allShopifyBlog(filter: ShopifyBlogFilterInput, sort: ShopifyBlogSortInput, skip: Int, limit: Int): ShopifyBlogConnection!
+      allYotpoProductReview(filter: YotpoProductReviewFilterInput, sort: YotpoProductReviewSortInput, skip: Int, limit: Int): YotpoProductReviewConnection!
+      allAirtable(filter: AirtableFilterInput, sort: AirtableSortInput, skip: Int, limit: Int): AirtableConnection!
     } 
     type ShopifyCollectionConnection {
       nodes: [ShopifyCollection!]!
@@ -341,6 +343,61 @@ const typeDefs = `
     }
     type ShopifyPageFields {
       shopifyThemePath: String
+    }
+
+
+    type YotpoProductReviewConnection {
+      totalCount: Int!
+      edges: [YotpoProductReviewEdge!]!
+      nodes: [YotpoProductReview!]!
+    }
+    type YotpoProductReviewEdge {
+      next: YotpoProductReview
+      node: YotpoProductReview!
+      previous: YotpoProductReview
+    }
+    type YotpoProductReview implements Node {
+      id: ID!
+      parent: Node
+      children: [Node!]!
+      internal: Internal!
+      title: String
+      content: String
+      score: Int
+      productIdentifier: String
+      sentiment: Float
+      votesUp: Int
+      votesDown: Int
+      name: String
+      email: String
+      reviewerType: String
+      createdAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date
+      updatedAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date
+      yotpoId: Int
+    }
+
+    type AirtableConnection {
+      totalCount: Int!
+      edges: [AirtableEdge!]!
+      nodes: [Airtable!]!
+    }
+    type Airtable implements Node {
+      id: ID!
+      parent: Node
+      children: [Node!]!
+      internal: Internal!
+      table: String
+      recordId: String
+      queryName: Boolean
+      data: AirtableData
+    }
+    type AirtableData {
+      handle: String
+      name: String
+      title: String
+      comment: String
+      score: Int
+      createdAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date
     }
 `;
 

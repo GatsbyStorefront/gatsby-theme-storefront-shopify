@@ -1,4 +1,4 @@
-module.exports = ({
+const config = ({
   shopName,
   accessToken,
   shopifyLite = false,
@@ -9,8 +9,9 @@ module.exports = ({
     naturalSlideWidth: 500,
     naturalSlideHeight: 500,
   },
-}) => ({
-  plugins: [
+  reviews = {},
+}) => {
+  const plugins = [
     {
       resolve: 'gatsby-source-shopify',
       options: {
@@ -97,8 +98,46 @@ module.exports = ({
       },
     },
     'gatsby-plugin-loadable-components-ssr',
-  ],
-  siteMetadata: {
+  ];
+
+  if (
+    reviews.hasOwnProperty('yotpo') &&
+    reviews.yotpo.hasOwnProperty('apiKey') &&
+    reviews.yotpo.hasOwnProperty('apiSecret')
+  ) {
+    const { apiKey, apiSecret } = reviews.yotpo;
+    plugins.push({
+      resolve: 'gatsby-source-yotpo',
+      options: {
+        appKey: apiKey,
+        appSecret: apiSecret,
+      },
+    });
+  }
+
+  if (
+    reviews.hasOwnProperty('airtable') &&
+    reviews.airtable.hasOwnProperty('apiKey') &&
+    reviews.airtable.hasOwnProperty('baseId') &&
+    reviews.airtable.hasOwnProperty('tableName')
+  ) {
+    const { apiKey, baseId, tableName } = reviews.airtable;
+    plugins.push({
+      resolve: 'gatsby-source-airtable',
+      options: {
+        apiKey,
+        concurrency: 5, // default
+        tables: [
+          {
+            baseId,
+            tableName,
+          },
+        ],
+      },
+    });
+  }
+
+  const siteMetadata = {
     siteUrl: 'https://demo.gatsbystorefront.com',
     gatsbyStorefrontConfig: {
       storeName: 'Gatsby Storefront',
@@ -119,6 +158,9 @@ module.exports = ({
       isShopifyLite: shopifyLite,
       gatsbyImageProps: { ...gatsbyImageProps },
       productImagesCarouselProps: { ...productImagesCarouselProps },
+      reviewsNumberPerPage: reviews.hasOwnProperty('reviewsNumberPerPage')
+        ? reviews.reviewsNumberPerPage
+        : 10,
       //
       // Main page types: "carousel", "collection", "product"
       //
@@ -131,5 +173,12 @@ module.exports = ({
       productsPerCollectionPage: '9',
       articlesPerBlogPage: '6',
     },
-  },
-});
+  };
+
+  return {
+    plugins,
+    siteMetadata,
+  };
+};
+
+module.exports = config;

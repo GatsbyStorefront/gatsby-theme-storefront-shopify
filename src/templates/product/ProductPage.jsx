@@ -19,6 +19,7 @@ import ProductVariantAddToCart from './ProductVariantAddToCart';
 import ProductVariantPrice from './ProductVariantPrice';
 import ProductVariantSku from './ProductVariantSku';
 import ProductDescription from './ProductDescription';
+import ProductReviews from './ProductReviews';
 
 // react-payment-icons-inline heavily increases webpack bundle size. Need to find alternative solution. Will disable it for now.
 // const Payments = loadable(() => import('../../components/Payments'));
@@ -32,6 +33,10 @@ const {
   vendorLabel,
   productTypeLabel,
 } = strings;
+
+const concat = (a, b) => {
+  return a.concat(b);
+};
 
 function ProductPage({ data, pageContext, location }) {
   const [currentAmount, setCurrentAmount] = useState(1);
@@ -51,6 +56,8 @@ function ProductPage({ data, pageContext, location }) {
         withoutShortDescription,
       },
     },
+    yotpoReviews: { nodes: yotpoReviews },
+    airtableReviews: { nodes: airtableReviews },
   } = data;
 
   // There are cases when product doesn't belong to any collection.
@@ -70,7 +77,17 @@ function ProductPage({ data, pageContext, location }) {
     shareButtons,
     gatsbyImageProps,
     productImagesCarouselProps,
+    reviewsNumberPerPage,
   } = data.store.siteMetadata.gatsbyStorefrontConfig;
+
+  const airtableReviewsData = [];
+  if (airtableReviews && airtableReviews.length > 0) {
+    airtableReviews.forEach((review) => {
+      airtableReviewsData.push(review.data);
+    });
+  }
+
+  const reviews = concat(yotpoReviews, airtableReviewsData);
 
   function increaseAmount() {
     setCurrentAmount((a) => a + 1);
@@ -278,6 +295,16 @@ function ProductPage({ data, pageContext, location }) {
             />
           </Box>
         </Flex>
+
+        {reviews && reviews.length > 0 ? (
+          <ProductReviews
+            reviews={reviews}
+            reviewsNumber={reviews.length}
+            paginationNum={reviewsNumberPerPage}
+          />
+        ) : (
+          ''
+        )}
       </CarouselProvider>
     </>
   );

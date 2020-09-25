@@ -85,6 +85,7 @@ export const productQuery = graphql`
         withoutShortDescription
       }
     }
+
     collection: shopifyCollection(
       products: { elemMatch: { handle: { eq: $handle } } }
     ) {
@@ -94,6 +95,33 @@ export const productQuery = graphql`
         shopifyThemePath
       }
     }
+
+    yotpoReviews: allYotpoProductReview(
+      filter: { productIdentifier: { eq: $handle } }
+    ) {
+      nodes {
+        name
+        title
+        content
+        score
+        createdAt
+      }
+    }
+
+    airtableReviews: allAirtable(
+      filter: { table: { eq: "Reviews" }, data: { handle: { eq: $handle } } }
+    ) {
+      nodes {
+        data {
+          name
+          title
+          content
+          score
+          createdAt
+        }
+      }
+    }
+
     store: site {
       siteMetadata {
         gatsbyStorefrontConfig {
@@ -109,6 +137,7 @@ export const productQuery = graphql`
             naturalSlideHeight
             naturalSlideWidth
           }
+          reviewsNumberPerPage
         }
       }
     }

@@ -129,6 +129,7 @@ const createProductNode = (options, actions, node) => {
     name: 'shortDescription',
     value: shortDescription || '',
   });
+
   createNodeField({
     node,
     name: 'withoutShortDescription',
@@ -535,6 +536,7 @@ exports.onPreInit = (_, pluginOptions) => {
   const product = hasOwnProp(pluginOptions, 'product')
     ? pluginOptions.product
     : {};
+
   maxDescriptionSectionsNumber = hasOwnProp(
     product,
     'maxDescriptionSectionsNumber'
