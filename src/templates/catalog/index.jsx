@@ -37,7 +37,7 @@ export const catalogQuery = graphql`
                 childImageSharp @include(if: $enableWebp) {
                   fluid(
                     maxWidth: 450
-                    maxHeight: 450
+                    #maxHeight: 450
                     cropFocus: ATTENTION
                     fit: COVER
                     background: "white"
@@ -49,7 +49,7 @@ export const catalogQuery = graphql`
                 childImageSharp @skip(if: $enableWebp) {
                   fluid(
                     maxWidth: 450
-                    maxHeight: 450
+                    # maxHeight: 450
                     cropFocus: ATTENTION
                     fit: COVER
                     background: "white"
