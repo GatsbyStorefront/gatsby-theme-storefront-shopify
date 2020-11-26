@@ -1,22 +1,33 @@
+const path = require('path');
+
 const config = ({
-  shopName,
-  accessToken,
+  shopify = {},
+  gatsbyStorefrontApi = {},
+  useGatsbyStorefrontApi = false,
   shopifyLite = false,
   imageQuality = '95',
   manifest = {},
   gatsbyImageProps = {},
-  productImagesCarouselProps = {
-    naturalSlideWidth: 500,
-    naturalSlideHeight: 500,
-  },
+  productImagesCarouselProps = {},
   reviews = {},
 }) => {
   const plugins = [
     {
-      resolve: 'gatsby-source-shopify',
+      resolve: '@gatsbystorefront/gatsby-source-shopify',
       options: {
-        shopName,
-        accessToken,
+        shopName:
+          useGatsbyStorefrontApi &&
+          gatsbyStorefrontApi.hasOwnProperty('apiUrl') &&
+          gatsbyStorefrontApi.apiUrl
+            ? gatsbyStorefrontApi.apiUrl
+            : shopify.shopName,
+        accessToken:
+          useGatsbyStorefrontApi &&
+          gatsbyStorefrontApi.hasOwnProperty('accessToken') &&
+          gatsbyStorefrontApi.accessToken
+            ? gatsbyStorefrontApi.accessToken
+            : shopify.accessToken,
+        useGatsbyStorefrontApi,
       },
     },
     {
@@ -97,45 +108,9 @@ const config = ({
         },
       },
     },
+    'gatsby-background-image',
     'gatsby-plugin-loadable-components-ssr',
   ];
-
-  if (
-    reviews.hasOwnProperty('yotpo') &&
-    reviews.yotpo.hasOwnProperty('apiKey') &&
-    reviews.yotpo.hasOwnProperty('apiSecret')
-  ) {
-    const { apiKey, apiSecret } = reviews.yotpo;
-    plugins.push({
-      resolve: 'gatsby-source-yotpo',
-      options: {
-        appKey: apiKey,
-        appSecret: apiSecret,
-      },
-    });
-  }
-
-  if (
-    reviews.hasOwnProperty('airtable') &&
-    reviews.airtable.hasOwnProperty('apiKey') &&
-    reviews.airtable.hasOwnProperty('baseId') &&
-    reviews.airtable.hasOwnProperty('tableName')
-  ) {
-    const { apiKey, baseId, tableName } = reviews.airtable;
-    plugins.push({
-      resolve: 'gatsby-source-airtable',
-      options: {
-        apiKey,
-        concurrency: 5, // default
-        tables: [
-          {
-            baseId,
-            tableName,
-          },
-        ],
-      },
-    });
-  }
 
   const siteMetadata = {
     siteUrl: 'https://demo.gatsbystorefront.com',

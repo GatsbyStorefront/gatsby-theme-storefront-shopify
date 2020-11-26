@@ -31,6 +31,8 @@ export const productQuery = graphql`
           childImageSharp @include(if: $enableWebp) {
             main: fluid(maxWidth: 800, srcSetBreakpoints: [400, 800]) {
               ...GatsbyImageSharpFluid_withWebp
+              presentationHeight
+              presentationWidth
             }
             thumbnail: fluid(
               maxWidth: 90
@@ -43,6 +45,8 @@ export const productQuery = graphql`
           childImageSharp @skip(if: $enableWebp) {
             main: fluid(maxWidth: 800, srcSetBreakpoints: [400, 800]) {
               ...GatsbyImageSharpFluid
+              presentationHeight
+              presentationWidth
             }
             thumbnail: fluid(
               maxWidth: 90
@@ -53,6 +57,24 @@ export const productQuery = graphql`
             }
           }
         }
+      }
+      cmsConnection {
+        shortDescription
+        descriptionHtml
+        descriptionSections {
+          title
+          contentHtml
+          isOpen
+          orderPriority
+        }
+      }
+      reviewsConnection {
+        id
+        title
+        content
+        score
+        createdAt
+        name
       }
       variants {
         availableForSale
@@ -72,18 +94,6 @@ export const productQuery = graphql`
         name
         values
       }
-      fields {
-        descriptionSections {
-          id
-          section
-          options {
-            title
-            isOpen
-          }
-        }
-        shortDescription
-        withoutShortDescription
-      }
     }
 
     collection: shopifyCollection(
@@ -95,33 +105,6 @@ export const productQuery = graphql`
         shopifyThemePath
       }
     }
-
-    yotpoReviews: allYotpoProductReview(
-      filter: { productIdentifier: { eq: $handle } }
-    ) {
-      nodes {
-        name
-        title
-        content
-        score
-        createdAt
-      }
-    }
-
-    airtableReviews: allAirtable(
-      filter: { table: { eq: "Reviews" }, data: { handle: { eq: $handle } } }
-    ) {
-      nodes {
-        data {
-          name
-          title
-          content
-          score
-          createdAt
-        }
-      }
-    }
-
     store: site {
       siteMetadata {
         gatsbyStorefrontConfig {

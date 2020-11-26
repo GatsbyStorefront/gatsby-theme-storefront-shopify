@@ -34,10 +34,6 @@ const {
   productTypeLabel,
 } = strings;
 
-const concat = (a, b) => {
-  return a.concat(b);
-};
-
 function ProductPage({ data, pageContext, location }) {
   const [currentAmount, setCurrentAmount] = useState(1);
 
@@ -50,15 +46,18 @@ function ProductPage({ data, pageContext, location }) {
       options,
       vendor,
       productType,
-      fields: {
-        descriptionSections: sections,
-        shortDescription,
-        withoutShortDescription,
-      },
+      cmsConnection,
+      reviewsConnection: reviews,
     },
-    yotpoReviews: { nodes: yotpoReviews },
-    airtableReviews: { nodes: airtableReviews },
   } = data;
+
+  const cmsData = cmsConnection || {};
+
+  const {
+    shortDescription,
+    descriptionHtml: withoutShortDescription,
+    descriptionSections: sections,
+  } = cmsData;
 
   // There are cases when product doesn't belong to any collection.
   // In this case we need to set a guard in case "collection" and "fields" props undefined.
@@ -79,15 +78,6 @@ function ProductPage({ data, pageContext, location }) {
     productImagesCarouselProps,
     reviewsNumberPerPage,
   } = data.store.siteMetadata.gatsbyStorefrontConfig;
-
-  const airtableReviewsData = [];
-  if (airtableReviews && airtableReviews.length > 0) {
-    airtableReviews.forEach((review) => {
-      airtableReviewsData.push(review.data);
-    });
-  }
-
-  const reviews = concat(yotpoReviews, airtableReviewsData);
 
   function increaseAmount() {
     setCurrentAmount((a) => a + 1);
@@ -112,14 +102,24 @@ function ProductPage({ data, pageContext, location }) {
           }
         />
       </Helmet>
+
       <CarouselProvider
-        {...productImagesCarouselProps}
+        naturalSlideWidth={
+          productImagesCarouselProps.naturalSlideWidth
+            ? productImagesCarouselProps.naturalSlideWidth
+            : images[0].localFile.childImageSharp.main.presentationWidth
+        }
+        naturalSlideHeight={
+          productImagesCarouselProps.naturalSlideHeight
+            ? productImagesCarouselProps.naturalSlideHeight
+            : images[0].localFile.childImageSharp.main.presentationHeight
+        }
         totalSlides={images.length}
       >
         <Flex
           flexDirection={['column', null, 'row']}
           pt={3}
-          px={4}
+          px={2}
           mx="auto"
           sx={{ maxWidth: 1300 }}
           fontFamily="body"
@@ -135,9 +135,7 @@ function ProductPage({ data, pageContext, location }) {
                 images={images}
                 title={title}
                 gatsbyImageProps={gatsbyImageProps}
-                maxContainerHeight={
-                  productImagesCarouselProps.naturalSlideHeight
-                }
+                maxContainerHeight={600}
               />
             </Box>
           ) : (
@@ -290,7 +288,7 @@ function ProductPage({ data, pageContext, location }) {
           <Box width={1}>
             <Divider bg="grey" mb={4} />
             <ProductDescription
-              description={withoutShortDescription}
+              description={withoutShortDescription || description}
               sections={sections}
             />
           </Box>

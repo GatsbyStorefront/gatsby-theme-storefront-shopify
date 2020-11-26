@@ -4,7 +4,7 @@ import { FiPlus, FiMinus } from 'react-icons/fi';
 
 import DescriptionBox from './DescriptionBox';
 
-const ProductDescriptionSection = ({ title, body, isOpen = false }) => {
+const ProductDescriptionSection = ({ title, contentHtml, isOpen = false }) => {
   const [show, setShow] = useState(isOpen);
 
   const toggleShow = useCallback(() => {
@@ -27,7 +27,11 @@ const ProductDescriptionSection = ({ title, body, isOpen = false }) => {
           onClick={show ? toggleShow : null}
           sx={{ cursor: !isOpen ? 'pointer' : 'auto' }}
         >
-          <Heading as="h4" variant="section">
+          <Heading
+            as="h4"
+            variant="section"
+            sx={{ textTransform: 'uppercase' }}
+          >
             {title}
           </Heading>
           {show && !isOpen ? <FiMinus size="20" /> : ''}
@@ -35,7 +39,7 @@ const ProductDescriptionSection = ({ title, body, isOpen = false }) => {
         </Flex>
         {show ? (
           <Box mt={30}>
-            <DescriptionBox source={body} />
+            <DescriptionBox source={contentHtml} />
           </Box>
         ) : (
           ''

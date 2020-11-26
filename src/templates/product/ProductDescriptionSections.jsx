@@ -9,13 +9,12 @@ const ProductDescriptionSections = ({ sections }) => {
     <Flex flexDirection="column">
       {sections.map((s, i) => {
         if (s) {
-          const { title, isOpen } = s.options;
-          const { section: body } = s;
+          const { title, contentHtml, isOpen } = s;
           return (
             <Box key={i}>
               <ProductDescriptionSection
                 title={title}
-                body={body}
+                contentHtml={contentHtml}
                 isOpen={isOpen}
               />
               {sections.length - 1 !== i ? <Divider /> : ''}

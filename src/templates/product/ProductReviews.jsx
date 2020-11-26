@@ -60,7 +60,14 @@ const ProductReviews = ({ reviews, reviewsNumber, paginationNum }) => {
   return (
     <Flex justifyContent="center" width={1}>
       <Box sx={{ position: 'relative', bottom: 100 }} ref={reviewsTopRef} />
-      <Flex flexDirection="column" width={1} pt={3} px={4} mx="auto">
+      <Flex
+        flexDirection="column"
+        width={1}
+        pt={3}
+        px={4}
+        mx="auto"
+        sx={{ maxWidth: 1300 }}
+      >
         <Flex
           justifyContent="space-between"
           width={1}
@@ -82,20 +89,15 @@ const ProductReviews = ({ reviews, reviewsNumber, paginationNum }) => {
         </Flex>
         <Divider />
         {reviewsToShow.map((review, index) => {
-          const { name, score, title, content, createdAt } = review;
+          const { id, name, score, title, content, createdAt } = review;
           const datetime = new Date(createdAt);
           const formattedDate = `${datetime.getDate()}/${
             datetime.getMonth() + 1
           }/${datetime.getFullYear()}`;
           const starsArray = new Array(Number(score)).fill('');
           return (
-            <Box key={index + createdAt}>
-              <Flex
-                pt={11}
-                pb={22}
-                flexDirection="column"
-                key={index + createdAt}
-              >
+            <Box key={id}>
+              <Flex pt={11} pb={22} flexDirection="column">
                 <Flex
                   mb={12}
                   width={1}
