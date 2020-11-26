@@ -3,6 +3,7 @@ import { Flex, Box, Heading, Text } from 'rebass';
 
 import IndividualProduct from './IndividualProduct';
 // import IndividualProduct from './IndividualProductAnimated';
+import CatalogProducts from './CatalogProducts';
 import Pagination from '../../components/Pagination';
 import CollectionStats from '../../components/CollectionStats';
 
@@ -47,20 +48,13 @@ function CatalogPage(props) {
           />
         </Text>
       </Flex>
-      {products.map((product, index) => {
-        product.cartUrl = cartUrl;
-        if (index + 1 > skip && index + 1 <= skip + limit) {
-          return (
-            <IndividualProduct
-              key={product.shopifyId}
-              product={product}
-              gatsbyImageProps={gatsbyImageProps}
-            />
-          );
-        } else {
-          return '';
-        }
-      })}
+      <CatalogProducts
+        products={products}
+        limit={limit}
+        skip={skip}
+        cartUrl={cartUrl}
+        gatsbyImageProps={gatsbyImageProps}
+      />
       <Box width={1} px={4} py={2} key="pagination">
         <Text textAlign="center">
           <Pagination {...props.pageContext} />

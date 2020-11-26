@@ -129,7 +129,7 @@ const IndividualProduct = ({ product, gatsbyImageProps }) => {
   `;
 
   return (
-    <Card px={4} py={2} mb={4} width={[1, 1 / 2, 1 / 3]}>
+    <Card px={2} py={2} mb={4} width={[1, 1 / 2, 1 / 3]}>
       <AddToCardGroupBox>
         <Box>
           <Box
