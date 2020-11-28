@@ -9,17 +9,6 @@ import pluralize from '../../utils/pluralize';
 
 import paginationStyle from './ProductReviewsPagination.styled';
 
-const decode = (entity) => {
-  // See: https://stackoverflow.com/questions/25607969/how-to-decode-hex-code-of-html-entities-to-text-in-javascript
-  // Create a single span to parse the entity
-  const span = document.createElement('span');
-  // Choose textContent or innerText depending on support
-  const theText =
-    typeof span.textContent === 'string' ? 'textContent' : 'innerText';
-  span.innerHTML = entity;
-  return span[theText];
-};
-
 const round = (number, decimalPlaces) => {
   const factorOfTen = 10 ** decimalPlaces;
   return Math.round(number * factorOfTen) / factorOfTen;
@@ -127,7 +116,7 @@ const ProductReviews = ({ reviews, reviewsNumber, paginationNum }) => {
                   {title || ''}
                 </Text>
                 <Text variant="regular" mb={17}>
-                  {decode(content) || ''}
+                  {content || ''}
                 </Text>
               </Flex>
               {index !== reviewsNumber - 1 ? <Divider /> : ''}
