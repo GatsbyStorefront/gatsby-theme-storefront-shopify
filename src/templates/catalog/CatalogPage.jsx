@@ -1,8 +1,6 @@
 import React from 'react';
 import { Flex, Box, Heading, Text } from 'rebass';
 
-import IndividualProduct from './IndividualProduct';
-// import IndividualProduct from './IndividualProductAnimated';
 import CatalogProducts from './CatalogProducts';
 import Pagination from '../../components/Pagination';
 import CollectionStats from '../../components/CollectionStats';

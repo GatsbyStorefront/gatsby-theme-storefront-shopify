@@ -26,7 +26,11 @@ export default (props) => {
 };
 
 export const mainPageQuery = graphql`
-  query MainPageQuery($handles: [String], $enableWebp: Boolean!) {
+  query MainPageQuery(
+    $handles: [String]
+    $featuredCollectionsHandles: [String]
+    $enableWebp: Boolean!
+  ) {
     collections: allShopifyCollection(filter: { handle: { in: $handles } }) {
       nodes {
         handle
@@ -38,27 +42,80 @@ export const mainPageQuery = graphql`
         image {
           localFile {
             childImageSharp @include(if: $enableWebp) {
-              fluid(
-                maxWidth: 1300
-                maxHeight: 800
-                cropFocus: CENTER
-                fit: COVER
-                background: "white"
-              ) {
+              fluid(maxWidth: 1300) {
                 ...GatsbyImageSharpFluid_withWebp
+                presentationHeight
+                presentationWidth
               }
             }
             childImageSharp @skip(if: $enableWebp) {
-              fluid(
-                maxWidth: 1300
-                maxHeight: 800
-                cropFocus: CENTER
-                fit: COVER
-                background: "white"
-              ) {
+              fluid(maxWidth: 1300) {
                 ...GatsbyImageSharpFluid
+                presentationHeight
+                presentationWidth
               }
             }
+          }
+        }
+      }
+    }
+
+    feautiredCollections: allShopifyCollection(
+      filter: { handle: { in: $featuredCollectionsHandles } }
+    ) {
+      nodes {
+        title
+        handle
+        description
+        products {
+          id
+          shopifyId
+          title
+          tags
+          fields {
+            shopifyThemePath
+            firstImage {
+              altText
+              localFile {
+                childImageSharp @include(if: $enableWebp) {
+                  fluid(
+                    maxWidth: 450
+                    cropFocus: ATTENTION
+                    fit: COVER
+                    srcSetBreakpoints: [450]
+                  ) {
+                    ...GatsbyImageSharpFluid_withWebp
+                  }
+                }
+                childImageSharp @skip(if: $enableWebp) {
+                  fluid(
+                    maxWidth: 450
+                    cropFocus: ATTENTION
+                    fit: COVER
+                    srcSetBreakpoints: [450]
+                  ) {
+                    ...GatsbyImageSharpFluid
+                  }
+                }
+              }
+            }
+          }
+          availableForSale
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          variants {
+            shopifyId
+            availableForSale
+            compareAtPrice
+            price
           }
         }
       }
@@ -75,25 +132,17 @@ export const mainPageQuery = graphql`
             altText
             localFile {
               childImageSharp @include(if: $enableWebp) {
-                fluid(
-                  maxWidth: 1300
-                  maxHeight: 800
-                  cropFocus: CENTER
-                  fit: COVER
-                  background: "white"
-                ) {
+                fluid(maxWidth: 1300, cropFocus: ATTENTION, fit: OUTSIDE) {
                   ...GatsbyImageSharpFluid_withWebp
+                  presentationHeight
+                  presentationWidth
                 }
               }
               childImageSharp @skip(if: $enableWebp) {
-                fluid(
-                  maxWidth: 1300
-                  maxHeight: 800
-                  cropFocus: CENTER
-                  fit: COVER
-                  background: "white"
-                ) {
+                fluid(maxWidth: 1300, cropFocus: ATTENTION, fit: OUTSIDE) {
                   ...GatsbyImageSharpFluid
+                  presentationHeight
+                  presentationWidth
                 }
               }
             }

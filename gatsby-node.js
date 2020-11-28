@@ -33,12 +33,24 @@ const getMainPageHandles = (mainPage) => {
     if (element.type === 'collection' || element.type === 'product') {
       handles.push(element.handle);
     } else if (
-      (element.type === 'carousel' || element.type === 'header') &&
+      (element.type === 'carousel' ||
+        element.type === 'section' ||
+        element.type === 'header') &&
       element.children.length > 0
     ) {
       element.children.forEach((e) => {
         handles.push(e.handle);
       });
+    }
+  });
+  return handles;
+};
+
+const getMainPageFeaturedCollectionsHandles = (mainPage) => {
+  const handles = [];
+  mainPage.forEach((element) => {
+    if (element.type === 'featured_collection') {
+      handles.push(element.handle);
     }
   });
   return handles;
@@ -90,6 +102,12 @@ const createProductNode = (options, actions, node) => {
   basePath = removeTrailingLeadingSlashes(basePath);
   productPageBasePath = removeTrailingLeadingSlashes(productPageBasePath);
 
+  const shopifyProductGidPrefix = 'gid://shopify/Product/';
+  const getProductId = (shopifyId) =>
+    Buffer.from(shopifyId, 'base64')
+      .toString('utf-8')
+      .substr(shopifyProductGidPrefix.length);
+
   // Todo: Improve the way this is done. Maybe using the config.json file.
   createNodeField({
     node,
@@ -134,6 +152,12 @@ const createProductNode = (options, actions, node) => {
     node,
     name: 'withoutShortDescription',
     value: withoutShortDescription || '',
+  });
+
+  createNodeField({
+    node,
+    name: 'shopifyProductId',
+    value: getProductId(node.shopifyId) || '',
   });
 };
 
@@ -245,7 +269,12 @@ const createArticleNode = async (options, actions, node, cache) => {
   });
 };
 
-const createMainPage = async (basePath, graphql, createPage) => {
+const createMainPage = async (
+  basePath,
+  graphql,
+  createPage,
+  finalCartPagePath
+) => {
   const mainPagePath = `${basePath && `/${basePath}`}/`;
   const mainPageHandles = await graphql(`
     {
@@ -272,12 +301,21 @@ const createMainPage = async (basePath, graphql, createPage) => {
       )
     )
   );
+  const mainPageFeaturedCollectionsHandlesArray = getMainPageFeaturedCollectionsHandles(
+    JSON.parse(
+      JSON.stringify(
+        mainPageHandles.data.site.siteMetadata.gatsbyStorefrontConfig.mainPage
+      )
+    )
+  );
   createPage({
     path: mainPagePath,
     component: mainPageTemplate,
     context: {
       handles: mainPageHandlesArray,
+      featuredCollectionsHandles: mainPageFeaturedCollectionsHandlesArray,
       enableWebp,
+      cartUrl: finalCartPagePath,
     },
   });
 };
@@ -348,18 +386,20 @@ const createProductsPages = async (graphql, createPage, finalCartPagePath) => {
           handle
           fields {
             shopifyThemePath
+            shopifyProductId
           }
         }
       }
     }
   `);
   queryProducts.data.products.nodes.forEach(({ handle, fields }) => {
-    const { shopifyThemePath } = fields;
+    const { shopifyThemePath, shopifyProductId } = fields;
     createPage({
       path: shopifyThemePath,
       component: productTemplate,
       context: {
         handle,
+        productId: shopifyProductId,
         // Todo: Find a better way to do this.
         cartUrl: finalCartPagePath,
         enableWebp,
@@ -598,7 +638,7 @@ exports.createPages = async ({ graphql, actions }, options) => {
     component: cartTemplate,
   });
 
-  await createMainPage(basePath, graphql, createPage);
+  await createMainPage(basePath, graphql, createPage, finalCartPagePath);
 
   await createCollectionsPages(
     graphql,

@@ -50,7 +50,11 @@ const Navbar = (props) => {
         siteMetadata {
           gatsbyStorefrontConfig {
             storeName
-            logoUrl
+            logo {
+              url
+              width
+              height
+            }
             menu {
               handle
               id
@@ -67,7 +71,7 @@ const Navbar = (props) => {
 
   const {
     storeName,
-    logoUrl,
+    logo,
     menu,
   } = data.site.siteMetadata.gatsbyStorefrontConfig;
 
@@ -92,25 +96,30 @@ const Navbar = (props) => {
             style={{ textDecoration: 'none' }}
             ml="auto"
           >
-            {logoUrl ? (
-              <img src={logoUrl} alt={storeName} />
+            {logo ? (
+              <img
+                src={logo.url}
+                width={logo.width}
+                height={logo.height}
+                alt={storeName}
+              />
             ) : (
-              <>
+              <Flex>
                 <ShoppingBag
-                  m="auto"
                   width={['25px', '30px']}
                   height={['25px', '30px']}
-                  color="secondary"
+                  color="primary"
                 />
 
                 <Text
+                  ml={2}
                   color="primary"
                   fontSize={[2, 3]}
                   sx={{ display: ['none', 'block'] }}
                 >
                   {storeName}
                 </Text>
-              </>
+              </Flex>
             )}
           </Text>
 

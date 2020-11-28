@@ -21,7 +21,7 @@ const typeDefs = `
       currency: String
       productsPerCollectionPage: String
       articlesPerBlogPage: String
-      logoUrl: String
+      logo: SiteSiteMetadataGatsbyStorefrontConfigLogo
       gatsbyImageProps: SiteSiteMetadataGatsbyStorefrontConfigGatsbyImageProps
       productImagesCarouselProps: SiteSiteMetadataGatsbyStorefrontConfigProductImagesCarouselProps
     }
@@ -70,6 +70,11 @@ const typeDefs = `
     type SiteSiteMetadataGatsbyStorefrontConfigProductImagesCarouselProps {
       naturalSlideWidth: Int
       naturalSlideHeight: Int
+    }
+    type SiteSiteMetadataGatsbyStorefrontConfigLogo {
+      url: String
+      width: String
+      height: String
     }
     type ShopifyProductFieldsFirstImage  {
       id: String

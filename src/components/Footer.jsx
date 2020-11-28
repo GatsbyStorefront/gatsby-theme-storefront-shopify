@@ -13,10 +13,10 @@ const SocialIcon = loadable(() => import('./SocialIcon'));
 const validURL = (str) => {
   const pattern = new RegExp(
     '^(https?:\\/\\/)?' + // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
       '(\\#[-a-z\\d_]*)?$',
     'i'
   ); // fragment locator
@@ -114,18 +114,18 @@ function Footer() {
             {socialNetworks
               ? socialNetworks.map((socialNetwork, index) => {
                   return (
-                    <Box key={index}>
+                    <Box
+                      key={index}
+                      sx={{
+                        marginLeft: [2, 3],
+                        opacity: 0.8,
+                        ':hover,:focus,.active': {
+                          opacity: 1,
+                        },
+                      }}
+                    >
                       <SocialIcon
                         url={socialNetwork}
-                        sx={{
-                          height: 48,
-                          width: 48,
-                          marginLeft: [2, 3],
-                          opacity: 0.8,
-                          ':hover,:focus,.active': {
-                            opacity: 1,
-                          },
-                        }}
                         bgColor={theme.colors.primary}
                       />
                     </Box>

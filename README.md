@@ -90,8 +90,15 @@ npm install @gatsbystorefront/gatsby-theme-storefront-shopify
 Create `.env` file in your store's root directory with your Shopify storename (**storename**.myshopify.com) and [access token](https://help.shopify.com/en/api/getting-started/authentication/private-authentication#generate-credentials-from-the-shopify-admin) (your token must have full permissions on Storefront API).
 
 ```
-GATSBY_SHOP_NAME=your_shopify_store_name
+GATSBY_SHOPIFY_SHOP_NAME=your_shopify_store_name
 GATSBY_SHOPIFY_ACCESS_TOKEN=your_shopify_access_token
+```
+
+In case you are using Gatsby Storefront API to enable connections with external data sources (Contentful, Yotpo), please add additional configuration variables to your `.env` file:
+
+```
+GATSBYSTOREFRONT_API_URL=your_api_url.gatsbystorefront.com
+GATSBYSTOREFRONT_ACCESS_TOKEN=your_gatsbystorefrontApi_access_token
 ```
 
 ### Enable theme
@@ -107,8 +114,15 @@ module.exports = {
     {
       resolve: '@gatsbystorefront/gatsby-theme-storefront-shopify',
       options: {
-        shopName: process.env.GATSBY_SHOP_NAME,
-        accessToken: process.env.GATSBY_SHOPIFY_ACCESS_TOKEN,
+        shopify: {
+          shopName: process.env.GATSBY_SHOPIFY_SHOP_NAME,
+          accessToken: process.env.GATSBY_SHOPIFY_ACCESS_TOKEN,
+        },
+        gatsbyStorefrontApi: {
+          apiUrl: process.env.GATSBYSTOREFRONT_API_URL,
+          accessToken: process.env.GATSBYSTOREFRONT_ACCESS_TOKEN,
+        },
+        useGatsbyStorefrontApi: false, // Set to 'true' in case you are using Gatsby Storefront API to enable connections with external data sources
         basePath: '/',
         shopifyLite: false, // default 'false'
         enableWebp: true, // default 'true'

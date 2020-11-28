@@ -198,6 +198,18 @@ export const preset = {
       variant: 'buttons.pagination',
       boxShadow: 'inset 0 0 2px',
     },
+    shopNow: {
+      textTransform: 'uppercase',
+      letterSpacing: '2px',
+      fontSize: 0,
+      py: 3,
+      px: 4,
+      mt: 4,
+      borderRadius: 0,
+      ':hover,:focus,.active': {
+        textDecoration: 'underline',
+      },
+    },
   },
   styles: {
     root: {

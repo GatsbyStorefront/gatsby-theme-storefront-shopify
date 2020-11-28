@@ -1,10 +1,10 @@
 import React from 'react';
-import { Flex, Box } from 'rebass';
+import { Box } from 'rebass';
 import { useStaticQuery, graphql } from 'gatsby';
 
 import MainPageCarousel from './MainPageCarousel';
-import MainPageCollectionBlock from './MainPageCollectionBlock';
-import MainPageProductBlock from './MainPageProductBlock';
+import MainPageSection from './MainPageSection';
+import MainPageFeaturedCollectionBlock from './MainPageFeaturedCollectionBlock';
 
 const MainPage = (props) => {
   const dataQuery = useStaticQuery(graphql`
@@ -16,14 +16,24 @@ const MainPage = (props) => {
               handle
               type
               name
+              description
+              limit
               textBgColor
               textColor
+              buttonText
+              buttonTextColor
+              buttonBgColor
               children {
                 handle
                 type
                 name
+                description
+                limit
                 textBgColor
                 textColor
+                buttonText
+                buttonTextColor
+                buttonBgColor
               }
             }
           }
@@ -38,12 +48,14 @@ const MainPage = (props) => {
 
   const { gatsbyImageProps } = data.store.siteMetadata.gatsbyStorefrontConfig;
 
+  const { cartUrl } = props.pageContext;
+
   return (
-    <Flex flexWrap="wrap" px={2} pt={3} mx="auto" style={{ maxWidth: 1300 }}>
+    <Box px={2} pt={3} mx="auto" style={{ maxWidth: 1300 }}>
       {mainPage.map((block, index) => {
         if (block.type === 'carousel') {
           return (
-            <Box width={1} p={1} key={index}>
+            <Box width={1} mb={1} key={index}>
               <MainPageCarousel
                 carousel={block}
                 data={data}
@@ -51,53 +63,50 @@ const MainPage = (props) => {
               />
             </Box>
           );
+        } else if (block.type === 'section') {
+          return (
+            <Box width={1} mb={1} key={index}>
+              <MainPageSection
+                section={block}
+                data={data}
+                gatsbyImageProps={gatsbyImageProps}
+              />
+            </Box>
+          );
+        } else if (block.type === 'collection' || block.type === 'product') {
+          return (
+            <Box width={1} mb={1} key={index}>
+              <MainPageSection
+                section={{ children: [block] }}
+                data={data}
+                gatsbyImageProps={gatsbyImageProps}
+              />
+            </Box>
+          );
+        } else if (block.type === 'featured_collection') {
+          let products = [];
+          props.data.feautiredCollections.nodes.forEach((node) => {
+            if (node.handle === block.handle) {
+              products = [...products, ...node.products];
+            }
+          });
+          return (
+            <MainPageFeaturedCollectionBlock
+              block={block}
+              products={products}
+              limit={block.limit}
+              cartUrl={cartUrl}
+              gatsbyImageProps={gatsbyImageProps}
+              key={index}
+            />
+          );
         } else if (block.type === 'header') {
           return '';
-        } else if (
-          block.type === 'collection' &&
-          data.collections.nodes.filter(
-            (collection) => collection.handle === block.handle
-          )[0]
-        ) {
-          return (
-            <Box width={[1, 1 / 2]} p={1} key={index}>
-              <MainPageCollectionBlock
-                collection={
-                  data.collections.nodes.filter(
-                    (collection) => collection.handle === block.handle
-                  )[0]
-                }
-                textColor={block.textColor}
-                textBgColor={block.textBgColor}
-                gatsbyImageProps={gatsbyImageProps}
-              />
-            </Box>
-          );
-        } else if (
-          block.type === 'product' &&
-          data.products.nodes.filter(
-            (product) => product.handle === block.handle
-          )[0]
-        ) {
-          return (
-            <Box width={[1, 1 / 2]} p={1} key={index}>
-              <MainPageProductBlock
-                product={
-                  data.products.nodes.filter(
-                    (product) => product.handle === block.handle
-                  )[0]
-                }
-                textColor={block.textColor}
-                textBgColor={block.textBgColor}
-                gatsbyImageProps={gatsbyImageProps}
-              />
-            </Box>
-          );
         } else {
           return '';
         }
       })}
-    </Flex>
+    </Box>
   );
 };
 
