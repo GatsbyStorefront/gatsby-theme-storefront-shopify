@@ -107,12 +107,16 @@ function ProductPage({ data, pageContext, location }) {
         naturalSlideWidth={
           productImagesCarouselProps.naturalSlideWidth
             ? productImagesCarouselProps.naturalSlideWidth
-            : images[0].localFile.childImageSharp.main.presentationWidth
+            : images[0]
+            ? images[0].localFile.childImageSharp.main.presentationWidth
+            : 1
         }
         naturalSlideHeight={
           productImagesCarouselProps.naturalSlideHeight
             ? productImagesCarouselProps.naturalSlideHeight
-            : images[0].localFile.childImageSharp.main.presentationHeight
+            : images[0]
+            ? images[0].localFile.childImageSharp.main.presentationHeight
+            : 1
         }
         totalSlides={images.length}
       >
