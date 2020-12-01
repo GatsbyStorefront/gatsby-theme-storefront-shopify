@@ -77,7 +77,7 @@ const Navbar = (props) => {
 
   return (
     <Nav show={hideNavbarOnScroll}>
-      <Box py={3} width={1} as="nav" bg="white">
+      <Box py={[2, 3]} width={1} as="nav" bg="white">
         <Flex
           style={{ maxWidth: 1300 }}
           justifyContent="center"

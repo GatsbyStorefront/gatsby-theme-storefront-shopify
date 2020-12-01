@@ -76,7 +76,7 @@ const LayoutComponents = ({ children }) => {
           width={1}
           style={{ maxWidth: 1300, height: '100%' }}
           mx="auto"
-          mt={['40px', '60px']}
+          mt={['35px', '60px']}
         >
           {children}
         </Box>
