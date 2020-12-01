@@ -70,6 +70,7 @@ export const productQuery = graphql`
       }
       reviewsConnection {
         id
+        productId
         title
         content
         score
