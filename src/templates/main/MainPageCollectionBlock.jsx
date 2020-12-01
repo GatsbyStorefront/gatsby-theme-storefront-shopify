@@ -30,7 +30,9 @@ const MainPageCollectionBlock = (props) => {
 
   return (
     <BackgroundImage
-      fluid={image.localFile.childImageSharp.fluid}
+      fluid={
+        image && image.localFile ? image.localFile.childImageSharp.fluid : ''
+      }
       sx={{
         width: '100%',
         height: '100%',
