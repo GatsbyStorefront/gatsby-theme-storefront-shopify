@@ -29,7 +29,6 @@ export const mainPageQuery = graphql`
   query MainPageQuery(
     $handles: [String]
     $featuredCollectionsHandles: [String]
-    $enableWebp: Boolean!
   ) {
     collections: allShopifyCollection(filter: { handle: { in: $handles } }) {
       nodes {
@@ -40,19 +39,14 @@ export const mainPageQuery = graphql`
           shopifyThemePath
         }
         image {
+          src
           localFile {
-            childImageSharp @include(if: $enableWebp) {
-              fluid(maxWidth: 1300) {
-                ...GatsbyImageSharpFluid_withWebp
-                presentationHeight
-                presentationWidth
-              }
-            }
-            childImageSharp @skip(if: $enableWebp) {
-              fluid(maxWidth: 1300) {
-                ...GatsbyImageSharpFluid
-                presentationHeight
-                presentationWidth
+            childImageSharp {
+              resize(base64: true) {
+                src
+                width
+                height
+                aspectRatio
               }
             }
           }
@@ -76,25 +70,14 @@ export const mainPageQuery = graphql`
             shopifyThemePath
             firstImage {
               altText
+              originalSrc
               localFile {
-                childImageSharp @include(if: $enableWebp) {
-                  fluid(
-                    maxWidth: 450
-                    cropFocus: ATTENTION
-                    fit: COVER
-                    srcSetBreakpoints: [450]
-                  ) {
-                    ...GatsbyImageSharpFluid_withWebp
-                  }
-                }
-                childImageSharp @skip(if: $enableWebp) {
-                  fluid(
-                    maxWidth: 450
-                    cropFocus: ATTENTION
-                    fit: COVER
-                    srcSetBreakpoints: [450]
-                  ) {
-                    ...GatsbyImageSharpFluid
+                childImageSharp {
+                  resize(base64: true) {
+                    src
+                    width
+                    height
+                    aspectRatio
                   }
                 }
               }
@@ -130,19 +113,14 @@ export const mainPageQuery = graphql`
           shopifyThemePath
           firstImage {
             altText
+            originalSrc
             localFile {
-              childImageSharp @include(if: $enableWebp) {
-                fluid(maxWidth: 1300, cropFocus: ATTENTION, fit: OUTSIDE) {
-                  ...GatsbyImageSharpFluid_withWebp
-                  presentationHeight
-                  presentationWidth
-                }
-              }
-              childImageSharp @skip(if: $enableWebp) {
-                fluid(maxWidth: 1300, cropFocus: ATTENTION, fit: OUTSIDE) {
-                  ...GatsbyImageSharpFluid
-                  presentationHeight
-                  presentationWidth
+              childImageSharp {
+                resize(base64: true) {
+                  src
+                  width
+                  height
+                  aspectRatio
                 }
               }
             }

@@ -18,7 +18,7 @@ export default (props) => {
 };
 
 export const catalogQuery = graphql`
-  query CatalogQuery($handle: String, $enableWebp: Boolean!) {
+  query CatalogQuery($handle: String) {
     collection: allShopifyCollection(filter: { handle: { eq: $handle } }) {
       nodes {
         title
@@ -33,29 +33,14 @@ export const catalogQuery = graphql`
             shopifyThemePath
             firstImage {
               altText
+              originalSrc
               localFile {
-                childImageSharp @include(if: $enableWebp) {
-                  fluid(
-                    maxWidth: 450
-                    #maxHeight: 450
-                    cropFocus: ATTENTION
-                    fit: COVER
-                    background: "white"
-                    srcSetBreakpoints: [450]
-                  ) {
-                    ...GatsbyImageSharpFluid_withWebp
-                  }
-                }
-                childImageSharp @skip(if: $enableWebp) {
-                  fluid(
-                    maxWidth: 450
-                    # maxHeight: 450
-                    cropFocus: ATTENTION
-                    fit: COVER
-                    background: "white"
-                    srcSetBreakpoints: [450]
-                  ) {
-                    ...GatsbyImageSharpFluid
+                childImageSharp {
+                  resize(base64: true) {
+                    src
+                    width
+                    height
+                    aspectRatio
                   }
                 }
               }

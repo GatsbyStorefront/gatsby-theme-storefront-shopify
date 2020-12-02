@@ -1,10 +1,10 @@
 /** @jsx jsx */
 import React from 'react';
-import BackgroundImage from 'gatsby-background-image';
 import { Link as GatsbyLink } from 'gatsby';
 import { jsx } from 'theme-ui';
 import { Flex, Box, Text, Heading, Button } from 'rebass';
 
+import ShopifyBackgroundImage from '../../components/ShopifyBackgroundImage';
 import substrDescription from '../../utils/substrDescription';
 
 const MainPageProductBlock = (props) => {
@@ -31,15 +31,7 @@ const MainPageProductBlock = (props) => {
   } = props;
 
   return (
-    <BackgroundImage
-      fluid={firstImage.localFile.childImageSharp.fluid}
-      sx={{
-        width: '100%',
-        height: '100%',
-        backgroundPosition: backgroundPosition || '',
-      }}
-      {...gatsbyImageProps}
-    >
+    <ShopifyBackgroundImage src={firstImage.originalSrc} maxSize="400">
       <Flex
         m="auto"
         p="1"
@@ -103,7 +95,7 @@ const MainPageProductBlock = (props) => {
           </GatsbyLink>
         </Box>
       </Flex>
-    </BackgroundImage>
+    </ShopifyBackgroundImage>
   );
 };
 

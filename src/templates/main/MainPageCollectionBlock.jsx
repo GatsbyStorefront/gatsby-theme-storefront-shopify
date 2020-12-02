@@ -1,12 +1,12 @@
 /** @jsx jsx */
 /* eslint no-unused-vars: 0 */
 import React from 'react';
-import BackgroundImage from 'gatsby-background-image';
 import { Link as GatsbyLink } from 'gatsby';
 import { jsx } from 'theme-ui';
 import styled from '@emotion/styled/macro';
 import { Flex, Box, Text, Heading, Button } from 'rebass';
 
+import ShopifyBackgroundImage from '../../components/ShopifyBackgroundImage';
 import substrDescription from '../../utils/substrDescription';
 
 const MainPageCollectionBlock = (props) => {
@@ -29,17 +29,7 @@ const MainPageCollectionBlock = (props) => {
   } = props;
 
   return (
-    <BackgroundImage
-      fluid={
-        image && image.localFile ? image.localFile.childImageSharp.fluid : ''
-      }
-      sx={{
-        width: '100%',
-        height: '100%',
-        backgroundPosition: backgroundPosition || '',
-      }}
-      {...gatsbyImageProps}
-    >
+    <ShopifyBackgroundImage src={image.src} maxSize="1300">
       <Flex
         m="auto"
         p="1"
@@ -91,7 +81,7 @@ const MainPageCollectionBlock = (props) => {
           </GatsbyLink>
         </Box>
       </Flex>
-    </BackgroundImage>
+    </ShopifyBackgroundImage>
   );
 };
 

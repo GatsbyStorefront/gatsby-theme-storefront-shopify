@@ -17,7 +17,7 @@ export default (props) => {
 };
 
 export const productQuery = graphql`
-  query SingleProductQuery($handle: String!, $enableWebp: Boolean!) {
+  query SingleProductQuery($handle: String!) {
     product: shopifyProduct(handle: { eq: $handle }) {
       title
       description
@@ -27,33 +27,14 @@ export const productQuery = graphql`
       images {
         id
         altText
+        originalSrc
         localFile {
-          childImageSharp @include(if: $enableWebp) {
-            main: fluid(maxWidth: 800, srcSetBreakpoints: [400, 800]) {
-              ...GatsbyImageSharpFluid_withWebp
-              presentationHeight
-              presentationWidth
-            }
-            thumbnail: fluid(
-              maxWidth: 90
-              maxHeight: 90
-              srcSetBreakpoints: [90]
-            ) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
-          }
-          childImageSharp @skip(if: $enableWebp) {
-            main: fluid(maxWidth: 800, srcSetBreakpoints: [400, 800]) {
-              ...GatsbyImageSharpFluid
-              presentationHeight
-              presentationWidth
-            }
-            thumbnail: fluid(
-              maxWidth: 90
-              maxHeight: 90
-              srcSetBreakpoints: [90]
-            ) {
-              ...GatsbyImageSharpFluid
+          childImageSharp {
+            main: resize(base64: true) {
+              src
+              width
+              height
+              aspectRatio
             }
           }
         }

@@ -2,9 +2,10 @@
 import { jsx } from 'theme-ui';
 import React, { useContext, useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import GatsbyImage from 'gatsby-image';
 import { Flex, Box } from 'rebass';
 import { CarouselContext, Dot } from 'pure-react-carousel';
+
+import ShopifyImage from '../../components/ShopifyImage';
 
 const ThumbnailBox = styled(Box)(
   ({ theme, maxImageHeight, maxImageWidth, currentImageIndex, index }) => ({
@@ -105,10 +106,12 @@ function ProductGalleryThumbnails({
               onClick={() => setCurrentImageIndex(index)}
             >
               {image && image.localFile && image.localFile.childImageSharp ? (
-                <GatsbyImage
-                  fluid={image.localFile.childImageSharp.thumbnail}
-                  alt={image.altText ? image.altText : title}
-                  {...gatsbyImageProps}
+                <ShopifyImage
+                  src={image.originalSrc}
+                  alt={image.altText || title}
+                  sizes="(max-width: 90px) 100vw, 90px"
+                  base64={image.localFile.childImageSharp.main.src}
+                  aspectRatio={1}
                 />
               ) : (
                 ''
