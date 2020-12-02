@@ -70,11 +70,6 @@ export const catalogQuery = graphql`
       siteMetadata {
         gatsbyStorefrontConfig {
           storeName
-          gatsbyImageProps {
-            loading
-            fadeIn
-            durationFadeIn
-          }
         }
       }
     }

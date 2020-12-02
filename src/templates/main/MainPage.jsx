@@ -46,8 +46,6 @@ const MainPage = (props) => {
 
   const { data } = props;
 
-  const { gatsbyImageProps } = data.store.siteMetadata.gatsbyStorefrontConfig;
-
   const { cartUrl } = props.pageContext;
 
   return (
@@ -56,31 +54,19 @@ const MainPage = (props) => {
         if (block.type === 'carousel') {
           return (
             <Box width={1} mb={1} key={index}>
-              <MainPageCarousel
-                carousel={block}
-                data={data}
-                gatsbyImageProps={gatsbyImageProps}
-              />
+              <MainPageCarousel carousel={block} data={data} />
             </Box>
           );
         } else if (block.type === 'section') {
           return (
             <Box width={1} mb={1} key={index}>
-              <MainPageSection
-                section={block}
-                data={data}
-                gatsbyImageProps={gatsbyImageProps}
-              />
+              <MainPageSection section={block} data={data} />
             </Box>
           );
         } else if (block.type === 'collection' || block.type === 'product') {
           return (
             <Box width={1} mb={1} key={index}>
-              <MainPageSection
-                section={{ children: [block] }}
-                data={data}
-                gatsbyImageProps={gatsbyImageProps}
-              />
+              <MainPageSection section={{ children: [block] }} data={data} />
             </Box>
           );
         } else if (block.type === 'featured_collection') {
@@ -96,7 +82,6 @@ const MainPage = (props) => {
               products={products}
               limit={block.limit}
               cartUrl={cartUrl}
-              gatsbyImageProps={gatsbyImageProps}
               key={index}
             />
           );

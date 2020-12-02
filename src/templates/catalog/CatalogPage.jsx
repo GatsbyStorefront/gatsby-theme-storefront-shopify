@@ -6,9 +6,6 @@ import Pagination from '../../components/Pagination';
 import CollectionStats from '../../components/CollectionStats';
 
 function CatalogPage(props) {
-  const {
-    gatsbyImageProps,
-  } = props.data.store.siteMetadata.gatsbyStorefrontConfig;
   const { limit, skip, cartUrl } = props.pageContext;
   const { title, description } = props.data.collection.nodes[0];
   let products = [];
@@ -51,7 +48,6 @@ function CatalogPage(props) {
         limit={limit}
         skip={skip}
         cartUrl={cartUrl}
-        gatsbyImageProps={gatsbyImageProps}
       />
       <Box width={1} px={4} py={2} key="pagination">
         <Text textAlign="center">

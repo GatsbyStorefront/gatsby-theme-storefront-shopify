@@ -24,8 +24,6 @@ const MainPageCollectionBlock = (props) => {
     buttonText = 'Shop now',
     buttonTextColor = 'primary',
     buttonBgColor = 'white',
-    gatsbyImageProps,
-    backgroundPosition,
   } = props;
 
   return (

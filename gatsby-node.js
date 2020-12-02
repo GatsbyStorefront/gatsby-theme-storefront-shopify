@@ -11,7 +11,6 @@ const policyTemplate = require.resolve('./src/templates/policy/index.jsx');
 
 const typeDefs = require('./typedefs');
 
-let enableWebp = true;
 let maxDescriptionSectionsNumber;
 
 function removeTrailingLeadingSlashes(string) {
@@ -224,7 +223,6 @@ const createMainPage = async (
     context: {
       handles: mainPageHandlesArray,
       featuredCollectionsHandles: mainPageFeaturedCollectionsHandlesArray,
-      enableWebp,
       cartUrl: finalCartPagePath,
     },
   });
@@ -278,7 +276,6 @@ const createCollectionsPages = async (
               numPages,
               currentPage: i + 1,
               cartUrl: finalCartPagePath,
-              enableWebp,
             },
           });
         });
@@ -310,7 +307,6 @@ const createProductsPages = async (graphql, createPage, finalCartPagePath) => {
         handle,
         productId: shopifyProductId,
         cartUrl: finalCartPagePath,
-        enableWebp,
       },
     });
   });
@@ -349,9 +345,6 @@ const createPoliciesPages = async (graphql, createPage, finalCartPagePath) => {
 };
 
 exports.onPreInit = (_, pluginOptions) => {
-  enableWebp = hasOwnProp(pluginOptions, 'enableWebp')
-    ? pluginOptions.enableWebp
-    : true;
   const product = hasOwnProp(pluginOptions, 'product')
     ? pluginOptions.product
     : {};

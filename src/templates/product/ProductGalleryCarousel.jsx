@@ -13,12 +13,7 @@ import strings from './strings.json';
 
 const { ariaNextButtonLabel, ariaBackButtonLabel } = strings;
 
-const ProductGalleryCarousel = ({
-  images,
-  title,
-  gatsbyImageProps,
-  maxContainerHeight = 500,
-}) => {
+const ProductGalleryCarousel = ({ images, title }) => {
   return (
     <>
       {images && images.length === 1 ? (

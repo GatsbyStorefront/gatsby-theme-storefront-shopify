@@ -10,7 +10,7 @@ import NoImage from '../../components/Icons/NoImage';
 import formatPrice from '../../utils/formatPrice';
 import strings from './strings.json';
 
-const IndividualProduct = ({ product, gatsbyImageProps }) => {
+const IndividualProduct = ({ product }) => {
   const data = useStaticQuery(graphql`
     {
       site {

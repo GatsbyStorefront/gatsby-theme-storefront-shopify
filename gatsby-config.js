@@ -4,10 +4,7 @@ const config = ({
   shopify = {},
   gatsbyStorefrontApi = {},
   useGatsbyStorefrontApi = false,
-  shopifyLite = false,
-  imageQuality = '95',
   manifest = {},
-  gatsbyImageProps = {},
   productImagesCarouselProps = {},
   reviews = {},
 }) => {
@@ -47,14 +44,7 @@ const config = ({
       },
     },
     'gatsby-plugin-react-helmet',
-    {
-      resolve: `gatsby-plugin-sharp`,
-      options: {
-        useMozJpeg: false,
-        stripMetadata: true,
-        defaultQuality: imageQuality,
-      },
-    },
+    'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',
     'gatsby-plugin-theme-ui',
     'gatsby-plugin-sitemap',
@@ -130,8 +120,6 @@ const config = ({
       // For available socia share buttons see: https://github.com/nygardk/react-share
       shareButtons: [],
       googleAnalyticsId: 'UA-141525658-3',
-      isShopifyLite: shopifyLite,
-      gatsbyImageProps: { ...gatsbyImageProps },
       productImagesCarouselProps: { ...productImagesCarouselProps },
       reviewsNumberPerPage: reviews.hasOwnProperty('reviewsNumberPerPage')
         ? reviews.reviewsNumberPerPage

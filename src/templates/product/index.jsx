@@ -93,11 +93,6 @@ export const productQuery = graphql`
           storeName
           payments
           shareButtons
-          gatsbyImageProps {
-            loading
-            fadeIn
-            durationFadeIn
-          }
           productImagesCarouselProps {
             naturalSlideHeight
             naturalSlideWidth

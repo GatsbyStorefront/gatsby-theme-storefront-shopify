@@ -72,9 +72,7 @@ function ProductPage({ data, pageContext, location }) {
 
   const { cartUrl } = pageContext;
   const {
-    payments,
     shareButtons,
-    gatsbyImageProps,
     productImagesCarouselProps,
     reviewsNumberPerPage,
   } = data.store.siteMetadata.gatsbyStorefrontConfig;
@@ -138,7 +136,6 @@ function ProductPage({ data, pageContext, location }) {
               <ProductGalleryThumbnails
                 images={images}
                 title={title}
-                gatsbyImageProps={gatsbyImageProps}
                 maxContainerHeight={600}
               />
             </Box>
@@ -167,7 +164,6 @@ function ProductPage({ data, pageContext, location }) {
             <ProductGalleryCarousel
               images={images}
               title={title}
-              gatsbyImageProps={gatsbyImageProps}
               maxContainerHeight={productImagesCarouselProps.naturalSlideHeight}
             />
           </Box>

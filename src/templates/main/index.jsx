@@ -138,11 +138,6 @@ export const mainPageQuery = graphql`
         gatsbyStorefrontConfig {
           storeName
           storeDescription
-          gatsbyImageProps {
-            loading
-            fadeIn
-            durationFadeIn
-          }
         }
       }
     }

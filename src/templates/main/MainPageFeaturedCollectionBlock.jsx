@@ -9,7 +9,6 @@ const MainPageFeaturedCollectionBlock = ({
   limit = 3,
   skip = 0,
   cartUrl,
-  gatsbyImageProps,
 }) => {
   const { name, description } = block;
   return (
@@ -35,7 +34,6 @@ const MainPageFeaturedCollectionBlock = ({
           limit={limit}
           skip={skip}
           cartUrl={cartUrl}
-          gatsbyImageProps={gatsbyImageProps}
         />
       </Flex>
     </Box>

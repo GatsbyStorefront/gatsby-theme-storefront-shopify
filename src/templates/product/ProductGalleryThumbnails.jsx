@@ -33,7 +33,6 @@ function ProductGalleryThumbnails({
   maxImageHeight = 100,
   maxImageWidth = 100,
   maxContainerHeight = 500,
-  gatsbyImageProps,
 }) {
   const carouselContext = useContext(CarouselContext);
   const [currentImageIndex, setCurrentImageIndex] = useState(

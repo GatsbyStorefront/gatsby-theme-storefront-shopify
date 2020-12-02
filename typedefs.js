@@ -22,7 +22,6 @@ const typeDefs = `
       productsPerCollectionPage: String
       articlesPerBlogPage: String
       logo: SiteSiteMetadataGatsbyStorefrontConfigLogo
-      gatsbyImageProps: SiteSiteMetadataGatsbyStorefrontConfigGatsbyImageProps
       productImagesCarouselProps: SiteSiteMetadataGatsbyStorefrontConfigProductImagesCarouselProps
     }
     type SiteSiteMetadataGatsbyStorefrontConfigMainPage {
@@ -61,11 +60,6 @@ const typeDefs = `
     type SiteSiteMetadataGatsbyStorefrontConfigFooterLinks {
       name: String
       link: String
-    }
-    type SiteSiteMetadataGatsbyStorefrontConfigGatsbyImageProps {
-      loading: String
-      fadeIn: Boolean
-      durationFadeIn: Int
     }
     type SiteSiteMetadataGatsbyStorefrontConfigProductImagesCarouselProps {
       naturalSlideWidth: Int

@@ -1,16 +1,16 @@
 import React from 'react';
 import { Box, Card, Heading, Text } from 'rebass';
 import { useStaticQuery, graphql, Link as GatsbyLink } from 'gatsby';
-import GatsbyImage from 'gatsby-image';
 import styled from '@emotion/styled/macro';
 
+import ShopifyImage from '../../components/ShopifyImage';
 import AddToCart from '../../components/AddToCart';
 import Badge from '../../components/Badge';
 import NoImage from '../../components/Icons/NoImage';
 import formatPrice from '../../utils/formatPrice';
 import strings from './strings.json';
 
-const IndividualProduct = ({ product, gatsbyImageProps }) => {
+const IndividualProduct = ({ product }) => {
   const data = useStaticQuery(graphql`
     {
       site {
@@ -55,7 +55,7 @@ const IndividualProduct = ({ product, gatsbyImageProps }) => {
 
   // Empty styled components used for targeting as selectors
   // https://emotion.sh/docs/styled#targeting-another-emotion-component
-  const Image = styled(GatsbyImage)``;
+  const Image = styled(ShopifyImage)``;
   const Title = styled(Heading)``;
 
   const CompareAtPrice = styled.strike`
@@ -186,9 +186,13 @@ const IndividualProduct = ({ product, gatsbyImageProps }) => {
             >
               {firstImage && firstImage.localFile ? (
                 <Image
-                  alt={title}
-                  fluid={firstImage.localFile.childImageSharp.fluid}
-                  {...gatsbyImageProps}
+                  src={firstImage.originalSrc}
+                  alt={firstImage.altText || title}
+                  base64={firstImage.localFile.childImageSharp.resize.src}
+                  aspectRatio={
+                    firstImage.localFile.childImageSharp.resize.aspectRatio
+                  }
+                  sizes="(max-width: 450px) 100vw, 450px"
                 />
               ) : (
                 <NoImage width="100%" height="100%" color="grey" p={4} />

@@ -123,14 +123,6 @@ module.exports = {
         },
         useGatsbyStorefrontApi: false, // Set to 'true' in case you are using Gatsby Storefront API to enable connections with external data sources
         basePath: '/',
-        enableWebp: true, // default 'true'
-        imageQuality: '95', // default '95', better to decrease but always check your result images quality
-        gatsbyImageProps: {
-          // See: https://www.gatsbyjs.com/plugins/gatsby-image/#gatsby-image-props
-          loading: 'eager', // Using 'eager' currently improves Lighthouse 6 metrics. See: https://github.com/gatsbyjs/gatsby/issues/24332#issuecomment-650760081
-          fadeIn: false,
-          durationFadeIn: 500,
-        },
         productImagesCarouselProps: {
           // See: https://github.com/express-labs/pure-react-carousel#carouselprovider-
           naturalSlideWidth: 500,

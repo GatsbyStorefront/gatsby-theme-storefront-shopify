@@ -8,7 +8,7 @@ import MainPageCollectionBlock from './MainPageCollectionBlock';
 import MainPageProductBlock from './MainPageProductBlock';
 
 const MainPageSection = (props) => {
-  const { section, data, gatsbyImageProps } = props;
+  const { section, data } = props;
   const sectionItemsNumber =
     section && section.children && section.children.length > 0
       ? section.children.length
@@ -51,7 +51,6 @@ const MainPageSection = (props) => {
                   buttonBgColor={
                     block.buttonBgColor ? block.buttonBgColor : undefined
                   }
-                  gatsbyImageProps={gatsbyImageProps}
                   backgroundPosition="50% 0%"
                 />
               </Box>
@@ -88,7 +87,6 @@ const MainPageSection = (props) => {
                   buttonBgColor={
                     block.buttonBgColor ? block.buttonBgColor : undefined
                   }
-                  gatsbyImageProps={gatsbyImageProps}
                   backgroundPosition="50% 0%"
                 />
               </Box>

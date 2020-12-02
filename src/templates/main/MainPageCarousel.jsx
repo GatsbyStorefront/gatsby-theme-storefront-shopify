@@ -23,7 +23,7 @@ import strings from './strings.json';
 const { ariaNextButtonLabel, ariaBackButtonLabel } = strings;
 
 const MainPageCarousel = (props) => {
-  const { carousel, data, gatsbyImageProps } = props;
+  const { carousel, data } = props;
 
   const {
     theme: { breakpoints },
@@ -98,7 +98,6 @@ const MainPageCarousel = (props) => {
                               ? slide.buttonBgColor
                               : undefined
                           }
-                          gatsbyImageProps={gatsbyImageProps}
                         />
                       );
                     } else {
@@ -119,7 +118,6 @@ const MainPageCarousel = (props) => {
                           key={index}
                           textColor={slide.textColor}
                           textBgColor={slide.textBgColor}
-                          gatsbyImageProps={gatsbyImageProps}
                         />
                       );
                     } else {
