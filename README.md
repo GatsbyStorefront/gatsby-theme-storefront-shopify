@@ -24,7 +24,6 @@ And if you like Gatsby Storefront **please give us a star on GitHub** ⭐ 👍 �
   - [Create `.env` file](#create-env-file)
   - [Enable theme](#enable-theme)
   - [Shopify content requirement](#shopify-content-requirement)
-  - [A setup for Shopify Lite plan](#a-setup-for-shopify-lite-plan)
   - [Starter](#starter)
 - [Configuration](#configuration)
   - [Configuration file](#configuration-file)
@@ -124,7 +123,6 @@ module.exports = {
         },
         useGatsbyStorefrontApi: false, // Set to 'true' in case you are using Gatsby Storefront API to enable connections with external data sources
         basePath: '/',
-        shopifyLite: false, // default 'false'
         enableWebp: true, // default 'true'
         imageQuality: '95', // default '95', better to decrease but always check your result images quality
         gatsbyImageProps: {
@@ -170,11 +168,7 @@ module.exports = {
 
 ### Shopify content requirement
 
-Please make sure that your Shopify web store has at least one [Collection](https://help.shopify.com/en/manual/products/collections), one [Product](https://help.shopify.com/en/manual/products/add-update-products) (associated with Collection), [Blog post](https://help.shopify.com/en/manual/sell-online/online-store/blogs/writing-blogs), [Page](https://help.shopify.com/en/manual/sell-online/online-store/pages) and [store Policies](https://help.shopify.com/en/manual/checkout-settings/refund-privacy-tos) added before runing your Gatsby Storefront, as it is neccesary for correct API exposure.
-
-### A setup for Shopify Lite plan
-
-If you are using Shopify Lite plan. Please set `shopifyLite` property to `true` in `@gatsbystorefront/gatsby-theme-storefront-shopify` plugin `options` in `gatsby-config.js`. This will disable generation of pages for Blog and Pages as they are not avalible in "Lite" plan.
+Please make sure that your Shopify web store has at least one [Collection](https://help.shopify.com/en/manual/products/collections), one [Product](https://help.shopify.com/en/manual/products/add-update-products) (associated with Collection) and [store Policies](https://help.shopify.com/en/manual/checkout-settings/refund-privacy-tos) added before runing your Gatsby Storefront, as it is neccesary for correct API exposure.
 
 ### Starter
 

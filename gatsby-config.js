@@ -28,6 +28,7 @@ const config = ({
             ? gatsbyStorefrontApi.accessToken
             : shopify.accessToken,
         useGatsbyStorefrontApi,
+        includeCollections: ['shop'],
       },
     },
     {
@@ -108,7 +109,6 @@ const config = ({
         },
       },
     },
-    'gatsby-background-image',
     'gatsby-plugin-loadable-components-ssr',
   ];
 
