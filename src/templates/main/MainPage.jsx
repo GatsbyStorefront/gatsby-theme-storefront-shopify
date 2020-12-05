@@ -18,6 +18,7 @@ const MainPage = (props) => {
               name
               description
               limit
+              isExpanded
               textBgColor
               textColor
               buttonText
@@ -29,6 +30,7 @@ const MainPage = (props) => {
                 name
                 description
                 limit
+                isExpanded
                 textBgColor
                 textColor
                 buttonText
@@ -63,13 +65,16 @@ const MainPage = (props) => {
               <MainPageSection section={block} data={data} />
             </Box>
           );
-        } else if (block.type === 'collection' || block.type === 'product') {
+        } else if (
+          block.type === 'product' ||
+          (block.type === 'collection' && block.isExpanded === false)
+        ) {
           return (
             <Box width={1} mb={1} key={index}>
               <MainPageSection section={{ children: [block] }} data={data} />
             </Box>
           );
-        } else if (block.type === 'featured_collection') {
+        } else if (block.type === 'collection' && block.isExpanded == true) {
           let products = [];
           props.data.feautiredCollections.nodes.forEach((node) => {
             if (node.handle === block.handle) {

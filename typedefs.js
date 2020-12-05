@@ -26,6 +26,7 @@ const typeDefs = `
     }
     type SiteSiteMetadataGatsbyStorefrontConfigMainPage {
       type: String
+      isExpanded: Boolean
       children: [SiteSiteMetadataGatsbyStorefrontConfigMainPageChildren]
       name: String
       description: String
@@ -39,6 +40,7 @@ const typeDefs = `
     }
     type SiteSiteMetadataGatsbyStorefrontConfigMainPageChildren {
       type: String
+      isExpanded: Boolean
       name: String
       description: String
       limit: Int

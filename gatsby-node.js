@@ -39,7 +39,7 @@ const getMainPageHandles = (mainPage) => {
 const getMainPageFeaturedCollectionsHandles = (mainPage) => {
   const handles = [];
   mainPage.forEach((element) => {
-    if (element.type === 'featured_collection') {
+    if (element.type === 'collection' && element.isExpanded === true) {
       handles.push(element.handle);
     }
   });
@@ -193,9 +193,11 @@ const createMainPage = async (
             mainPage {
               handle
               type
+              isExpanded
               children {
                 handle
                 type
+                isExpanded
               }
             }
           }
