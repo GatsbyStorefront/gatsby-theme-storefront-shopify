@@ -85,7 +85,6 @@ const MainPage = (props) => {
             <MainPageFeaturedCollectionBlock
               block={block}
               products={products}
-              limit={block.limit}
               cartUrl={cartUrl}
               key={index}
             />

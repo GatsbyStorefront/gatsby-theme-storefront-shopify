@@ -6,11 +6,10 @@ import CatalogProducts from '../catalog/CatalogProducts';
 const MainPageFeaturedCollectionBlock = ({
   block,
   products,
-  limit = 3,
   skip = 0,
   cartUrl,
 }) => {
-  const { name, description } = block;
+  const { name, description, limit = 3 } = block;
   return (
     <Box pt={3} mx="auto" style={{ maxWidth: 1300 }}>
       <Heading
@@ -31,7 +30,7 @@ const MainPageFeaturedCollectionBlock = ({
       <Flex flexWrap="wrap">
         <CatalogProducts
           products={products}
-          limit={limit}
+          limit={limit || 3}
           skip={skip}
           cartUrl={cartUrl}
         />
