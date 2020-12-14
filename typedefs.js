@@ -21,21 +21,35 @@ const typeDefs = `
       currency: String
       productsPerCollectionPage: String
       articlesPerBlogPage: String
+      logo: SiteSiteMetadataGatsbyStorefrontConfigLogo
+      productImagesCarouselProps: SiteSiteMetadataGatsbyStorefrontConfigProductImagesCarouselProps
     }
     type SiteSiteMetadataGatsbyStorefrontConfigMainPage {
       type: String
+      isExpanded: Boolean
       children: [SiteSiteMetadataGatsbyStorefrontConfigMainPageChildren]
       name: String
+      description: String
+      limit: Int
       handle: String
       textColor: String
       textBgColor: String
+      buttonText: String
+      buttonTextColor: String
+      buttonBgColor: String
     }
     type SiteSiteMetadataGatsbyStorefrontConfigMainPageChildren {
-      name: String
       type: String
+      isExpanded: Boolean
+      name: String
+      description: String
+      limit: Int
       handle: String
       textColor: String
       textBgColor: String
+      buttonText: String
+      buttonTextColor: String
+      buttonBgColor: String
     }
     type SiteSiteMetadataGatsbyStorefrontConfigMenu {
       name: String
@@ -48,6 +62,15 @@ const typeDefs = `
     type SiteSiteMetadataGatsbyStorefrontConfigFooterLinks {
       name: String
       link: String
+    }
+    type SiteSiteMetadataGatsbyStorefrontConfigProductImagesCarouselProps {
+      naturalSlideWidth: Int
+      naturalSlideHeight: Int
+    }
+    type SiteSiteMetadataGatsbyStorefrontConfigLogo {
+      url: String
+      width: String
+      height: String
     }
     type ShopifyProductFieldsFirstImage  {
       id: String
@@ -123,11 +146,60 @@ const typeDefs = `
       variants: [ShopifyProductVariant]
       options: [ShopifyProductOption]
       fields: ShopifyProductFields
+      reviewsConnection: [ShopifyProductReviewsConnection]
+      cmsConnection: ShopifyProductCmsConnection
     }
     type ShopifyProductFields {
       shopifyThemePath: String
       firstImage: ShopifyProductFieldsFirstImage
+      descriptionSections: [ShopifyProductFieldsDescriptionSections]
+      shortDescription: String
+      withoutShortDescription: String
     }
+
+    type ShopifyProductReviewsConnection implements Node {
+      id: ID!
+      title: String
+      content: String
+      score: Int
+      votesUp: Int
+      votesDown: Int
+      createdAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date
+      updatedAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date
+      sentiment: Float
+      productId: String
+      name: String
+      email: String
+      source: String
+    }
+
+    type ShopifyProductCmsConnection {
+      productId: String
+      shortDescription: String
+      description: String
+      descriptionHtml: String
+      descriptionSections: [ShopifyProductCmsConnectionDescriptionSections]
+    }
+
+    type ShopifyProductCmsConnectionDescriptionSections {
+      title: String
+      content: String
+      contentHtml: String
+      isOpen: Boolean
+      orderPriority: Int
+    }
+
+    type ShopifyProductFieldsDescriptionSections {
+      id: Int
+      section: String
+      options: ShopifyProductFieldsDescriptionSectionsOptions
+    }
+
+    type ShopifyProductFieldsDescriptionSectionsOptions {
+      title: String
+      isOpen: Boolean
+    }
+
     type ShopifyProductImages {
       id: String
       altText: String
@@ -327,6 +399,8 @@ const typeDefs = `
     type ShopifyPageFields {
       shopifyThemePath: String
     }
+
+
 `;
 
 module.exports = typeDefs;

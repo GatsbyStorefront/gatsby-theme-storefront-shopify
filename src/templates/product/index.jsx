@@ -17,7 +17,7 @@ export default (props) => {
 };
 
 export const productQuery = graphql`
-  query SingleProductQuery($handle: String!, $enableWebp: Boolean!) {
+  query SingleProductQuery($handle: String!) {
     product: shopifyProduct(handle: { eq: $handle }) {
       title
       description
@@ -27,32 +27,36 @@ export const productQuery = graphql`
       images {
         id
         altText
+        originalSrc
         localFile {
-          childImageSharp @include(if: $enableWebp) {
-            main: fluid(maxWidth: 800, srcSetBreakpoints: [400, 800]) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
-            thumbnail: fluid(
-              maxWidth: 90
-              maxHeight: 90
-              srcSetBreakpoints: [90]
-            ) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
-          }
-          childImageSharp @skip(if: $enableWebp) {
-            main: fluid(maxWidth: 800, srcSetBreakpoints: [400, 800]) {
-              ...GatsbyImageSharpFluid
-            }
-            thumbnail: fluid(
-              maxWidth: 90
-              maxHeight: 90
-              srcSetBreakpoints: [90]
-            ) {
-              ...GatsbyImageSharpFluid
+          childImageSharp {
+            main: resize(base64: true) {
+              src
+              width
+              height
+              aspectRatio
             }
           }
         }
+      }
+      cmsConnection {
+        shortDescription
+        descriptionHtml
+        descriptionSections {
+          title
+          contentHtml
+          isOpen
+          orderPriority
+        }
+      }
+      reviewsConnection {
+        id
+        productId
+        title
+        content
+        score
+        createdAt
+        name
       }
       variants {
         availableForSale
@@ -73,6 +77,7 @@ export const productQuery = graphql`
         values
       }
     }
+
     collection: shopifyCollection(
       products: { elemMatch: { handle: { eq: $handle } } }
     ) {
@@ -88,11 +93,11 @@ export const productQuery = graphql`
           storeName
           payments
           shareButtons
-          gatsbyImageProps {
-            loading
-            fadeIn
-            durationFadeIn
+          productImagesCarouselProps {
+            naturalSlideHeight
+            naturalSlideWidth
           }
+          reviewsNumberPerPage
         }
       }
     }

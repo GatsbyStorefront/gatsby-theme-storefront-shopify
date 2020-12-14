@@ -82,121 +82,119 @@ const Menu = ({ menu: componentMenu }) => {
         onClick={toggleSidebar}
         sx={{ cursor: 'pointer' }}
       />
-      {showSidebar ? (
-        <>
-          <Sidebar
-            width={[1, 1 / 3, 1 / 4, 1 / 5]}
-            sx={{ bg: 'menu' }}
-            ref={sidebarRef}
-          >
-            <Flex bg="menuItem" color="menuText" p={[2]} fontSize={[4]}>
-              <Box mr={3} width={1 / 2}>
-                {componentMenu && parentId > 0
+      <Box ref={sidebarRef}>
+        {showSidebar ? (
+          <>
+            <Sidebar width={[1, 1 / 3, 1 / 4, 1 / 5]} sx={{ bg: 'menu' }}>
+              <Flex bg="menuItem" color="menuText" p={[2]} fontSize={[4]}>
+                <Box mr={3} width={1 / 2}>
+                  {componentMenu && parentId > 0
+                    ? componentMenu.map((element) => {
+                        if (element.id === parentId) {
+                          return (
+                            <ChevronLeft
+                              width="25px"
+                              height="25px"
+                              onClick={() => {
+                                updateParentId(element.parentId);
+                              }}
+                              sx={{ cursor: 'pointer' }}
+                              key={element.id}
+                            />
+                          );
+                        } else {
+                          return '';
+                        }
+                      })
+                    : ''}
+                </Box>
+                <Flex
+                  onClick={toggleSidebar}
+                  width={1 / 2}
+                  justifyContent="flex-end"
+                >
+                  <Close
+                    width="25px"
+                    height="25px"
+                    color="menuText"
+                    sx={{ cursor: 'pointer' }}
+                  />
+                </Flex>
+              </Flex>
+
+              <Flex flexDirection="column">
+                {componentMenu
                   ? componentMenu.map((element) => {
-                      if (element.id === parentId) {
+                      if (element.parentId === parentId) {
                         return (
-                          <ChevronLeft
-                            width="25px"
-                            height="25px"
-                            onClick={() => {
-                              updateParentId(element.parentId);
-                            }}
-                            sx={{ cursor: 'pointer' }}
-                            key={element.id}
-                          />
+                          <React.Fragment key={element.id}>
+                            {element.type === 'header' ? (
+                              <MenuItem
+                                sx={{ cursor: 'pointer' }}
+                                bg="menuItem"
+                                color="menuText"
+                                onClick={() => {
+                                  updateParentId(element.id);
+                                }}
+                                fontSize={[4]}
+                                key={element.id}
+                              >
+                                {element.name}
+                              </MenuItem>
+                            ) : (
+                              ''
+                            )}
+                            {element.type !== 'header' &&
+                            element.type !== 'external' ? (
+                              <GatsbyLink
+                                to={`/${element.type}/${element.handle}`}
+                                key={element.id}
+                                style={{ textDecoration: 'none' }}
+                              >
+                                <MenuItem
+                                  bg="menuItem"
+                                  color="menuText"
+                                  fontSize={[4]}
+                                >
+                                  {element.name}
+                                </MenuItem>
+                              </GatsbyLink>
+                            ) : (
+                              ''
+                            )}
+                            {element.type === 'external' ? (
+                              <a
+                                href={element.link}
+                                key={element.id}
+                                style={{ textDecoration: 'none' }}
+                              >
+                                <MenuItem
+                                  bg="menuItem"
+                                  color="menuText"
+                                  fontSize={[3, 4]}
+                                >
+                                  {element.name}
+                                </MenuItem>
+                              </a>
+                            ) : (
+                              ''
+                            )}
+                          </React.Fragment>
                         );
                       } else {
                         return '';
                       }
                     })
                   : ''}
-              </Box>
-              <Flex
-                onClick={toggleSidebar}
-                width={1 / 2}
-                justifyContent="flex-end"
-              >
-                <Close
-                  width="25px"
-                  height="25px"
-                  color="menuText"
-                  sx={{ cursor: 'pointer' }}
-                />
               </Flex>
-            </Flex>
+            </Sidebar>
 
-            <Flex flexDirection="column">
-              {componentMenu
-                ? componentMenu.map((element) => {
-                    if (element.parentId === parentId) {
-                      return (
-                        <React.Fragment key={element.id}>
-                          {element.type === 'header' ? (
-                            <MenuItem
-                              sx={{ cursor: 'pointer' }}
-                              bg="menuItem"
-                              color="menuText"
-                              onClick={() => {
-                                updateParentId(element.id);
-                              }}
-                              fontSize={[4]}
-                              key={element.id}
-                            >
-                              {element.name}
-                            </MenuItem>
-                          ) : (
-                            ''
-                          )}
-                          {element.type !== 'header' &&
-                          element.type !== 'external' ? (
-                            <GatsbyLink
-                              to={`/${element.type}/${element.handle}`}
-                              key={element.id}
-                              style={{ textDecoration: 'none' }}
-                            >
-                              <MenuItem
-                                bg="menuItem"
-                                color="menuText"
-                                fontSize={[4]}
-                              >
-                                {element.name}
-                              </MenuItem>
-                            </GatsbyLink>
-                          ) : (
-                            ''
-                          )}
-                          {element.type === 'external' ? (
-                            <a
-                              href={element.link}
-                              key={element.id}
-                              style={{ textDecoration: 'none' }}
-                            >
-                              <MenuItem
-                                bg="menuItem"
-                                color="menuText"
-                                fontSize={[3, 4]}
-                              >
-                                {element.name}
-                              </MenuItem>
-                            </a>
-                          ) : (
-                            ''
-                          )}
-                        </React.Fragment>
-                      );
-                    } else {
-                      return '';
-                    }
-                  })
-                : ''}
-            </Flex>
-          </Sidebar>
-
-          <DisabledArea onClick={toggleSidebar} />
-        </>
-      ) : (
-        ''
-      )}
+            <DisabledArea onClick={toggleSidebar} />
+          </>
+        ) : (
+          ''
+        )}
+      </Box>
     </>
   );
 };

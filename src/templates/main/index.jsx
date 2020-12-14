@@ -26,7 +26,10 @@ export default (props) => {
 };
 
 export const mainPageQuery = graphql`
-  query MainPageQuery($handles: [String], $enableWebp: Boolean!) {
+  query MainPageQuery(
+    $handles: [String]
+    $featuredCollectionsHandles: [String]
+  ) {
     collections: allShopifyCollection(filter: { handle: { in: $handles } }) {
       nodes {
         handle
@@ -36,29 +39,66 @@ export const mainPageQuery = graphql`
           shopifyThemePath
         }
         image {
+          src
           localFile {
-            childImageSharp @include(if: $enableWebp) {
-              fluid(
-                maxWidth: 1300
-                maxHeight: 800
-                cropFocus: CENTER
-                fit: COVER
-                background: "white"
-              ) {
-                ...GatsbyImageSharpFluid_withWebp
+            childImageSharp {
+              resize(base64: true) {
+                src
+                width
+                height
+                aspectRatio
               }
             }
-            childImageSharp @skip(if: $enableWebp) {
-              fluid(
-                maxWidth: 1300
-                maxHeight: 800
-                cropFocus: CENTER
-                fit: COVER
-                background: "white"
-              ) {
-                ...GatsbyImageSharpFluid
+          }
+        }
+      }
+    }
+
+    feautiredCollections: allShopifyCollection(
+      filter: { handle: { in: $featuredCollectionsHandles } }
+    ) {
+      nodes {
+        title
+        handle
+        description
+        products {
+          id
+          shopifyId
+          title
+          tags
+          fields {
+            shopifyThemePath
+            firstImage {
+              altText
+              originalSrc
+              localFile {
+                childImageSharp {
+                  resize(base64: true) {
+                    src
+                    width
+                    height
+                    aspectRatio
+                  }
+                }
               }
             }
+          }
+          availableForSale
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          variants {
+            shopifyId
+            availableForSale
+            compareAtPrice
+            price
           }
         }
       }
@@ -73,31 +113,22 @@ export const mainPageQuery = graphql`
           shopifyThemePath
           firstImage {
             altText
+            originalSrc
             localFile {
-              childImageSharp @include(if: $enableWebp) {
-                fluid(
-                  maxWidth: 1300
-                  maxHeight: 800
-                  cropFocus: CENTER
-                  fit: COVER
-                  background: "white"
-                ) {
-                  ...GatsbyImageSharpFluid_withWebp
-                }
-              }
-              childImageSharp @skip(if: $enableWebp) {
-                fluid(
-                  maxWidth: 1300
-                  maxHeight: 800
-                  cropFocus: CENTER
-                  fit: COVER
-                  background: "white"
-                ) {
-                  ...GatsbyImageSharpFluid
+              childImageSharp {
+                resize(base64: true) {
+                  src
+                  width
+                  height
+                  aspectRatio
                 }
               }
             }
           }
+          descriptionSections {
+            id
+          }
+          shortDescription
         }
       }
     }
@@ -107,11 +138,6 @@ export const mainPageQuery = graphql`
         gatsbyStorefrontConfig {
           storeName
           storeDescription
-          gatsbyImageProps {
-            loading
-            fadeIn
-            durationFadeIn
-          }
         }
       }
     }

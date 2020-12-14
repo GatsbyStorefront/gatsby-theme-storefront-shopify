@@ -3,19 +3,19 @@ https://github.com/flamenx01/shortcode-parser
 lib/shortcode-parser.js 
 */
 
-var util = require('util');
+const util = require('util');
 
-var shortcodes = {};
+const shortcodes = {};
 
-var SHORTCODE_ATTRS = /(\s+([a-z0-9\-_]+|([a-z0-9\-_]+)\s*=\s*([a-z0-9\-_]+|\d+\.\d+|'[^']*'|"[^"]*")))*/
+const SHORTCODE_ATTRS = /(\s+([a-z0-9\-_]+|([a-z0-9\-_]+)\s*=\s*([a-z0-9\-_]+|\d+\.\d+|'[^']*'|"[^"]*")))*/
   .toString()
   .slice(1, -1);
-var SHORTCODE_SLASH = /\s*\/?\s*/.toString().slice(1, -1);
-var SHORTCODE_OPEN = /\[\s*%s/.toString().slice(1, -1);
-var SHORTCODE_RIGHT_BRACKET = '\\]';
-var SHORTCODE_CLOSE = /\[\s*\/\s*%s\s*\]/.toString().slice(1, -1);
-var SHORTCODE_CONTENT = /(.|\n|)*?/.toString().slice(1, -1);
-var SHORTCODE_SPACE = /\s*/.toString().slice(1, -1);
+const SHORTCODE_SLASH = /\s*\/?\s*/.toString().slice(1, -1);
+const SHORTCODE_OPEN = /\[\s*%s/.toString().slice(1, -1);
+const SHORTCODE_RIGHT_BRACKET = '\\]';
+const SHORTCODE_CLOSE = /\[\s*\/\s*%s\s*\]/.toString().slice(1, -1);
+const SHORTCODE_CONTENT = /(.|\n|)*?/.toString().slice(1, -1);
+const SHORTCODE_SPACE = /\s*/.toString().slice(1, -1);
 
 function typecast(val) {
   val = val.trim().replace(/(^['"]|['"]$)/g, '');
@@ -41,38 +41,35 @@ function closeTagString(name) {
 }
 
 function parseShortcode(name, buf, inline) {
-  var regex,
-    match,
-    // data = {},
-    attr = {};
+  let regex;
+  let match;
+  // data = {},
+  let attr = {};
 
   if (inline) {
     regex = new RegExp(
-      '^' +
-        util.format(SHORTCODE_OPEN, name) +
-        SHORTCODE_ATTRS +
-        SHORTCODE_SPACE +
-        SHORTCODE_SLASH +
-        SHORTCODE_RIGHT_BRACKET,
+      `^${util.format(
+        SHORTCODE_OPEN,
+        name
+      )}${SHORTCODE_ATTRS}${SHORTCODE_SPACE}${SHORTCODE_SLASH}${SHORTCODE_RIGHT_BRACKET}`,
       'i'
     );
   } else {
     regex = new RegExp(
-      '^' +
-        util.format(SHORTCODE_OPEN, name) +
-        SHORTCODE_ATTRS +
-        SHORTCODE_SPACE +
-        SHORTCODE_RIGHT_BRACKET,
+      `^${util.format(
+        SHORTCODE_OPEN,
+        name
+      )}${SHORTCODE_ATTRS}${SHORTCODE_SPACE}${SHORTCODE_RIGHT_BRACKET}`,
       'i'
     );
   }
 
   while ((match = buf.match(regex)) !== null) {
-    var key = match[3] || match[2];
-    var val = match[4] || match[3];
-    var pattern = match[1];
+    const key = match[3] || match[2];
+    const val = match[4] || match[3];
+    const pattern = match[1];
     if (pattern) {
-      var idx = buf.lastIndexOf(pattern);
+      const idx = buf.lastIndexOf(pattern);
       attr[key] = val !== undefined ? typecast(val) : true;
       buf = buf.slice(0, idx) + buf.slice(idx + pattern.length);
     } else {
@@ -82,7 +79,7 @@ function parseShortcode(name, buf, inline) {
 
   attr = Object.keys(attr)
     .reverse()
-    .reduce(function(prev, current) {
+    .reduce(function (prev, current) {
       prev[current] = attr[current];
       return prev;
     }, {});
@@ -95,7 +92,7 @@ function parseShortcode(name, buf, inline) {
     );
 
   return {
-    attr: attr,
+    attr,
     content: inline ? buf : buf.replace(/(^\n|\n$)/g, ''),
   };
 }
@@ -103,10 +100,10 @@ function parseShortcode(name, buf, inline) {
 module.exports = {
   _shortcodes: shortcodes,
 
-  add: function(name, callback) {
-    if (typeof name == 'object') {
-      var ob = name;
-      for (var m in ob) {
+  add(name, callback) {
+    if (typeof name === 'object') {
+      const ob = name;
+      for (const m in ob) {
         // Adding methods from instance and prototype
         if (ob[m] instanceof Function) {
           shortcodes[m] = ob[m];
@@ -117,19 +114,19 @@ module.exports = {
     }
   },
 
-  remove: function(name) {
+  remove(name) {
     delete shortcodes[name];
   },
 
-  parse: function(buf, extra, context) {
+  parse(buf, extra, context) {
     context = context || shortcodes;
 
     extra = extra || {};
 
-    for (var name in context) {
+    for (const name in context) {
       // Allow absence of first char if not alpha numeric. E.g. [#shortcode]...[/shortcode]
 
-      var regex = {
+      const regex = {
         wrapper: new RegExp(
           util.format(SHORTCODE_OPEN, name) +
             SHORTCODE_ATTRS +
@@ -147,7 +144,7 @@ module.exports = {
         ),
       };
 
-      var matches = buf.match(regex.wrapper);
+      let matches = buf.match(regex.wrapper);
 
       if (matches) {
         for (var m, data, i = 0, len = matches.length; i < len; i++) {
@@ -176,7 +173,7 @@ module.exports = {
     return buf;
   },
 
-  parseInContext: function(buf, context, data) {
+  parseInContext(buf, context, data) {
     return this.parse(buf, data, context);
   },
 };

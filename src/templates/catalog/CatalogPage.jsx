@@ -1,14 +1,11 @@
 import React from 'react';
 import { Flex, Box, Heading, Text } from 'rebass';
 
-import IndividualProduct from './IndividualProduct';
+import CatalogProducts from './CatalogProducts';
 import Pagination from '../../components/Pagination';
 import CollectionStats from '../../components/CollectionStats';
 
 function CatalogPage(props) {
-  const {
-    gatsbyImageProps,
-  } = props.data.store.siteMetadata.gatsbyStorefrontConfig;
   const { limit, skip, cartUrl } = props.pageContext;
   const { title, description } = props.data.collection.nodes[0];
   let products = [];
@@ -46,20 +43,12 @@ function CatalogPage(props) {
           />
         </Text>
       </Flex>
-      {products.map((product, index) => {
-        product.cartUrl = cartUrl;
-        if (index + 1 > skip && index + 1 <= skip + limit) {
-          return (
-            <IndividualProduct
-              key={product.shopifyId}
-              product={product}
-              gatsbyImageProps={gatsbyImageProps}
-            />
-          );
-        } else {
-          return '';
-        }
-      })}
+      <CatalogProducts
+        products={products}
+        limit={limit}
+        skip={skip}
+        cartUrl={cartUrl}
+      />
       <Box width={1} px={4} py={2} key="pagination">
         <Text textAlign="center">
           <Pagination {...props.pageContext} />

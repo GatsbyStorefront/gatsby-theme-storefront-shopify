@@ -1,7 +1,7 @@
 /** @jsx jsx */
 /* eslint no-unused-vars: 0 */
-import React from 'react';
-import { jsx } from 'theme-ui';
+import React, { useState } from 'react';
+import { jsx, useThemeUI } from 'theme-ui';
 import { Box } from 'rebass';
 import {
   CarouselProvider,
@@ -23,12 +23,46 @@ import strings from './strings.json';
 const { ariaNextButtonLabel, ariaBackButtonLabel } = strings;
 
 const MainPageCarousel = (props) => {
-  const { carousel, data, gatsbyImageProps } = props;
+  const { carousel, data } = props;
+
+  const {
+    theme: { breakpoints },
+  } = useThemeUI();
+
+  let naturalSlideHeightMediaQuery;
+
+  if (typeof window !== `undefined`) {
+    naturalSlideHeightMediaQuery =
+      window && window.matchMedia(`(max-width: ${breakpoints[1]})`);
+    naturalSlideHeightMediaQuery.addEventListener('change', (e) => {});
+  }
+
+  const [naturalSlideHeight, setNaturalSlideHeight] = useState(
+    naturalSlideHeightMediaQuery && naturalSlideHeightMediaQuery.matches
+      ? 100
+      : 60
+  );
+
+  if (typeof window !== `undefined`) {
+    naturalSlideHeightMediaQuery.addEventListener('change', (e) => {
+      setNaturalSlideHeight(e.matches ? 100 : 60);
+    });
+  }
+
   return (
-    <Box width={1} sx={{ position: 'relative' }}>
+    <Box
+      mx={2}
+      px={1}
+      sx={{
+        position: 'relative',
+        textAlign: 'center',
+        display: ['none', 'block'],
+        maxWidth: 1300,
+      }}
+    >
       <CarouselProvider
-        naturalSlideWidth={1300}
-        naturalSlideHeight={800}
+        naturalSlideWidth={100}
+        naturalSlideHeight={naturalSlideHeight}
         totalSlides={carousel.children.length}
         isPlaying
         infinite
@@ -42,11 +76,28 @@ const MainPageCarousel = (props) => {
                     if (collection.handle === slide.handle) {
                       return (
                         <MainPageCollectionBlock
+                          block={slide}
                           collection={collection}
                           key={index}
-                          textColor={slide.textColor}
-                          textBgColor={slide.textBgColor}
-                          gatsbyImageProps={gatsbyImageProps}
+                          textColor={
+                            slide.textColor ? slide.textColor : undefined
+                          }
+                          textBgColor={
+                            slide.textBgColor ? slide.textBgColor : undefined
+                          }
+                          buttonText={
+                            slide.buttonText ? slide.buttonText : undefined
+                          }
+                          buttonTextColor={
+                            slide.buttonTextColor
+                              ? slide.buttonTextColor
+                              : undefined
+                          }
+                          buttonBgColor={
+                            slide.buttonBgColor
+                              ? slide.buttonBgColor
+                              : undefined
+                          }
                         />
                       );
                     } else {
@@ -62,11 +113,11 @@ const MainPageCarousel = (props) => {
                     if (product.handle === slide.handle) {
                       return (
                         <MainPageProductBlock
+                          block={slide}
                           product={product}
                           key={index}
                           textColor={slide.textColor}
                           textBgColor={slide.textBgColor}
-                          gatsbyImageProps={gatsbyImageProps}
                         />
                       );
                     } else {
@@ -122,7 +173,8 @@ const MainPageCarousel = (props) => {
             display: ['none', 'block'],
             position: 'absolute',
             bottom: '10%',
-            left: ['40%', '45%'],
+            left: '50%',
+            transform: 'translate(-50%)',
             'z-index': '2',
             border: 0,
             bg: 'transparent',

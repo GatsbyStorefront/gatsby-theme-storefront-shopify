@@ -66,7 +66,7 @@ const LayoutComponents = ({ children }) => {
       <Flex flexDirection="column" style={{ minHeight: '100vh' }}>
         <MenuContextProvider>
           <SearchContextProvider>
-            <Navbar />{' '}
+            <Navbar />
           </SearchContextProvider>
         </MenuContextProvider>
 
@@ -76,7 +76,7 @@ const LayoutComponents = ({ children }) => {
           width={1}
           style={{ maxWidth: 1300, height: '100%' }}
           mx="auto"
-          mt={['40px', '80px']}
+          mt={['35px', '60px']}
         >
           {children}
         </Box>

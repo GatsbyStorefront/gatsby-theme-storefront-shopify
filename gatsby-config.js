@@ -1,17 +1,31 @@
-module.exports = ({
-  shopName,
-  accessToken,
-  shopifyLite = false,
-  imageQuality = '95',
+const path = require('path');
+
+const config = ({
+  shopify = {},
+  gatsbyStorefrontApi = {},
+  useGatsbyStorefrontApi = false,
   manifest = {},
-  gatsbyImageProps = {},
-}) => ({
-  plugins: [
+  productImagesCarouselProps = {},
+  reviews = {},
+}) => {
+  const plugins = [
     {
-      resolve: 'gatsby-source-shopify',
+      resolve: '@gatsbystorefront/gatsby-source-shopify',
       options: {
-        shopName,
-        accessToken,
+        shopName:
+          useGatsbyStorefrontApi &&
+          gatsbyStorefrontApi.hasOwnProperty('apiUrl') &&
+          gatsbyStorefrontApi.apiUrl
+            ? gatsbyStorefrontApi.apiUrl
+            : shopify.shopName,
+        accessToken:
+          useGatsbyStorefrontApi &&
+          gatsbyStorefrontApi.hasOwnProperty('accessToken') &&
+          gatsbyStorefrontApi.accessToken
+            ? gatsbyStorefrontApi.accessToken
+            : shopify.accessToken,
+        useGatsbyStorefrontApi,
+        includeCollections: ['shop'],
       },
     },
     {
@@ -30,14 +44,7 @@ module.exports = ({
       },
     },
     'gatsby-plugin-react-helmet',
-    {
-      resolve: `gatsby-plugin-sharp`,
-      options: {
-        useMozJpeg: false,
-        stripMetadata: true,
-        defaultQuality: imageQuality,
-      },
-    },
+    'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',
     'gatsby-plugin-theme-ui',
     'gatsby-plugin-sitemap',
@@ -93,8 +100,9 @@ module.exports = ({
       },
     },
     'gatsby-plugin-loadable-components-ssr',
-  ],
-  siteMetadata: {
+  ];
+
+  const siteMetadata = {
     siteUrl: 'https://demo.gatsbystorefront.com',
     gatsbyStorefrontConfig: {
       storeName: 'Gatsby Storefront',
@@ -112,8 +120,10 @@ module.exports = ({
       // For available socia share buttons see: https://github.com/nygardk/react-share
       shareButtons: [],
       googleAnalyticsId: 'UA-141525658-3',
-      isShopifyLite: shopifyLite,
-      gatsbyImageProps: { ...gatsbyImageProps },
+      productImagesCarouselProps: { ...productImagesCarouselProps },
+      reviewsNumberPerPage: reviews.hasOwnProperty('reviewsNumberPerPage')
+        ? reviews.reviewsNumberPerPage
+        : 10,
       //
       // Main page types: "carousel", "collection", "product"
       //
@@ -126,5 +136,12 @@ module.exports = ({
       productsPerCollectionPage: '9',
       articlesPerBlogPage: '6',
     },
-  },
-});
+  };
+
+  return {
+    plugins,
+    siteMetadata,
+  };
+};
+
+module.exports = config;

@@ -24,7 +24,6 @@ And if you like Gatsby Storefront **please give us a star on GitHub** ⭐ 👍 �
   - [Create `.env` file](#create-env-file)
   - [Enable theme](#enable-theme)
   - [Shopify content requirement](#shopify-content-requirement)
-  - [A setup for Shopify Lite plan](#a-setup-for-shopify-lite-plan)
   - [Starter](#starter)
 - [Configuration](#configuration)
   - [Configuration file](#configuration-file)
@@ -90,8 +89,15 @@ npm install @gatsbystorefront/gatsby-theme-storefront-shopify
 Create `.env` file in your store's root directory with your Shopify storename (**storename**.myshopify.com) and [access token](https://help.shopify.com/en/api/getting-started/authentication/private-authentication#generate-credentials-from-the-shopify-admin) (your token must have full permissions on Storefront API).
 
 ```
-GATSBY_SHOP_NAME=your_shopify_store_name
+GATSBY_SHOPIFY_SHOP_NAME=your_shopify_store_name
 GATSBY_SHOPIFY_ACCESS_TOKEN=your_shopify_access_token
+```
+
+In case you are using Gatsby Storefront API to enable connections with external data sources (Contentful, Yotpo), please add additional configuration variables to your `.env` file:
+
+```
+GATSBYSTOREFRONT_API_URL=your_api_url.gatsbystorefront.com
+GATSBYSTOREFRONT_ACCESS_TOKEN=your_gatsbystorefrontApi_access_token
 ```
 
 ### Enable theme
@@ -107,17 +113,24 @@ module.exports = {
     {
       resolve: '@gatsbystorefront/gatsby-theme-storefront-shopify',
       options: {
-        shopName: process.env.GATSBY_SHOP_NAME,
-        accessToken: process.env.GATSBY_SHOPIFY_ACCESS_TOKEN,
+        shopify: {
+          shopName: process.env.GATSBY_SHOPIFY_SHOP_NAME,
+          accessToken: process.env.GATSBY_SHOPIFY_ACCESS_TOKEN,
+        },
+        gatsbyStorefrontApi: {
+          apiUrl: process.env.GATSBYSTOREFRONT_API_URL,
+          accessToken: process.env.GATSBYSTOREFRONT_ACCESS_TOKEN,
+        },
+        useGatsbyStorefrontApi: false, // Set to 'true' in case you are using Gatsby Storefront API to enable connections with external data sources
         basePath: '/',
-        shopifyLite: false, // default 'false'
-        enableWebp: true, // default 'true'
-        imageQuality: '95', // default '95', better to decrease but always check your result images quality
-        gatsbyImageProps: { // See: https://www.gatsbyjs.com/plugins/gatsby-image/#gatsby-image-props
-          loading: 'eager', // Using 'eager' currently improves Lighthouse 6 metrics. See: https://github.com/gatsbyjs/gatsby/issues/24332#issuecomment-650760081
-          fadeIn: false,
-          durationFadeIn: 500,
-        }
+        productImagesCarouselProps: {
+          // See: https://github.com/express-labs/pure-react-carousel#carouselprovider-
+          naturalSlideWidth: 500,
+          naturalSlideHeight: 500,
+        },
+        product: {
+          maxDescriptionSectionsNumber: 10,
+        },
         manifest: { // web app manifest options to be passed to 'gatsby-plugin-manifest' installed inside theme
           name: 'Gatsby Storefront Demo Store',
           short_name: 'Gatsby Storefront',
@@ -147,11 +160,7 @@ module.exports = {
 
 ### Shopify content requirement
 
-Please make sure that your Shopify web store has at least one [Collection](https://help.shopify.com/en/manual/products/collections), one [Product](https://help.shopify.com/en/manual/products/add-update-products) (associated with Collection), [Blog post](https://help.shopify.com/en/manual/sell-online/online-store/blogs/writing-blogs), [Page](https://help.shopify.com/en/manual/sell-online/online-store/pages) and [store Policies](https://help.shopify.com/en/manual/checkout-settings/refund-privacy-tos) added before runing your Gatsby Storefront, as it is neccesary for correct API exposure.
-
-### A setup for Shopify Lite plan
-
-If you are using Shopify Lite plan. Please set `shopifyLite` property to `true` in `@gatsbystorefront/gatsby-theme-storefront-shopify` plugin `options` in `gatsby-config.js`. This will disable generation of pages for Blog and Pages as they are not avalible in "Lite" plan.
+Please make sure that your Shopify web store has at least one [Collection](https://help.shopify.com/en/manual/products/collections), one [Product](https://help.shopify.com/en/manual/products/add-update-products) (associated with Collection) and [store Policies](https://help.shopify.com/en/manual/checkout-settings/refund-privacy-tos) added before runing your Gatsby Storefront, as it is neccesary for correct API exposure.
 
 ### Starter
 
