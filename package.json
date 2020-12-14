@@ -1,6 +1,6 @@
 {
   "name": "@gatsbystorefront/gatsby-theme-storefront-shopify",
-  "version": "4.0.0-beta2",
+  "version": "4.0.0-beta4",
   "keywords": [
     "gatsbystorefront",
     "shopify",
@@ -30,6 +30,7 @@
     "@gatsby-contrib/gatsby-plugin-elasticlunr-search": "^2.3.0",
     "@gatsbystorefront/gatsby-source-shopify": "^3.6.0-2",
     "@loadable/component": "^5.13.1",
+    "@mdx-js/react": "^1.6.22",
     "@n8tb1t/use-scroll-position": "^1.0.43",
     "@reach/visually-hidden": "^0.6.1",
     "@rebass/forms": "^4.0.6",
