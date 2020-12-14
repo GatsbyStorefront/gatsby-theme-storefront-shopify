@@ -17,6 +17,7 @@ And if you like Gatsby Storefront **please give us a star on GitHub** ⭐ 👍 �
 
 - [Demo](#demo)
 - [How fast is Gatsby Storefront?](#how-fast-is-gatsby-storefront)
+- [Starter](#starter)
 - [Setup guide](#setup-guide)
   - [Install CLI](#install-cli)
   - [Create store site](#create-store-site)
@@ -24,7 +25,6 @@ And if you like Gatsby Storefront **please give us a star on GitHub** ⭐ 👍 �
   - [Create `.env` file](#create-env-file)
   - [Enable theme](#enable-theme)
   - [Shopify content requirement](#shopify-content-requirement)
-  - [Starter](#starter)
 - [Configuration](#configuration)
   - [Configuration file](#configuration-file)
   - [Theme shadowing](#theme-shadowing)
@@ -57,6 +57,16 @@ Please, see our speed test video: [https://youtu.be/B7CXzx9jQeM](https://youtu.b
 [<img src="https://img.youtube.com/vi/B7CXzx9jQeM/maxresdefault.jpg" width="50%">](https://youtu.be/B7CXzx9jQeM)
 
 The tests are made with [puppeteer](https://github.com/puppeteer/puppeteer) based test script that emulates a customer journey and counts time necessary to load the pages: [https://github.com/GatsbyStorefront/speedtests](https://github.com/GatsbyStorefront/speedtests).
+
+## Starter
+
+You can use the starter package for fatster setup process.
+
+```sh
+gatsby new store gatsbystorefront/gatsby-starter-storefront-shopify
+```
+
+This downloads the files and initializes the site by running npm install.
 
 ## Setup guide
 
@@ -162,16 +172,6 @@ module.exports = {
 
 Please make sure that your Shopify web store has at least one [Collection](https://help.shopify.com/en/manual/products/collections), one [Product](https://help.shopify.com/en/manual/products/add-update-products) (associated with Collection) and [store Policies](https://help.shopify.com/en/manual/checkout-settings/refund-privacy-tos) added before runing your Gatsby Storefront, as it is neccesary for correct API exposure.
 
-### Starter
-
-You can also use the starter package for fatster setup process.
-
-```sh
-gatsby new store gatsbystorefront/gatsby-starter-storefront-shopify
-```
-
-This downloads the files and initializes the site by running npm install.
-
 ## Configuration
 
 ### Configuration file
@@ -222,7 +222,7 @@ After making a build, upload `public/` directory to your web host. See additiona
 
 Thank you! And we would love to hear your [feedback [😍😜😮😐😤]](https://pavel905961.typeform.com/to/Iv44IK).
 
-![Expolore Gatsby Storefront](https://octodex.github.com/images/scubatocat.png)
+![Expolore Gatsby Storefront](https://octodex.github.com/images/saint_nictocat.jpg)
 
 ## Contributors
 
