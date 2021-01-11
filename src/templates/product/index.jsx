@@ -3,16 +3,15 @@ import { Helmet } from 'react-helmet';
 import { graphql } from 'gatsby';
 
 import ProductPage from './ProductPage';
-import Layout from '../../components/Layout';
 
 export default (props) => {
   const { title } = props.data.product;
   const { storeName } = props.data.store.siteMetadata.gatsbyStorefrontConfig;
   return (
-    <Layout>
+    <>
       <Helmet title={title} titleTemplate={`%s — ${storeName}`} defer={false} />
       <ProductPage {...props} />
-    </Layout>
+    </>
   );
 };
 

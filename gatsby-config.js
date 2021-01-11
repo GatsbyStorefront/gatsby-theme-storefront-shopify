@@ -100,6 +100,12 @@ const config = ({
       },
     },
     'gatsby-plugin-loadable-components-ssr',
+    {
+      resolve: `gatsby-plugin-layout`,
+      options: {
+        component: require.resolve(`./src/components/Layout.jsx`),
+      },
+    },
   ];
 
   const siteMetadata = {

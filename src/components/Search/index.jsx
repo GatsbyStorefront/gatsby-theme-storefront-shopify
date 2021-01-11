@@ -142,6 +142,7 @@ const Search = () => {
                         as={GatsbyLink}
                         variant="searchLink"
                         to={page.shopifyThemePath}
+                        onClick={toggleSidebar}
                       >
                         <Box>{page.title}</Box>
                       </Text>
