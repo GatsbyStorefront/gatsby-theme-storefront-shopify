@@ -2,16 +2,16 @@
 <img alt="Logo" src="https://gatsbystorefront-static.now.sh/gatsbystorefront_readme_logo.png"/>
 </p>
 
-# Gatby Storefront – lightning fast PWA storefront for Shopify
+# Create a Shopify store with Gatsby JS
 
-Gatsby Storefront is a headless eCommerce PWA storefront for Shopify. Powered by GatsbyJS it brings eCommerce to the edge for lightning fast webstore performance.
+Gatsby JS theme to create a Shopify headless eCommerce PWA store.
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/gatsbystorefront/gatsby-theme-storefront-shopify)
 ![GitHub](https://img.shields.io/github/license/gatsbystorefront/gatsby-theme-storefront-shopify?color=green)
 
-Please see our <a href="https://demo.gatsbystorefront.com" >demo</a> and <a href="https://youtu.be/B7CXzx9jQeM">speed test video</a>.
+Please see our <a href="https://demo.gatsbystorefront.com" >demo</a>, <a href="https://youtu.be/B7CXzx9jQeM">speed test video</a> and <a href="https://gatsbystorefront.com">create a Gatsby JS based Shopify store</a> with us.
 
-And if you like Gatsby Storefront **please give us a star on GitHub** ⭐ 👍 😀
+If you like Gatsby Storefront **please give us a star on GitHub** ⭐ 👍 😀
 
 <!-- toc -->
 
@@ -222,7 +222,7 @@ After making a build, upload `public/` directory to your web host. See additiona
 
 Thank you! And we would love to hear your [feedback [😍😜😮😐😤]](https://pavel905961.typeform.com/to/Iv44IK).
 
-![Expolore Gatsby Storefront](https://octodex.github.com/images/saint_nictocat.jpg)
+![Expolore Gatsby Storefront](https://octodex.github.com/images/pusheencat.png)
 
 ## Contributors
 
