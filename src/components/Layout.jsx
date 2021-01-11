@@ -15,9 +15,11 @@ import theme from '../gatsby-plugin-theme-ui/index';
 import './reset.css';
 
 const initializeReactGA = (googleAnalyticsId) => {
-  ReactGA.initialize(googleAnalyticsId);
-  if (typeof window !== `undefined`) {
-    ReactGA.pageview(window.location.pathname + window.location.search);
+  if (googleAnalyticsId) {
+    ReactGA.initialize(googleAnalyticsId);
+    if (typeof window !== `undefined`) {
+      ReactGA.pageview(window.location.pathname + window.location.search);
+    }
   }
 };
 
