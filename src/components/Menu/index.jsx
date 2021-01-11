@@ -150,6 +150,7 @@ const Menu = ({ menu: componentMenu }) => {
                                 to={`/${element.type}/${element.handle}`}
                                 key={element.id}
                                 style={{ textDecoration: 'none' }}
+                                onClick={toggleSidebar}
                               >
                                 <MenuItem
                                   bg="menuItem"

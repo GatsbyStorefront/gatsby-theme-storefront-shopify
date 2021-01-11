@@ -2,11 +2,10 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import { Flex, Box, Text } from 'rebass';
 import GatsbyLink from 'gatsby-link';
-import Layout from '../components/Layout';
 
 function Home() {
   return (
-    <Layout>
+    <>
       <Helmet title="Not found" defer={false} />
       <Flex mt={6} px={[3, null, 4]} justifyContent="center">
         <Box>
@@ -31,7 +30,7 @@ function Home() {
           </Text>
         </Box>
       </Flex>
-    </Layout>
+    </>
   );
 }
 

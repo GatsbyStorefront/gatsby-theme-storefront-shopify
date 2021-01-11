@@ -1,14 +1,10 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import Layout from '../../components/Layout';
+
 import PolicyPage from './PolicyPage';
 
-export default props => {
-  return (
-    <Layout>
-      <PolicyPage {...props} />
-    </Layout>
-  );
+export default (props) => {
+  return <PolicyPage {...props} />;
 };
 
 export const policyQuery = graphql`

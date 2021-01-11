@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet';
 import { graphql } from 'gatsby';
 
 import MainPage from './MainPage';
-import Layout from '../../components/Layout';
 import strings from './strings.json';
 
 const { pageTitleTemplate } = strings;
@@ -16,12 +15,12 @@ export default (props) => {
   } = props.data.store.siteMetadata.gatsbyStorefrontConfig;
 
   return (
-    <Layout>
+    <>
       <Helmet title={storeName} titleTemplate={pageTitleTemplate} defer={false}>
         <meta name="description" content={storeDescription} />
       </Helmet>
       <MainPage {...props} />
-    </Layout>
+    </>
   );
 };
 
