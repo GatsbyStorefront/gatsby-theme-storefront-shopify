@@ -26,7 +26,7 @@ const config = ({
             : shopify.accessToken,
         useGatsbyStorefrontApi,
         includeCollections: ['shop'],
-        paginationSize: 100,
+        paginationSize: 50,
       },
     },
     {
