@@ -26,7 +26,7 @@ const initializeReactGA = (googleAnalyticsId) => {
 const Layout = ({ children }) => {
   const data = useStaticQuery(
     graphql`
-      query LayoutStaticQuery {
+      query {
         site {
           siteMetadata {
             gatsbyStorefrontConfig {
@@ -63,6 +63,7 @@ const LayoutComponents = ({ children }) => {
         <html lang="en" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="preconnect" hrfe="https://cdn.shopify.com" />
       </Helmet>
 
       <Flex flexDirection="column" style={{ minHeight: '100vh' }}>
