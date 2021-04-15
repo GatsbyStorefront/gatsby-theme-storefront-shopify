@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Card, Heading, Text } from 'rebass';
 import { useStaticQuery, graphql, Link as GatsbyLink } from 'gatsby';
-import styled from '@emotion/styled/macro';
+import styled from '@emotion/styled';
 
 import ShopifyImage from '../../components/ShopifyImage';
 import AddToCart from '../../components/AddToCart';
@@ -58,7 +58,8 @@ const IndividualProduct = ({ product }) => {
   const Image = styled(ShopifyImage)``;
   const Title = styled(Heading)``;
 
-  const CompareAtPrice = styled.strike`
+  const CompareAtPrice = styled.span`
+    text-decoration: line-through;
     color: #c0c0c0;
   `;
 

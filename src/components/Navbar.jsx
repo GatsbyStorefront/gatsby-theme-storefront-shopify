@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Flex, Text, Box } from 'rebass';
 import { useStaticQuery, graphql } from 'gatsby';
-import GatsbyLink from 'gatsby-link';
+import { Link as GatsbyLink } from 'gatsby';
 import styled from '@emotion/styled';
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 

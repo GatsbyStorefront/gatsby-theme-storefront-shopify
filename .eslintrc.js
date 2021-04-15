@@ -20,6 +20,7 @@ module.exports = {
     'react/destructuring-assignment': 0,
     'no-else-return': 0,
     'no-unused-vars': 0,
+    '@emotion/pkg-renaming': 'error',
   },
   extends: [
     // 'react-app',
@@ -29,7 +30,6 @@ module.exports = {
     // 'airbnb',
     // 'airbnb/hooks',
     'prettier',
-    'prettier/react',
   ],
-  plugins: ['jsx-a11y', 'graphql', 'react'],
+  plugins: ['jsx-a11y', 'graphql', 'react', '@emotion'],
 };

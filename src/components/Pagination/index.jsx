@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
-import GatsbyLink from 'gatsby-link';
+import { Link as GatsbyLink } from 'gatsby';
 import { Flex, Button } from 'rebass';
 
-const Pagination = props => {
+const Pagination = (props) => {
   const { numPages, currentPage, shopifyThemePath } = props;
   const showNumbers = 2;
 

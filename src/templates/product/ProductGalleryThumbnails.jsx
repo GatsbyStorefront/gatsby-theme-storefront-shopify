@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx } from 'theme-ui';
+import { jsx, useThemeUI } from 'theme-ui';
 import React, { useContext, useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Flex, Box } from 'rebass';
@@ -19,13 +19,15 @@ const ThumbnailBox = styled(Box)(
   })
 );
 
-const ThumbnailFlex = styled(Flex)(({ theme, transformPx }) => ({
-  transition: '0.5s ease all',
-  transform: `translateX(${transformPx}px)`,
-  [theme.mediaQueries[1]]: {
-    transform: `translateY(${transformPx}px)`,
-  },
-}));
+const ThumbnailFlex = styled(Flex)(({ theme, transformPx }) => {
+  return {
+    transition: '0.5s ease all',
+    transform: `translateX(${transformPx}px)`,
+    [theme.mediaQueries[1]]: {
+      transform: `translateY(${transformPx}px)`,
+    },
+  };
+});
 
 function ProductGalleryThumbnails({
   images,
@@ -38,6 +40,8 @@ function ProductGalleryThumbnails({
   const [currentImageIndex, setCurrentImageIndex] = useState(
     carouselContext.state.currentSlide
   );
+
+  const { theme } = useThemeUI();
 
   useEffect(() => {
     function onChange() {
@@ -74,6 +78,7 @@ function ProductGalleryThumbnails({
         flexDirection={['row', null, 'column']}
         width={[images.length * maxImageWidth, null, 1]}
         transformPx={calculateTransform()}
+        theme={theme}
       >
         {images.map((image, index) => (
           <Dot
@@ -103,6 +108,7 @@ function ProductGalleryThumbnails({
               maxImageWidth={maxImageWidth}
               width={[100, null, 'auto']}
               onClick={() => setCurrentImageIndex(index)}
+              theme={theme}
             >
               {image && image.localFile && image.localFile.childImageSharp ? (
                 <ShopifyImage

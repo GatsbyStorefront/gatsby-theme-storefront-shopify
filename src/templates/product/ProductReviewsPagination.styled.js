@@ -8,7 +8,7 @@ export default {
     fontSize: 15,
     fontWeight: '400',
     fontStyle: 'normal',
-    '-webkit-font-smoothing': 'antialiased',
+    WebkitFontSmoothing: 'antialiased',
   },
   '& > ul > li > a': {
     color: 'secondary',

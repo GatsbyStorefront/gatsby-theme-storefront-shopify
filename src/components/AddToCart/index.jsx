@@ -1,24 +1,23 @@
 import React from 'react';
 import { Text } from 'rebass';
-import GatsbyLink from 'gatsby-link';
-import { navigate } from 'gatsby-link';
-import useShopifyFunctions from '../../hooks/useShopifyFunctions';
+import { Link as GatsbyLink, navigate } from 'gatsby';
+import { useShopifyFunctions } from '../../hooks/useShopifyFunctions';
 
-const AddToCart = props => {
+const AddToCart = (props) => {
   const { addItem } = useShopifyFunctions();
   const { title, shopifyId, amount, cartUrl, isSelectOptions = false } = props;
 
   const addToCartHandler = async (shopifyId, amount, cartUrl) => {
     addItem({ variantId: shopifyId, quantity: amount })
       .then(
-        res => {
+        (res) => {
           navigate(cartUrl);
         },
-        rej => {
+        (rej) => {
           console.error(rej);
         }
       )
-      .catch(error => {
+      .catch((error) => {
         throw new Error(error);
       });
   };

@@ -4,7 +4,7 @@ import React from 'react';
 import { jsx, useThemeUI } from 'theme-ui';
 import { Flex, Box, Text, Link } from 'rebass';
 import { useStaticQuery, graphql } from 'gatsby';
-import GatsbyLink from 'gatsby-link';
+import { Link as GatsbyLink } from 'gatsby';
 import loadable from '@loadable/component';
 // import { SocialIcon } from 'react-social-icons';
 

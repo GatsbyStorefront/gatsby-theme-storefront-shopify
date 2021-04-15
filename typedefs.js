@@ -1,5 +1,5 @@
 const typeDefs = `
-    type SiteSiteMetadataGatsbyStorefrontConfig {
+    type SiteSiteMetadataGatsbyStorefrontConfig @infer {
       storeName: String
       storeDescription: String
       email: String
@@ -24,7 +24,7 @@ const typeDefs = `
       logo: SiteSiteMetadataGatsbyStorefrontConfigLogo
       productImagesCarouselProps: SiteSiteMetadataGatsbyStorefrontConfigProductImagesCarouselProps
     }
-    type SiteSiteMetadataGatsbyStorefrontConfigMainPage {
+    type SiteSiteMetadataGatsbyStorefrontConfigMainPage @infer {
       type: String
       isExpanded: Boolean
       children: [SiteSiteMetadataGatsbyStorefrontConfigMainPageChildren]
@@ -38,7 +38,7 @@ const typeDefs = `
       buttonTextColor: String
       buttonBgColor: String
     }
-    type SiteSiteMetadataGatsbyStorefrontConfigMainPageChildren {
+    type SiteSiteMetadataGatsbyStorefrontConfigMainPageChildren @infer {
       type: String
       isExpanded: Boolean
       name: String
@@ -51,7 +51,7 @@ const typeDefs = `
       buttonTextColor: String
       buttonBgColor: String
     }
-    type SiteSiteMetadataGatsbyStorefrontConfigMenu {
+    type SiteSiteMetadataGatsbyStorefrontConfigMenu @infer {
       name: String
       handle: String
       type: String
@@ -59,37 +59,37 @@ const typeDefs = `
       parentId: Int
       id: Int
     }
-    type SiteSiteMetadataGatsbyStorefrontConfigFooterLinks {
+    type SiteSiteMetadataGatsbyStorefrontConfigFooterLinks @infer {
       name: String
       link: String
     }
-    type SiteSiteMetadataGatsbyStorefrontConfigProductImagesCarouselProps {
+    type SiteSiteMetadataGatsbyStorefrontConfigProductImagesCarouselProps @infer {
       naturalSlideWidth: Int
       naturalSlideHeight: Int
     }
-    type SiteSiteMetadataGatsbyStorefrontConfigLogo {
+    type SiteSiteMetadataGatsbyStorefrontConfigLogo @infer {
       url: String
       width: String
       height: String
     }
-    type ShopifyProductFieldsFirstImage  {
+    type ShopifyProductFieldsFirstImage  @infer {
       id: String
       altText: String
       originalSrc: String
-      localFile: File 
+      localFile: File @link(from: "localFile___NODE")
     }
-    type Query {
+    type Query @infer {
       allShopifyCollection(filter: ShopifyCollectionFilterInput, sort: ShopifyCollectionSortInput, skip: Int, limit: Int): ShopifyCollectionConnection!
       allShopifyShopPolicy(filter: ShopifyShopPolicyFilterInput, sort: ShopifyShopPolicySortInput, skip: Int, limit: Int): ShopifyShopPolicyConnection!
       allShopifyArticle(filter: ShopifyArticleFilterInput, sort: ShopifyArticleSortInput, skip: Int, limit: Int): ShopifyArticleConnection!
       allShopifyBlog(filter: ShopifyBlogFilterInput, sort: ShopifyBlogSortInput, skip: Int, limit: Int): ShopifyBlogConnection!
     } 
-    type ShopifyCollectionConnection {
+    type ShopifyCollectionConnection @infer {
       nodes: [ShopifyCollection!]!
       distinct(field: ShopifyCollectionFieldsEnum!): [String!]!
       group(skip: Int, limit: Int, field: ShopifyCollectionFieldsEnum!): [ShopifyCollectionGroupConnection!]!
     }
-    type ShopifyCollectionGroupConnection {
+    type ShopifyCollectionGroupConnection @infer {
       totalCount: Int!
       edges: [ShopifyCollectionEdge!]!
       nodes: [ShopifyCollection!]!
@@ -97,12 +97,12 @@ const typeDefs = `
       field: String!
       fieldValue: String
     }
-    type ShopifyCollectionEdge {
+    type ShopifyCollectionEdge @infer {
       next: ShopifyCollection
       node: ShopifyCollection!
       previous: ShopifyCollection
     }
-    type ShopifyCollection implements Node {
+    type ShopifyCollection implements Node @infer@infer {
       id: ID!
       parent: Node
       children: [Node!]!
@@ -110,32 +110,32 @@ const typeDefs = `
       description: String
       descriptionHtml: String
       handle: String
-      image: ShopifyCollectionImage
+      image: ShopifyCollectionImage 
       title: String
-      updatedAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date 
+      updatedAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date @dateformat
       shopifyId: String
-      products: [ShopifyProduct]
-      fields: ShopifyCollectionFields
+      products: [ShopifyProduct] @link(from: "products___NODE")
+      fields: ShopifyCollectionFields 
     }
 
-    type ShopifyCollectionFields {
+    type ShopifyCollectionFields @infer {
       shopifyThemePath: String
     }
 
-    type ShopifyCollectionImage {
+    type ShopifyCollectionImage @infer {
       id: String
       src: String
-      localFile: File 
+      localFile: File @link
     }
-    type ShopifyProduct implements Node {
+    type ShopifyProduct implements Node @infer@infer {
       id: ID!
       internal: Internal!
       availableForSale: Boolean
-      createdAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date
+      createdAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date @dateformat
       description: String
       descriptionHtml: String
       handle: String
-      images: [ShopifyProductImages]
+      #images: [ShopifyProductImages] @link(from: "images.localFile___NODE")
       onlineStoreUrl: String
       priceRange: ShopifyProductPriceRange
       productType: String
@@ -143,13 +143,13 @@ const typeDefs = `
       title: String
       vendor: String
       shopifyId: String
-      variants: [ShopifyProductVariant]
-      options: [ShopifyProductOption]
+      variants: [ShopifyProductVariant] @link(from: "variants___NODE")
+      options: [ShopifyProductOption] @link(from: "options___NODE")
       fields: ShopifyProductFields
-      reviewsConnection: [ShopifyProductReviewsConnection]
+      reviewsConnection: [ShopifyProductReviewsConnection] @link(from: "reviewsConnection___NODE")
       cmsConnection: ShopifyProductCmsConnection
     }
-    type ShopifyProductFields {
+    type ShopifyProductFields @infer {
       shopifyThemePath: String
       firstImage: ShopifyProductFieldsFirstImage
       descriptionSections: [ShopifyProductFieldsDescriptionSections]
@@ -157,15 +157,15 @@ const typeDefs = `
       withoutShortDescription: String
     }
 
-    type ShopifyProductReviewsConnection implements Node {
+    type ShopifyProductReviewsConnection implements Node @infer {
       id: ID!
       title: String
       content: String
       score: Int
       votesUp: Int
       votesDown: Int
-      createdAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date
-      updatedAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date
+      createdAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date @dateformat
+      updatedAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date @dateformat
       sentiment: Float
       productId: String
       name: String
@@ -173,15 +173,8 @@ const typeDefs = `
       source: String
     }
 
-    type ShopifyProductCmsConnection {
-      productId: String
-      shortDescription: String
-      description: String
-      descriptionHtml: String
-      descriptionSections: [ShopifyProductCmsConnectionDescriptionSections]
-    }
-
-    type ShopifyProductCmsConnectionDescriptionSections {
+    type ShopifyProductCmsConnectionDescriptionSections @infer {
+      id: ID!
       title: String
       content: String
       contentHtml: String
@@ -189,36 +182,45 @@ const typeDefs = `
       orderPriority: Int
     }
 
-    type ShopifyProductFieldsDescriptionSections {
+    type ShopifyProductCmsConnection @infer {
+      productId: String
+      shortDescription: String
+      description: String
+      descriptionHtml: String
+      descriptionSections: [ShopifyProductCmsConnectionDescriptionSections] 
+    }
+
+    type ShopifyProductFieldsDescriptionSections @infer {
       id: Int
       section: String
       options: ShopifyProductFieldsDescriptionSectionsOptions
     }
 
-    type ShopifyProductFieldsDescriptionSectionsOptions {
+    type ShopifyProductFieldsDescriptionSectionsOptions @infer {
       title: String
       isOpen: Boolean
     }
 
-    type ShopifyProductImages {
-      id: String
-      altText: String
-      originalSrc: String
-      localFile: File 
-    }
-    type ShopifyProductPriceRange {
+    #type ShopifyProductImages @infer {
+    #  id: String
+    #  altText: String
+    #  originalSrc: String
+    #  localFile: File @link
+    #}
+
+    type ShopifyProductPriceRange @infer {
       minVariantPrice: ShopifyProductPriceRangeMinVariantPrice
       maxVariantPrice: ShopifyProductPriceRangeMaxVariantPrice
     }
-    type ShopifyProductPriceRangeMinVariantPrice {
+    type ShopifyProductPriceRangeMinVariantPrice @infer {
       amount: String
       currencyCode: String
     }
-    type ShopifyProductPriceRangeMaxVariantPrice {
+    type ShopifyProductPriceRangeMaxVariantPrice @infer {
       amount: String
       currencyCode: String
     }
-    type ShopifyProductVariant implements Node {
+    type ShopifyProductVariant implements Node @infer {
       id: ID!
       parent: Node
       children: [Node!]!
@@ -230,32 +232,32 @@ const typeDefs = `
       price: String
       priceV2: ShopifyProductVariantPriceV2
       requiresShipping: Boolean
-      selectedOptions: [ShopifyProductVariantSelectedOptions]
+      selectedOptions: [ShopifyProductVariantSelectedOptions] 
       sku: String
       title: String
       weight: Float
       weightUnit: String
       shopifyId: String
     }
-    type ShopifyProductVariantCompareAtPriceV2 {
+    type ShopifyProductVariantCompareAtPriceV2 @infer {
       amount: String
       currencyCode: String
     }
-    type ShopifyProductVariantPriceV2 {
+    type ShopifyProductVariantPriceV2 @infer {
       amount: String
       currencyCode: String
     }
-    type ShopifyProductVariantSelectedOptions {
+    type ShopifyProductVariantSelectedOptions @infer {
       name: String
       value: String
     }
-    type ShopifyProductVariantImage {
+    type ShopifyProductVariantImage @infer {
       altText: String
       id: String
       originalSrc: String
-      localFile: File 
+      localFile: File @link
     }
-    type ShopifyProductOption implements Node {
+    type ShopifyProductOption implements Node @infer {
       id: ID!
       parent: Node
       children: [Node!]!
@@ -265,12 +267,12 @@ const typeDefs = `
       shopifyId: String
     }
 
-    type ShopifyShopPolicyConnection {
+    type ShopifyShopPolicyConnection @infer {
       nodes: [ShopifyShopPolicy!]!
       distinct(field: ShopifyShopPolicyFieldsEnum!): [String!]!
       group(skip: Int, limit: Int, field: ShopifyShopPolicyFieldsEnum!): [ShopifyShopPolicyGroupConnection!]!
     }
-    type ShopifyShopPolicyGroupConnection {
+    type ShopifyShopPolicyGroupConnection @infer {
       totalCount: Int!
       edges: [ShopifyShopPolicyEdge!]!
       nodes: [ShopifyShopPolicy!]!
@@ -278,12 +280,12 @@ const typeDefs = `
       field: String!
       fieldValue: String
     }
-    type ShopifyShopPolicyEdge {
+    type ShopifyShopPolicyEdge @infer {
       next: ShopifyShopPolicy
       node: ShopifyShopPolicy!
       previous: ShopifyShopPolicy
     }
-    type ShopifyShopPolicy implements Node {
+    type ShopifyShopPolicy implements Node @infer {
       id: ID!
       parent: Node
       children: [Node!]!
@@ -295,16 +297,16 @@ const typeDefs = `
       type: String
       fields: ShopifyShopPolicyFields
     }
-    type ShopifyShopPolicyFields {
+    type ShopifyShopPolicyFields @infer {
       shopifyThemePath: String
     }
 
-    type ShopifyArticleConnection {
+    type ShopifyArticleConnection @infer {
       nodes: [ShopifyArticle!]!
       distinct(field: ShopifyArticleFieldsEnum!): [String!]!
       group(skip: Int, limit: Int, field: ShopifyArticleFieldsEnum!): [ShopifyArticleGroupConnection!]!
     }
-    type ShopifyArticleGroupConnection {
+    type ShopifyArticleGroupConnection @infer {
       totalCount: Int!
       edges: [ShopifyArticleEdge!]!
       nodes: [ShopifyArticle!]!
@@ -312,17 +314,17 @@ const typeDefs = `
       field: String!
       fieldValue: String
     }
-    type ShopifyArticleEdge {
+    type ShopifyArticleEdge @infer {
       next: ShopifyArticle
       node: ShopifyArticle!
       previous: ShopifyArticle
     }
-    type ShopifyArticle implements Node {
+    type ShopifyArticle implements Node @infer {
       id: ID!
       internal: Internal!
       author: ShopifyArticleAuthor
       blog: ShopifyBlog
-      publishedAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date
+      publishedAt(formatString: String, fromNow: Boolean, difference: String, locale: String): Date @dateformat
       content: String
       contentHtml: String
       excerpt: String
@@ -332,22 +334,22 @@ const typeDefs = `
       shopifyId: String
       fields: ShopifyArticleFields
     }
-    type ShopifyArticleAuthor {
+    type ShopifyArticleAuthor @infer {
       email: String
       firstName: String
       lastName: String
       name: String
     }
-    type ShopifyArticleFields {
+    type ShopifyArticleFields @infer {
       shopifyThemePath: String
     }
 
-    type ShopifyBlogConnection {
+    type ShopifyBlogConnection @infer {
       nodes: [ShopifyBlog!]!
       distinct(field: ShopifyBlogFieldsEnum!): [String!]!
       group(skip: Int, limit: Int, field: ShopifyBlogFieldsEnum!): [ShopifyBlogGroupConnection!]!
     }
-    type ShopifyBlogGroupConnection {
+    type ShopifyBlogGroupConnection @infer {
       totalCount: Int!
       edges: [ShopifyBlogEdge!]!
       nodes: [ShopifyBlog!]!
@@ -355,12 +357,12 @@ const typeDefs = `
       field: String!
       fieldValue: String
     }
-    type ShopifyBlogEdge {
+    type ShopifyBlogEdge @infer {
       next: ShopifyBlog
       node: ShopifyBlog!
       previous: ShopifyBlog
     }
-    type ShopifyBlog implements Node {
+    type ShopifyBlog implements Node @infer {
       id: ID!
       parent: Node
       children: [Node!]!
@@ -370,11 +372,11 @@ const typeDefs = `
       shopifyId: String
       fields: ShopifyBlogFields
     }
-    type ShopifyBlogFields {
+    type ShopifyBlogFields @infer {
       shopifyThemePath: String
     }
 
-    type SiteSearchIndex implements Node {
+    type SiteSearchIndex implements Node @infer {
       id: ID!
       parent: Node
       children: [Node!]!
@@ -383,7 +385,7 @@ const typeDefs = `
       index: SiteSearchIndex_Index
     }
 
-    type ShopifyPage implements Node {
+    type ShopifyPage implements Node @infer {
       id: ID!
       parent: Node
       children: [Node!]!
@@ -396,7 +398,7 @@ const typeDefs = `
       shopifyId: String
       fields: ShopifyPageFields
     }
-    type ShopifyPageFields {
+    type ShopifyPageFields @infer {
       shopifyThemePath: String
     }
 

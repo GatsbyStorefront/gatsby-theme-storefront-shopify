@@ -5,6 +5,7 @@ import { Flex, Box } from 'rebass';
 import ReactGA from 'react-ga';
 import { useStaticQuery, graphql } from 'gatsby';
 
+import { ShopifyFunctionsContextProvider } from '../hooks/useShopifyFunctions.js';
 import { MenuContextProvider } from './Menu/context';
 
 import { SearchContextProvider } from './Search/context';
@@ -26,7 +27,7 @@ const initializeReactGA = (googleAnalyticsId) => {
 const Layout = ({ children }) => {
   const data = useStaticQuery(
     graphql`
-      query {
+      {
         site {
           siteMetadata {
             gatsbyStorefrontConfig {
@@ -45,7 +46,9 @@ const Layout = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <Styled.root>
-        <LayoutComponents children={children} />
+        <ShopifyFunctionsContextProvider>
+          <LayoutComponents children={children} />
+        </ShopifyFunctionsContextProvider>
       </Styled.root>
     </ThemeProvider>
   );

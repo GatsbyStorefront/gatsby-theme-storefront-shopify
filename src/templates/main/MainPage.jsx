@@ -76,8 +76,8 @@ const MainPage = (props) => {
           );
         } else if (block.type === 'collection' && block.isExpanded == true) {
           let products = [];
-          props.data.feautiredCollections.nodes.forEach((node) => {
-            if (node.handle === block.handle) {
+          props.data.feauturedCollections.nodes.forEach((node) => {
+            if (node.handle === block.handle && node.products) {
               products = [...products, ...node.products];
             }
           });

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Flex, Box } from 'rebass';
-import GatsbyLink from 'gatsby-link';
+import { Link as GatsbyLink } from 'gatsby';
 import styled from '@emotion/styled';
 import {
   disableBodyScroll,

@@ -2,12 +2,12 @@
   "development": {
     "plugins": [
       [
-        "emotion",
+        "@emotion",
         {
           "sourceMap": true
         }
       ]
     ]
   },
-  "plugins": ["emotion"]
+  "plugins": ["@emotion"]
 }

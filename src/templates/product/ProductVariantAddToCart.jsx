@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from 'rebass';
 import { navigate } from 'gatsby';
 
-import useShopifyFunctions from '../../hooks/useShopifyFunctions';
+import { useShopifyFunctions } from '../../hooks/useShopifyFunctions';
 import { useCurrentVariantContext } from './CurrentVariantContext';
 import strings from './strings.json';
 

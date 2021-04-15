@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Text } from 'rebass';
-import GatsbyLink from 'gatsby-link';
+import { Link as GatsbyLink } from 'gatsby';
 
 const Breadcrumbs = ({
   productTitle,

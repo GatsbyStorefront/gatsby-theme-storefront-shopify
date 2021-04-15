@@ -2,11 +2,12 @@ import React from 'react';
 import { Flex, Box, Button, Heading, Text } from 'rebass';
 import styled from '@emotion/styled';
 import { useStaticQuery, graphql } from 'gatsby';
+import { useThemeUI } from 'theme-ui';
 
 import strings from './strings.json';
 import Divider from '../../components/Divider';
 import formatPrice from '../../utils/formatPrice';
-import useShopifyFunctions from '../../hooks/useShopifyFunctions';
+import { useShopifyFunctions } from '../../hooks/useShopifyFunctions';
 import LineItem from './LineItem';
 
 const { cartSubtotalLabel, cartCheckoutButton, cartHeader } = strings;
@@ -38,6 +39,8 @@ function CartPage() {
     locales,
     currency
   );
+
+  const { theme } = useThemeUI();
 
   async function decreaseProductAmount({ id, quantity }) {
     if (quantity === 1) return;
@@ -107,7 +110,7 @@ function CartPage() {
           <Flex>
             <Box mt={2} width={1}>
               {checkout.loaded &&
-                checkout.lineItems.map(lineItem => (
+                checkout.lineItems.map((lineItem) => (
                   <React.Fragment>
                     <LineItem
                       key={lineItem.id}
@@ -138,6 +141,7 @@ function CartPage() {
                 style={{
                   opacity: buttonEnabled ? 1 : 0.7,
                 }}
+                theme={theme}
               >
                 {cartCheckoutButton}
               </CheckoutButton>
