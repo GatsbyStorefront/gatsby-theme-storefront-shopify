@@ -5,14 +5,6 @@ module.exports = {
     __PATH_PREFIX__: true,
   },
   rules: {
-    'graphql/template-strings': [
-      'warn',
-      {
-        env: 'relay',
-        schemaJsonFilepath: path.resolve(__dirname, '../../site/schema.json'),
-        tagName: 'graphql',
-      },
-    ],
     'react/jsx-uses-react': 2,
     'react/react-in-jsx-scope': 2,
     'react/no-array-index-key': 0,
@@ -31,5 +23,5 @@ module.exports = {
     // 'airbnb/hooks',
     'prettier',
   ],
-  plugins: ['jsx-a11y', 'graphql', 'react', '@emotion'],
+  plugins: ['jsx-a11y', 'react', '@emotion'],
 };
