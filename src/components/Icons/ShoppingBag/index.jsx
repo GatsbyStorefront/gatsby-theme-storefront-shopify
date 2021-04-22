@@ -1,9 +1,19 @@
-import React from 'react';
-import { Flex } from 'rebass';
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
 
-const ShoppingBag = props => {
+import React from 'react';
+import { Flex } from 'theme-ui';
+
+const ShoppingBag = (props) => {
   return (
-    <Flex {...props} justifyContent="center">
+    <Flex
+      sx={{
+        justifyContent: 'center',
+        width: props.width,
+        height: props.height,
+        color: props.color,
+      }}
+    >
       <svg
         width={
           props.width && !Array.isArray(props.width) ? props.width : '100%'

@@ -53,7 +53,7 @@ export const mainPageQuery = graphql`
       }
     }
 
-    feautiredCollections: allShopifyCollection(
+    feauturedCollections: allShopifyCollection(
       filter: { handle: { in: $featuredCollectionsHandles } }
     ) {
       nodes {

@@ -1,5 +1,8 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React from 'react';
-import { Flex, Box, Heading, Text } from 'rebass';
+import { Flex, Box, Heading, Text } from 'theme-ui';
 
 import CatalogProducts from './CatalogProducts';
 import Pagination from '../../components/Pagination';
@@ -15,26 +18,30 @@ function CatalogPage(props) {
   });
 
   return (
-    <Flex flexWrap="wrap" px={2} pt={3} mx="auto" style={{ maxWidth: 1300 }}>
+    <Flex sx={{ flexWrap: 'wrap', px: 2, pt: 3, mx: 'auto', maxWidth: 1300 }}>
       <Flex
-        width={1}
-        px={4}
-        py={2}
-        flexWrap={['wrap', 'nowrap']}
-        justifyContent="space-between"
-        alignItems="flex-end"
+        sx={{
+          flexWrap: ['wrap', 'nowrap'],
+          justifyContent: 'space-between',
+          alignItems: 'flex-end',
+          width: '100%',
+          px: 4,
+          py: 2,
+        }}
       >
-        <Text textAlign="left">
-          <Heading as="h1" fontSize={[30, 36, 42]}>
+        <Text sx={{ textAlign: 'left' }}>
+          <Heading as="h1" sx={{ fontSize: [30, 36, 42] }}>
             {title}
           </Heading>
-          <Text fontSize={[2, 3]}>{description}</Text>
+          <Text sx={{ fontSize: [2, 3] }}>{description}</Text>
         </Text>
         <Text
-          textAlign={['center', 'right']}
-          width={['100%', 'auto']}
-          pt={1}
-          fontSize={[1, 2, 3]}
+          sx={{
+            textAlign: ['center', 'right'],
+            width: ['100%', 'auto'],
+            pt: 1,
+            fontSize: [1, 2, 3],
+          }}
         >
           <CollectionStats
             limit={limit}
@@ -43,14 +50,16 @@ function CatalogPage(props) {
           />
         </Text>
       </Flex>
+
       <CatalogProducts
         products={products}
         limit={limit}
         skip={skip}
         cartUrl={cartUrl}
       />
-      <Box width={1} px={4} py={2} key="pagination">
-        <Text textAlign="center">
+
+      <Box sx={{ width: '100%', px: 4, py: 2 }} key="pagination">
+        <Text sx={{ textAlign: 'center' }}>
           <Pagination {...props.pageContext} />
         </Text>
       </Box>

@@ -1,6 +1,10 @@
-import { useEffect, useReducer, useMemo } from 'react';
+import React, { useEffect, useReducer, useMemo, useContext } from 'react';
 import shopify from 'shopify-buy';
 import useLocalStorage from 'react-use/lib/useLocalStorage';
+
+const ShopifyFunctionsContext = React.createContext(0);
+ShopifyFunctionsContext.displayname = 'ShopifyFunctionsContext';
+const { Provider } = ShopifyFunctionsContext;
 
 const persistedStateId = 'shopifyCheckout';
 
@@ -28,7 +32,7 @@ function shopifyCheckoutReducer(_, action) {
   }
 }
 
-const useShopifyFunctions = () => {
+export function ShopifyFunctionsContextProvider({ children }) {
   const client = useMemo(() => createShopifyClient(), [createShopifyClient]);
 
   const [shopifyCheckoutId, setShopifyCheckoutId] = useLocalStorage(
@@ -118,13 +122,16 @@ const useShopifyFunctions = () => {
     checkCartExistence();
   }, [client]);
 
-  return {
-    addItem,
-    removeItem,
-    resetCart,
-    updateItem,
-    checkout,
-  };
-};
+  return (
+    <Provider value={[addItem, removeItem, resetCart, updateItem, checkout]}>
+      {children}
+    </Provider>
+  );
+}
+export function useShopifyFunctions() {
+  const [addItem, removeItem, resetCart, updateItem, checkout] = useContext(
+    ShopifyFunctionsContext
+  );
 
-export default useShopifyFunctions;
+  return { addItem, removeItem, resetCart, updateItem, checkout };
+}

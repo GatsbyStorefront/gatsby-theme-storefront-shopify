@@ -1,5 +1,8 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React, { useState, useEffect } from 'react';
-import { Flex, Box, Text } from 'rebass';
+import { Flex, Box, Text } from 'theme-ui';
 import { useStaticQuery, graphql } from 'gatsby';
 import { useCurrentVariantContext } from './CurrentVariantContext';
 
@@ -47,7 +50,7 @@ const ProductVariantPrice = ({ initialDisplayPrice = 0, mb = 0 }) => {
       <Flex>
         {compareAtPrice ? (
           <Box mr={2}>
-            <Text fontSize={[1, 2]}>
+            <Text sx={{ fontSize: [1, 2] }}>
               {productCompareAtPriceLabel}{' '}
               <Text as="strike">{compareAtPrice}</Text>
             </Text>
@@ -59,7 +62,7 @@ const ProductVariantPrice = ({ initialDisplayPrice = 0, mb = 0 }) => {
       <Flex mb={mb}>
         <Box>
           {productPriceLabel}{' '}
-          <Text as="span" color="primary" fontSize={[3, 4]}>
+          <Text as="span" color="primary" sx={{ fontSize: [3, 4] }}>
             {displayPrice}
           </Text>
         </Box>

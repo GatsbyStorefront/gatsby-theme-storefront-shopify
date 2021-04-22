@@ -2,7 +2,6 @@ const colors = {
   lightPrimary: '#9575cd',
   darkPrimary: '#311b92',
   darkHighlight: '#dd2c00',
-
   text: '#000',
   background: '#fff',
   backgroundFooter: '#f8f8f8',
@@ -32,7 +31,7 @@ const heading = {
 
 const breakpoints = ['40em', '52em', '64em'];
 
-export const preset = {
+export const theme = {
   colors,
   breakpoints,
   mediaQueries: breakpoints.map(
@@ -89,7 +88,7 @@ export const preset = {
     link: {
       color: 'primary',
       textDecoration: 'none',
-      ':hover,:focus,.active': {
+      '&:hover,&:focus,&:active': {
         color: 'primary',
         textDecoration: 'none',
       },
@@ -97,7 +96,7 @@ export const preset = {
     searchLink: {
       color: 'primary',
       textDecoration: 'none',
-      ':hover,:focus,.active': {
+      '&:hover,&:focus,&:active': {
         color: 'primary',
         textDecoration: 'none',
       },
@@ -117,7 +116,7 @@ export const preset = {
     link: {
       color: 'primary',
       textDecoration: 'none',
-      ':hover,:focus,.active': {
+      '&:hover,&:focus,&:active': {
         color: 'primary',
         textDecoration: 'none',
       },
@@ -129,7 +128,7 @@ export const preset = {
       p: 2,
       color: 'inherit',
       textDecoration: 'none',
-      ':hover,:focus,.active': {
+      '&:hover,&:focus,&:active': {
         color: 'primary',
       },
     },
@@ -150,7 +149,7 @@ export const preset = {
       transitionDuration: '0.3s',
       transitionTimingFunction: 'ease',
       transitionDelay: '0s',
-      ':hover,:focus,.active': {
+      '&:hover,&:focus,&:active': {
         bg: 'white',
         border: '1px solid',
         borderColor: 'primary',
@@ -179,7 +178,7 @@ export const preset = {
       color: 'black',
       border: '0',
       bg: 'white',
-      ':hover,:focus,.active': {
+      '&:hover,&:focus,&:active': {
         color: 'black',
         textDecoration: 'none',
       },
@@ -189,7 +188,7 @@ export const preset = {
       color: 'black',
       border: '0',
       bg: 'white',
-      ':hover,:focus,.active': {
+      '&:hover,&:focus,&:active': {
         color: 'black',
         textDecoration: 'none',
       },
@@ -206,7 +205,7 @@ export const preset = {
       px: 4,
       mt: 4,
       borderRadius: 0,
-      ':hover,:focus,.active': {
+      '&:hover,&:focus,&:active': {
         textDecoration: 'underline',
       },
     },
@@ -217,7 +216,7 @@ export const preset = {
       fontWeight: 'body',
       lineHeight: 'body',
     },
-    div: {
+    'div, span': {
       fontFamily: 'body',
       fontWeight: 'body',
       lineHeight: 'body',
@@ -255,6 +254,10 @@ export const preset = {
     a: {
       fontFamily: 'body',
       color: 'primary',
+      '&:hover,&:focus,&:active': {
+        color: 'primary',
+        textDecoration: 'none',
+      },
     },
     pre: {
       fontFamily: 'monospace',
@@ -286,4 +289,4 @@ export const preset = {
   },
 };
 
-export default preset;
+export default theme;

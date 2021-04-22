@@ -1,5 +1,8 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React, { useState, useEffect } from 'react';
-import { Flex, Box, Image, Text } from 'rebass';
+import { Flex, Box, Image, Text } from 'theme-ui';
 import { useStaticQuery, graphql } from 'gatsby';
 
 import ProductCounter from '../../components/ProductCounter';
@@ -10,7 +13,7 @@ import strings from './strings.json';
 
 const { cartItemPriceLabel, cartItemAriaRemoveFromCart } = strings;
 
-const LineItem = props => {
+const LineItem = (props) => {
   const data = useStaticQuery(graphql`
     {
       site {
@@ -62,41 +65,38 @@ const LineItem = props => {
   return (
     <React.Fragment>
       <Flex
-        flexDirection={['column', 'row']}
-        alignItems="top"
-        fontFamily="body"
+        sx={{ flexDirection: ['column', 'row'], alignItems: 'top' }}
         {...props}
       >
         <Box
           p={[1, 3]}
-          sx={{ position: 'absolute', right: 20 }}
-          display={['block', 'none']}
+          sx={{ position: 'absolute', right: 20, display: ['block', 'none'] }}
         >
           <RemoveItemIcon
             onClick={() => removeItem(id)}
             ml={['29px', 4]}
             aria-hidden
             aria-label={cartItemAriaRemoveFromCart}
-            size={[16, 18, 20]}
-            sx={{ cursor: 'pointer', height: 'auto' }}
+            sx={{ cursor: 'pointer', height: 'auto', size: [16, 18, 20] }}
           />
         </Box>
         <Flex
-          width={[1, 2 / 10, 1 / 10]}
+          sx={{
+            width: ['100%', '20%', '10%'],
+            justifyContent: ['center', 'flex-start'],
+          }}
           p={[1, 3]}
-          justifyContent={['center', 'flex-start']}
         >
           {imageSrc ? (
             <Image
               src={imageSrc}
               alt={altText}
-              width={['130px', 1]}
-              maxHeight={'130px'}
+              sx={{ width: ['130px', '100%'], maxHeight: 130 }}
             />
           ) : (
             <NoImage
-              width={['130px', 1]}
-              maxHeight={'130px'}
+              width={['130px', '100%']}
+              maxHeight={130}
               color="grey"
               p={4}
             />
@@ -104,19 +104,16 @@ const LineItem = props => {
         </Flex>
 
         <Flex
-          width={[1, 4 / 10, 5 / 10]}
+          sx={{
+            width: ['100%', '40%', '50%'],
+            justifyContent: ['center', 'flex-start'],
+          }}
           p={[1, 3]}
-          justifyContent={['center', 'flex-start']}
         >
           <Box>
-            <Text fontSize={[3, 4]}>{title}</Text>
+            <Text sx={{ fontSize: [3, 4] }}>{title}</Text>
             {showVariants ? (
-              <Flex
-                pt={2}
-                fontSize={[2]}
-                lineHeight={1}
-                style={{ opacity: 0.7 }}
-              >
+              <Flex pt={2} sx={{ opacity: 0.7, fontSize: 2, lineHeight: 1 }}>
                 {options.map((option, index) => {
                   return (
                     <Box key={option.name} mr={2}>
@@ -133,20 +130,23 @@ const LineItem = props => {
         </Flex>
 
         <Flex
-          width={[1, 1 / 10]}
-          p={[1, 3]}
-          justifyContent={['center', 'flex-start']}
+          sx={{
+            width: ['100%', '10%'],
+            justifyContent: ['center', 'flex-start'],
+          }}
         >
-          <Text fontSize={[3, 4]} aria-label={cartItemPriceLabel}>
+          <Text sx={{ fontSize: [3, 4] }} aria-label={cartItemPriceLabel}>
             {displayPrice}
           </Text>
         </Flex>
         <Flex
-          width={[1, 2 / 10]}
+          sx={{
+            width: ['100%', '20%'],
+            justifyContent: ['center', 'flex-start'],
+          }}
           p={[1, 3]}
-          justifyContent={['center', 'flex-start']}
         >
-          <Box width={[1 / 5, 1]}>
+          <Box sx={{ width: ['20%', '100%'] }}>
             <ProductCounter
               currentAmount={quantity}
               decreaseAmount={() => decreaseProductAmount({ id, quantity })}
@@ -155,19 +155,19 @@ const LineItem = props => {
           </Box>
         </Flex>
         <Flex
-          width={[1, 1 / 10]}
+          sx={{
+            width: ['100%', '10%'],
+            justifyContent: ['center', 'flex-start'],
+            display: ['none', 'block'],
+          }}
           p={[1, 3]}
-          display={['none', 'block']}
-          justifyContent={['center', 'flex-start']}
         >
-          <Box display={['none', 'block']}>
+          <Box sx={{ display: ['none', 'block'] }}>
             <RemoveItemIcon
               onClick={() => removeItem(id)}
-              display={['none', 'block']}
               ml={[1, 4]}
               aria-hidden
-              size={[16, 18, 20]}
-              sx={{ cursor: 'pointer', height: 'auto' }}
+              sx={{ cursor: 'pointer', height: 'auto', size: [16, 18, 20] }}
             />
           </Box>
         </Flex>

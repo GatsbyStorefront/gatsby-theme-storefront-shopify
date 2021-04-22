@@ -1,10 +1,13 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React from 'react';
-import { ThemeProvider, Styled } from 'theme-ui';
 import Helmet from 'react-helmet';
-import { Flex, Box } from 'rebass';
+import { Flex, Box } from 'theme-ui';
 import ReactGA from 'react-ga';
 import { useStaticQuery, graphql } from 'gatsby';
 
+import { ShopifyFunctionsContextProvider } from '../hooks/useShopifyFunctions.js';
 import { MenuContextProvider } from './Menu/context';
 
 import { SearchContextProvider } from './Search/context';
@@ -26,7 +29,7 @@ const initializeReactGA = (googleAnalyticsId) => {
 const Layout = ({ children }) => {
   const data = useStaticQuery(
     graphql`
-      query {
+      {
         site {
           siteMetadata {
             gatsbyStorefrontConfig {
@@ -43,11 +46,9 @@ const Layout = ({ children }) => {
   initializeReactGA(googleAnalyticsId);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Styled.root>
-        <LayoutComponents children={children} />
-      </Styled.root>
-    </ThemeProvider>
+    <ShopifyFunctionsContextProvider>
+      <LayoutComponents children={children} />
+    </ShopifyFunctionsContextProvider>
   );
 };
 
@@ -66,7 +67,7 @@ const LayoutComponents = ({ children }) => {
         <link rel="preconnect" hrfe="https://cdn.shopify.com" />
       </Helmet>
 
-      <Flex flexDirection="column" style={{ minHeight: '100vh' }}>
+      <Flex sx={{ minHeight: '100vh', flexDirection: 'column' }}>
         <MenuContextProvider>
           <SearchContextProvider>
             <Navbar />
@@ -75,11 +76,14 @@ const LayoutComponents = ({ children }) => {
 
         <Box
           as="main"
-          flex="1"
-          width={1}
-          style={{ maxWidth: 1300, height: '100%' }}
-          mx="auto"
-          mt={['35px', '60px']}
+          sx={{
+            flex: '1',
+            maxWidth: 1300,
+            width: '100%',
+            height: '100%',
+            mx: 'auto',
+            mt: ['35px', '60px'],
+          }}
         >
           {children}
         </Box>

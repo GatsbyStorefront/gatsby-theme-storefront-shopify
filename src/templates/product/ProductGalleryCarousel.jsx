@@ -1,9 +1,10 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
+
 import React from 'react';
 import { Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-import { Box } from 'rebass';
+import { Box } from 'theme-ui';
 
 import ShopifyImage from '../../components/ShopifyImage';
 import NoImage from '../../components/Icons/NoImage';

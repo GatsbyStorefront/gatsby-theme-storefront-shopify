@@ -1,8 +1,10 @@
 /** @jsx jsx */
 /* eslint no-unused-vars: 0 */
+import { jsx } from 'theme-ui';
+
 import React, { useState } from 'react';
-import { jsx, useThemeUI } from 'theme-ui';
-import { Box } from 'rebass';
+import { useThemeUI } from 'theme-ui';
+import { Box } from 'theme-ui';
 import {
   CarouselProvider,
   Slider,

@@ -1,9 +1,11 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
-import GatsbyLink from 'gatsby-link';
+import { Link as GatsbyLink } from 'gatsby';
 import { Index } from 'elasticlunr';
-import { Flex, Box, Text } from 'rebass';
-import { Input } from '@rebass/forms';
+import { Flex, Box, Text, Input } from 'theme-ui';
 import styled from '@emotion/styled';
 import {
   disableBodyScroll,
@@ -98,32 +100,32 @@ const Search = () => {
 
   return (
     <>
-      <SearchIcon
-        width="24px"
-        height="24px"
-        onClick={toggleSidebar}
-        sx={{ cursor: 'pointer' }}
-      />
+      <Box sx={{ cursor: 'pointer' }} onClick={toggleSidebar}>
+        <SearchIcon width="24px" height="24px" />
+      </Box>
+
       <Box ref={sidebarRef}>
         {showSidebar ? (
           <>
-            <Sidebar width={[1, 1 / 3, 1 / 4]} sx={{ bg: 'white' }}>
-              <Flex flexDirection="column" m={[1, 2]}>
+            <Sidebar
+              sx={{
+                bg: 'white',
+                width: ['100%', 100 / 3 + '%', 100 / 4 + '%'],
+              }}
+            >
+              <Flex sx={{ flexDirection: 'column', m: [1, 2] }}>
                 <Flex
                   onClick={toggleSidebar}
-                  justifyContent="space-between"
-                  alignItems="center"
-                  mb={2}
-                  width={1}
+                  sx={{
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mb: 2,
+                    width: '100%',
+                  }}
                 >
                   <Box>{searchLabel}</Box>
-                  <Box ml="auto">
-                    <Close
-                      width="20px"
-                      height="20px"
-                      color="primary"
-                      sx={{ cursor: 'pointer' }}
-                    />
+                  <Box ml="auto" sx={{ cursor: 'pointer' }}>
+                    <Close width="20px" height="20px" color="primary" />
                   </Box>
                 </Flex>
                 <Box>

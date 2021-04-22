@@ -1,5 +1,8 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React from 'react';
-import { Flex, Button, Box, Text } from 'rebass';
+import { Flex, Button, Box, Text } from 'theme-ui';
 import styled from '@emotion/styled';
 
 import strings from './strings.json';
@@ -16,22 +19,21 @@ const StyledButton = styled(Button)`
 function ProductCounter({ currentAmount, increaseAmount, decreaseAmount }) {
   return (
     <Flex sx={{ borderBottom: '1px', borderBottomStyle: 'solid' }}>
-      <Box width={1 / 3} textAlign="left">
+      <Box sx={{ width: 100 / 3 + '%', textAlign: 'left' }}>
         <StyledButton
           onClick={decreaseAmount}
           aria-label={ariaDecreaseButton}
           variant="increase-decrease"
           px={1}
-          outline="none"
         >
           -
         </StyledButton>
       </Box>
 
-      <Box width={1 / 3} textAlign="center" p={1}>
-        <Text textAlign="center">{currentAmount}</Text>
+      <Box sx={{ width: 100 / 3 + '%', textAlign: 'center' }} p={1}>
+        <Text sx={{ textAlign: 'center' }}>{currentAmount}</Text>
       </Box>
-      <Box width={1 / 3} textAlign="right">
+      <Box sx={{ width: 100 / 3 + '%', textAlign: 'right' }}>
         <StyledButton
           onClick={increaseAmount}
           aria-label={ariaIncreaseButton}

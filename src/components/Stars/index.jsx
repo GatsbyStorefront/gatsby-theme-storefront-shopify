@@ -1,5 +1,8 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React from 'react';
-import { Box } from 'rebass';
+import { Box } from 'theme-ui';
 import { BsStarFill, BsStarHalf } from 'react-icons/bs';
 
 const Stars = ({ number, color, size }) => {

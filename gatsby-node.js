@@ -259,28 +259,32 @@ const createCollectionsPages = async (
   ) {
     queryCollections.data.collections.nodes.forEach(
       ({ handle, products, fields }) => {
-        const { shopifyThemePath } = fields;
-        const collectionProductsCount = products.length;
-        const productsPerPage = parseInt(productsPerCollectionPage, 10);
-        const numPages = Math.ceil(collectionProductsCount / productsPerPage);
-        Array.from({
-          length: numPages,
-        }).forEach((_, i) => {
-          createPage({
-            path:
-              i === 0 ? `${shopifyThemePath}` : `${shopifyThemePath}/${i + 1}`,
-            component: catalogTemplate,
-            context: {
-              handle,
-              shopifyThemePath,
-              limit: productsPerPage,
-              skip: i * productsPerPage,
-              numPages,
-              currentPage: i + 1,
-              cartUrl: finalCartPagePath,
-            },
+        if (products) {
+          const { shopifyThemePath } = fields;
+          const collectionProductsCount = products.length;
+          const productsPerPage = parseInt(productsPerCollectionPage, 10);
+          const numPages = Math.ceil(collectionProductsCount / productsPerPage);
+          Array.from({
+            length: numPages,
+          }).forEach((_, i) => {
+            createPage({
+              path:
+                i === 0
+                  ? `${shopifyThemePath}`
+                  : `${shopifyThemePath}/${i + 1}`,
+              component: catalogTemplate,
+              context: {
+                handle,
+                shopifyThemePath,
+                limit: productsPerPage,
+                skip: i * productsPerPage,
+                numPages,
+                currentPage: i + 1,
+                cartUrl: finalCartPagePath,
+              },
+            });
           });
-        });
+        }
       }
     );
   }

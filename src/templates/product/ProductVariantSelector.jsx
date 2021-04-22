@@ -1,6 +1,8 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React, { useState, useEffect } from 'react';
-import { Flex, Box } from 'rebass';
-import { Label, Select } from '@rebass/forms';
+import { Flex, Box, Label, Select } from 'theme-ui';
 import equals from 'ramda/src/equals';
 
 import { useCurrentVariantContext } from './CurrentVariantContext';
@@ -77,7 +79,11 @@ const ProductVariantSelector = (props) => {
               - it looks better  
               - currently 3 is a max number of product options 
               */
-              <Box width={1 / 3} mx={1} key={`box-${option.name}-${index}`}>
+              <Box
+                sx={{ width: 100 / 3 + '%' }}
+                mx={1}
+                key={`box-${option.name}-${index}`}
+              >
                 <Label htmlFor={option.name}>{option.name}</Label>
                 <Select
                   onChange={(event) => {

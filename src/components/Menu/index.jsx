@@ -1,6 +1,9 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React, { useState, useEffect, useRef } from 'react';
-import { Flex, Box } from 'rebass';
-import GatsbyLink from 'gatsby-link';
+import { Flex, Box, Link } from 'theme-ui';
+import { Link as GatsbyLink } from 'gatsby';
 import styled from '@emotion/styled';
 import {
   disableBodyScroll,
@@ -76,31 +79,37 @@ const Menu = ({ menu: componentMenu }) => {
 
   return (
     <>
-      <Burger
-        width="20px"
-        height="20px"
-        onClick={toggleSidebar}
-        sx={{ cursor: 'pointer' }}
-      />
+      <Box sx={{ cursor: 'pointer' }} onClick={toggleSidebar}>
+        <Burger width="20px" height="20px" />
+      </Box>
+
       <Box ref={sidebarRef}>
         {showSidebar ? (
           <>
-            <Sidebar width={[1, 1 / 3, 1 / 4, 1 / 5]} sx={{ bg: 'menu' }}>
-              <Flex bg="menuItem" color="menuText" p={[2]} fontSize={[4]}>
-                <Box mr={3} width={1 / 2}>
+            <Sidebar
+              sx={{
+                bg: 'menu',
+                width: ['100%', 100 / 3 + '%', 100 / 4 + '%', 100 / 5 + '%'],
+              }}
+            >
+              <Flex bg="menuItem" color="menuText" p={[2]} sx={{ fontSize: 4 }}>
+                <Box mr={3} sx={{ width: '50%' }}>
                   {componentMenu && parentId > 0
                     ? componentMenu.map((element) => {
                         if (element.id === parentId) {
                           return (
-                            <ChevronLeft
-                              width="25px"
-                              height="25px"
+                            <Box
                               onClick={() => {
                                 updateParentId(element.parentId);
                               }}
                               sx={{ cursor: 'pointer' }}
-                              key={element.id}
-                            />
+                            >
+                              <ChevronLeft
+                                width="25px"
+                                height="25px"
+                                key={element.id}
+                              />
+                            </Box>
                           );
                         } else {
                           return '';
@@ -110,19 +119,17 @@ const Menu = ({ menu: componentMenu }) => {
                 </Box>
                 <Flex
                   onClick={toggleSidebar}
-                  width={1 / 2}
-                  justifyContent="flex-end"
+                  sx={{
+                    width: '50%',
+                    justifyContent: 'flex-end',
+                    cursor: 'pointer',
+                  }}
                 >
-                  <Close
-                    width="25px"
-                    height="25px"
-                    color="menuText"
-                    sx={{ cursor: 'pointer' }}
-                  />
+                  <Close width="25px" height="25px" color="menuText" />
                 </Flex>
               </Flex>
 
-              <Flex flexDirection="column">
+              <Flex sx={{ flexDirection: 'column' }}>
                 {componentMenu
                   ? componentMenu.map((element) => {
                       if (element.parentId === parentId) {
@@ -130,13 +137,12 @@ const Menu = ({ menu: componentMenu }) => {
                           <React.Fragment key={element.id}>
                             {element.type === 'header' ? (
                               <MenuItem
-                                sx={{ cursor: 'pointer' }}
+                                sx={{ cursor: 'pointer', fontSize: 4 }}
                                 bg="menuItem"
                                 color="menuText"
                                 onClick={() => {
                                   updateParentId(element.id);
                                 }}
-                                fontSize={[4]}
                                 key={element.id}
                               >
                                 {element.name}
@@ -146,20 +152,21 @@ const Menu = ({ menu: componentMenu }) => {
                             )}
                             {element.type !== 'header' &&
                             element.type !== 'external' ? (
-                              <GatsbyLink
+                              <Link
+                                as={GatsbyLink}
                                 to={`/${element.type}/${element.handle}`}
                                 key={element.id}
-                                style={{ textDecoration: 'none' }}
+                                sx={{ textDecoration: 'none' }}
                                 onClick={toggleSidebar}
                               >
                                 <MenuItem
                                   bg="menuItem"
                                   color="menuText"
-                                  fontSize={[4]}
+                                  sx={{ fontSize: 4 }}
                                 >
                                   {element.name}
                                 </MenuItem>
-                              </GatsbyLink>
+                              </Link>
                             ) : (
                               ''
                             )}
@@ -172,7 +179,7 @@ const Menu = ({ menu: componentMenu }) => {
                                 <MenuItem
                                   bg="menuItem"
                                   color="menuText"
-                                  fontSize={[3, 4]}
+                                  sx={{ fontSize: [3, 4] }}
                                 >
                                   {element.name}
                                 </MenuItem>

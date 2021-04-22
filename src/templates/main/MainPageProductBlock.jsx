@@ -1,8 +1,9 @@
 /** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React from 'react';
 import { Link as GatsbyLink } from 'gatsby';
-import { jsx } from 'theme-ui';
-import { Flex, Box, Text, Heading, Button } from 'rebass';
+import { Flex, Box, Text, Heading, Button } from 'theme-ui';
 
 import ShopifyBackgroundImage from '../../components/ShopifyBackgroundImage';
 import substrDescription from '../../utils/substrDescription';
@@ -40,14 +41,19 @@ const MainPageProductBlock = (props) => {
           height: '100%',
         }}
       >
-        <Box m="auto" textAlign="center">
+        <Box
+          m="auto"
+          sx={{
+            textAlign: 'center',
+          }}
+        >
           <GatsbyLink
             to={shopifyThemePath}
             sx={{
               color: textColor,
               textAlign: 'center',
               textDecoration: 'none',
-              ':hover,:focus,.active': {
+              '&:hover,&:focus,&:active': {
                 color: textColor,
                 textDecoration: 'none',
               },
@@ -60,7 +66,7 @@ const MainPageProductBlock = (props) => {
             >
               {block.name ? block.name : substrDescription(title, 30)}
             </Heading>
-            <Text fontSize={[1, 2, 3]} sx={{ display: ['none', 'block'] }}>
+            <Text sx={{ display: ['none', 'block'], fontSize: [1, 2, 3] }}>
               {block.description ? (
                 block.description
               ) : (

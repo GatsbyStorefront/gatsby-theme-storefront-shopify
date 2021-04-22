@@ -1,7 +1,10 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React from 'react';
-import { Box, Card, Heading, Text } from 'rebass';
+import { Box, Card, Heading, Text } from 'theme-ui';
 import { useStaticQuery, graphql, Link as GatsbyLink } from 'gatsby';
-import styled from '@emotion/styled/macro';
+import styled from '@emotion/styled';
 
 import ShopifyImage from '../../components/ShopifyImage';
 import AddToCart from '../../components/AddToCart';
@@ -58,7 +61,8 @@ const IndividualProduct = ({ product }) => {
   const Image = styled(ShopifyImage)``;
   const Title = styled(Heading)``;
 
-  const CompareAtPrice = styled.strike`
+  const CompareAtPrice = styled.span`
+    text-decoration: line-through;
     color: #c0c0c0;
   `;
 
@@ -78,7 +82,12 @@ const IndividualProduct = ({ product }) => {
   `;
 
   return (
-    <Card px={4} py={2} mb={4} width={[1, 1 / 2, 1 / 3]}>
+    <Card
+      px={4}
+      py={2}
+      mb={4}
+      sx={{ width: ['100%', 100 / 2 + '%', 100 / 3 + '%'] }}
+    >
       <Box>
         <Box
           m={2}
@@ -151,7 +160,7 @@ const IndividualProduct = ({ product }) => {
             to={shopifyThemePath}
             sx={{
               color: 'addToCart',
-              ':hover,:focus,.active': {
+              '&:hover,&:focus,&:active': {
                 color: 'addToCart',
                 textDecoration: 'none',
               },
