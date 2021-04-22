@@ -1,6 +1,9 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React, { Fragment } from 'react';
 import { Link as GatsbyLink } from 'gatsby';
-import { Flex, Button } from 'rebass';
+import { Flex, Button } from 'theme-ui';
 
 const Pagination = (props) => {
   const { numPages, currentPage, shopifyThemePath } = props;
@@ -22,7 +25,7 @@ const Pagination = (props) => {
   return (
     <Fragment>
       {numPages > 1 ? (
-        <Flex justifyContent="center">
+        <Flex sx={{ justifyContent: 'center' }}>
           {prevLink ? (
             <Button
               as={GatsbyLink}
@@ -78,7 +81,7 @@ const Pagination = (props) => {
               rel="next"
               variant="pagination"
             >
-              >
+              {'>'}
             </Button>
           ) : (
             ''

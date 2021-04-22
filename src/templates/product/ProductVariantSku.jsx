@@ -1,5 +1,8 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React, { useState, useEffect } from 'react';
-import { Flex, Box, Text } from 'rebass';
+import { Flex, Box, Text } from 'theme-ui';
 
 import { useCurrentVariantContext } from './CurrentVariantContext';
 

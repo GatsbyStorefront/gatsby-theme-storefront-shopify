@@ -1,8 +1,9 @@
 /** @jsx jsx */
-import { jsx, useThemeUI } from 'theme-ui';
+import { jsx } from 'theme-ui';
+
 import React, { useContext, useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { Flex, Box } from 'rebass';
+import { useThemeUI, Flex, Box } from 'theme-ui';
 import { CarouselContext, Dot } from 'pure-react-carousel';
 
 import ShopifyImage from '../../components/ShopifyImage';
@@ -63,8 +64,8 @@ function ProductGalleryThumbnails({
 
   return (
     <Box
-      width={1}
       sx={{
+        width: '100%',
         maxHeight: maxContainerHeight,
         overflow: ['scroll', 'hidden'],
         '::-webkit-scrollbar': {
@@ -75,8 +76,10 @@ function ProductGalleryThumbnails({
       }}
     >
       <ThumbnailFlex
-        flexDirection={['row', null, 'column']}
-        width={[images.length * maxImageWidth, null, 1]}
+        sx={{
+          flexDirection: ['row', null, 'column'],
+          width: [images.length * maxImageWidth, null, '100%'],
+        }}
         transformPx={calculateTransform()}
         theme={theme}
       >
@@ -106,7 +109,7 @@ function ProductGalleryThumbnails({
               currentImageIndex={currentImageIndex}
               maxImageHeight={maxImageHeight}
               maxImageWidth={maxImageWidth}
-              width={[100, null, 'auto']}
+              sx={{ width: [100, null, 'auto'] }}
               onClick={() => setCurrentImageIndex(index)}
               theme={theme}
             >

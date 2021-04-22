@@ -1,8 +1,10 @@
 /** @jsx jsx */
 /* eslint no-unused-vars: 0 */
+import { jsx } from 'theme-ui';
+
 import React from 'react';
-import { jsx, useThemeUI } from 'theme-ui';
-import { Flex, Box, Text, Link } from 'rebass';
+import { useThemeUI } from 'theme-ui';
+import { Flex, Box, Text, Link } from 'theme-ui';
 import { useStaticQuery, graphql } from 'gatsby';
 import { Link as GatsbyLink } from 'gatsby';
 import loadable from '@loadable/component';
@@ -68,18 +70,19 @@ function Footer() {
       <Box
         py={2}
         as="footer"
-        width={1}
-        style={{ maxWidth: 1300, height: '100%' }}
+        sx={{ maxWidth: 1300, width: '100%', height: '100%' }}
         mx="auto"
         px={2}
         pt={3}
       >
-        <Flex alignItems="center" mb={[2, 3, 4]} flexWrap="wrap">
+        <Flex sx={{ flexWrap: 'wrap', alignItems: 'center', mb: [2, 3, 4] }}>
           <Flex
-            width={[1, 1, 3 / 4]}
-            justifyContent={['center', 'space-between']}
-            flexWrap="wrap"
-            mb={3}
+            sx={{
+              width: ['100%', '100%', 100 * (3 / 4) + '%'],
+              justifyContent: ['center', 'space-between'],
+              flexWrap: 'wrap',
+              mb: 3,
+            }}
           >
             {footerLinks
               ? footerLinks.map((link, index) => {
@@ -105,11 +108,13 @@ function Footer() {
           </Flex>
 
           <Flex
-            width={[1, 1, 1 / 4]}
-            justifyContent={['center', 'center', 'flex-end']}
-            mr="auto"
-            pl={2}
-            mb={3}
+            sx={{
+              width: ['100%', '100%', 100 / 4 + '%'],
+              justifyContent: ['center', 'center', 'flex-end'],
+              mr: 'auto',
+              pl: 2,
+              mb: 3,
+            }}
           >
             {socialNetworks
               ? socialNetworks.map((socialNetwork, index) => {
@@ -119,7 +124,7 @@ function Footer() {
                       sx={{
                         marginLeft: [2, 3],
                         opacity: 0.8,
-                        ':hover,:focus,.active': {
+                        '&:hover,&:focus,&:active': {
                           opacity: 1,
                         },
                       }}
@@ -137,7 +142,7 @@ function Footer() {
 
         <Flex>
           <Box>
-            <Text fontSize={[1, 2]}>
+            <Text sx={{ fontSize: [1, 2] }}>
               © {year} {company || ''}
               {address || location ? ' | ' : ''} {address} {location}
               {phone || workingDays || workingHours ? ' | ' : ''}

@@ -1,5 +1,8 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React, { useState, useRef } from 'react';
-import { Flex, Box, Text, Heading } from 'rebass';
+import { Flex, Box, Text, Heading } from 'theme-ui';
 import { BsStarFill } from 'react-icons/bs';
 import ReactPaginate from 'react-paginate';
 
@@ -47,29 +50,40 @@ const ProductReviews = ({ reviews, reviewsNumber, paginationNum }) => {
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
   return (
-    <Flex justifyContent="center" width={1}>
+    <Flex
+      sx={{
+        justifyContent: 'center',
+        width: '100%',
+      }}
+    >
       <Box sx={{ position: 'relative', bottom: 100 }} ref={reviewsTopRef} />
       <Flex
-        flexDirection="column"
-        width={1}
         pt={3}
         px={4}
         mx="auto"
-        sx={{ maxWidth: 1300 }}
+        sx={{ flexDirection: 'column', width: '100%', maxWidth: 1300 }}
       >
         <Flex
-          justifyContent="space-between"
-          width={1}
-          alignItems="center"
+          sx={{
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+          }}
           mb={30}
         >
           <Box>
-            <Heading as="h3" fontSize={[32, 32, 40]}>
+            <Heading as="h3" sx={{ fontSize: [32, 32, 40] }}>
               Reviews
             </Heading>
           </Box>
 
-          <Flex justifyContent="flex-end" alignItems="baseline" flexWrap="wrap">
+          <Flex
+            sx={{
+              justifyContent: 'flex-end',
+              alignItems: 'baseline',
+              flexWrap: 'wrap',
+            }}
+          >
             <Stars number={stars} color="secondary" size={15} />
             <Text variant="regular" ml={24}>
               {pluralize(reviewsNumber, 'review', 'reviews')}
@@ -86,19 +100,20 @@ const ProductReviews = ({ reviews, reviewsNumber, paginationNum }) => {
           const starsArray = new Array(Number(score)).fill('');
           return (
             <Box key={id}>
-              <Flex pt={11} pb={22} flexDirection="column">
+              <Flex pt={11} pb={22} sx={{ flexDirection: 'column' }}>
                 <Flex
+                  sx={{
+                    justifyContent: 'space-between',
+                    width: '100%',
+                    alignItems: 'center',
+                  }}
                   mb={12}
-                  width={1}
-                  justifyContent="space-between"
-                  alignItems="center"
                 >
                   <Box>
                     <Text
                       as="span"
                       variant="regular"
-                      fontWeight="700"
-                      fontSize={12}
+                      sx={{ fontWeight: '700', fontSize: 12 }}
                     >
                       {name ? name.toUpperCase() : ''}{' '}
                     </Text>{' '}
@@ -112,7 +127,7 @@ const ProductReviews = ({ reviews, reviewsNumber, paginationNum }) => {
                     </Box>
                   ))}
                 </Box>
-                <Text variant="regular" fontWeight="700" mb={17}>
+                <Text variant="regular" sx={{ fontWeight: '700' }} mb={17}>
                   {title || ''}
                 </Text>
                 <Text variant="regular" mb={17}>
@@ -124,7 +139,13 @@ const ProductReviews = ({ reviews, reviewsNumber, paginationNum }) => {
           );
         })}
         {reviewsNumber > paginationNum ? (
-          <Flex width={1} justifyContent="center" mt={22}>
+          <Flex
+            sx={{
+              width: '100%',
+              justifyContent: 'center',
+            }}
+            mt={22}
+          >
             <Box
               as="span"
               onClick={() => scrollToRef(reviewsTopRef)}

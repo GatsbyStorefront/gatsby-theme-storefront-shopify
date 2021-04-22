@@ -1,5 +1,8 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React, { useState } from 'react';
-import { Flex, Text, Box } from 'rebass';
+import { Flex, Text, Box, Link } from 'theme-ui';
 import { useStaticQuery, graphql } from 'gatsby';
 import { Link as GatsbyLink } from 'gatsby';
 import styled from '@emotion/styled';
@@ -79,21 +82,23 @@ const Navbar = (props) => {
     <Nav show={hideNavbarOnScroll}>
       <Box py={[2, 3]} width={1} as="nav" bg="white">
         <Flex
-          style={{ maxWidth: 1300 }}
-          justifyContent="center"
-          alignItems="center"
+          sx={{
+            maxWidth: 1300,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
           mx="auto"
           px={[3, null, 4]}
         >
-          <Box width={100}>
+          <Box sx={{ width: 100 }}>
             <Menu menu={menu} />
           </Box>
 
-          <Text
+          <Link
             as={GatsbyLink}
             to="/"
             aria-label={ariaHomaPageLinkLabel}
-            style={{ textDecoration: 'none' }}
+            sx={{ textDecoration: 'none' }}
             ml="auto"
           >
             {logo ? (
@@ -114,16 +119,19 @@ const Navbar = (props) => {
                 <Text
                   ml={2}
                   color="primary"
-                  fontSize={[2, 3]}
-                  sx={{ display: ['none', 'block'] }}
+                  sx={{
+                    display: ['none', 'block'],
+                    fontSize: [2, 3],
+                    textDecoration: 'none',
+                  }}
                 >
                   {storeName}
                 </Text>
               </Flex>
             )}
-          </Text>
+          </Link>
 
-          <Flex ml="auto" width={100}>
+          <Flex ml="auto" sx={{ width: 100 }}>
             <Box ml="auto">
               <Search width="25px" height="25px" color="primary" />
             </Box>
@@ -132,8 +140,7 @@ const Navbar = (props) => {
               as={GatsbyLink}
               aria-label={ariaShoppingCartLabel}
               to="/cart"
-              fontSize={4}
-              style={{ textDecoration: 'none' }}
+              sx={{ textDecoration: 'none', fontSize: 4 }}
               ml="auto"
             >
               <ShoppingCart width="25px" height="25px" color="primary" />

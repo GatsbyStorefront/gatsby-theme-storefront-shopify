@@ -1,5 +1,8 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React from 'react';
-import { Text } from 'rebass';
+import { Text } from 'theme-ui';
 import { Link as GatsbyLink, navigate } from 'gatsby';
 import { useShopifyFunctions } from '../../hooks/useShopifyFunctions';
 

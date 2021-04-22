@@ -1,9 +1,18 @@
-import React from 'react';
-import { Flex } from 'rebass';
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
 
-const ChevronRight = props => {
+import React from 'react';
+import { Flex } from 'theme-ui';
+
+const ChevronRight = (props) => {
   return (
-    <Flex {...props} justifyContent="center">
+    <Flex
+      sx={{
+        justifyContent: 'center',
+        width: props.width,
+        height: props.height,
+      }}
+    >
       <svg
         width={props.width ? props.width : '100%'}
         height={props.height ? props.height : '100%'}

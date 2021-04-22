@@ -1,12 +1,15 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React from 'react';
-import { Box } from 'rebass';
+import { Box } from 'theme-ui';
 import VisuallyHidden from '@reach/visually-hidden';
 
 import strings from './strings.json';
 
 const { cartItemAriaRemoveFromCart } = strings;
 
-const RemoveItemIcon = props => {
+const RemoveItemIcon = (props) => {
   return (
     <Box {...props}>
       <VisuallyHidden>{cartItemAriaRemoveFromCart}</VisuallyHidden>

@@ -1,5 +1,8 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui';
+
 import React from 'react';
-import { Box } from 'rebass';
+import { Box } from 'theme-ui';
 import { useStaticQuery, graphql } from 'gatsby';
 
 import MainPageCarousel from './MainPageCarousel';
@@ -55,13 +58,13 @@ const MainPage = (props) => {
       {mainPage.map((block, index) => {
         if (block.type === 'carousel') {
           return (
-            <Box width={1} mb={1} key={index}>
+            <Box sx={{ width: '100%' }} mb={1} key={index}>
               <MainPageCarousel carousel={block} data={data} />
             </Box>
           );
         } else if (block.type === 'section') {
           return (
-            <Box width={1} mb={1} key={index}>
+            <Box sx={{ width: '100%' }} mb={1} key={index}>
               <MainPageSection section={block} data={data} />
             </Box>
           );
@@ -70,7 +73,7 @@ const MainPage = (props) => {
           (block.type === 'collection' && block.isExpanded === false)
         ) {
           return (
-            <Box width={1} mb={1} key={index}>
+            <Box sx={{ width: '100%' }} mb={1} key={index}>
               <MainPageSection section={{ children: [block] }} data={data} />
             </Box>
           );
